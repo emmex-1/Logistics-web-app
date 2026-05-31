@@ -16,11 +16,20 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as TrackIdRouteImport } from './routes/track.$id'
+import { Route as DashboardTrackingRouteImport } from './routes/dashboard.tracking'
+import { Route as DashboardSupportRouteImport } from './routes/dashboard.support'
+import { Route as DashboardShipmentsRouteImport } from './routes/dashboard.shipments'
+import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settings'
+import { Route as DashboardSecurityRouteImport } from './routes/dashboard.security'
+import { Route as DashboardInvoicesRouteImport } from './routes/dashboard.invoices'
+import { Route as DashboardBookingsRouteImport } from './routes/dashboard.bookings'
 
 const VerifyOtpRoute = VerifyOtpRouteImport.update({
   id: '/verify-otp',
@@ -57,6 +66,11 @@ const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -77,10 +91,50 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const TrackIdRoute = TrackIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => TrackRoute,
+} as any)
+const DashboardTrackingRoute = DashboardTrackingRouteImport.update({
+  id: '/tracking',
+  path: '/tracking',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSupportRoute = DashboardSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardShipmentsRoute = DashboardShipmentsRouteImport.update({
+  id: '/shipments',
+  path: '/shipments',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSecurityRoute = DashboardSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardInvoicesRoute = DashboardInvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardBookingsRoute = DashboardBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
+  getParentRoute: () => DashboardRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -88,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/quote': typeof QuoteRoute
@@ -95,7 +150,15 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/track': typeof TrackRouteWithChildren
   '/verify-otp': typeof VerifyOtpRoute
+  '/dashboard/bookings': typeof DashboardBookingsRoute
+  '/dashboard/invoices': typeof DashboardInvoicesRoute
+  '/dashboard/security': typeof DashboardSecurityRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/shipments': typeof DashboardShipmentsRoute
+  '/dashboard/support': typeof DashboardSupportRoute
+  '/dashboard/tracking': typeof DashboardTrackingRoute
   '/track/$id': typeof TrackIdRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -109,7 +172,15 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/track': typeof TrackRouteWithChildren
   '/verify-otp': typeof VerifyOtpRoute
+  '/dashboard/bookings': typeof DashboardBookingsRoute
+  '/dashboard/invoices': typeof DashboardInvoicesRoute
+  '/dashboard/security': typeof DashboardSecurityRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/shipments': typeof DashboardShipmentsRoute
+  '/dashboard/support': typeof DashboardSupportRoute
+  '/dashboard/tracking': typeof DashboardTrackingRoute
   '/track/$id': typeof TrackIdRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -117,6 +188,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/quote': typeof QuoteRoute
@@ -124,7 +196,15 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/track': typeof TrackRouteWithChildren
   '/verify-otp': typeof VerifyOtpRoute
+  '/dashboard/bookings': typeof DashboardBookingsRoute
+  '/dashboard/invoices': typeof DashboardInvoicesRoute
+  '/dashboard/security': typeof DashboardSecurityRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/shipments': typeof DashboardShipmentsRoute
+  '/dashboard/support': typeof DashboardSupportRoute
+  '/dashboard/tracking': typeof DashboardTrackingRoute
   '/track/$id': typeof TrackIdRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -133,6 +213,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/book'
     | '/contact'
+    | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/quote'
@@ -140,7 +221,15 @@ export interface FileRouteTypes {
     | '/signup'
     | '/track'
     | '/verify-otp'
+    | '/dashboard/bookings'
+    | '/dashboard/invoices'
+    | '/dashboard/security'
+    | '/dashboard/settings'
+    | '/dashboard/shipments'
+    | '/dashboard/support'
+    | '/dashboard/tracking'
     | '/track/$id'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -154,13 +243,22 @@ export interface FileRouteTypes {
     | '/signup'
     | '/track'
     | '/verify-otp'
+    | '/dashboard/bookings'
+    | '/dashboard/invoices'
+    | '/dashboard/security'
+    | '/dashboard/settings'
+    | '/dashboard/shipments'
+    | '/dashboard/support'
+    | '/dashboard/tracking'
     | '/track/$id'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/book'
     | '/contact'
+    | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/quote'
@@ -168,7 +266,15 @@ export interface FileRouteTypes {
     | '/signup'
     | '/track'
     | '/verify-otp'
+    | '/dashboard/bookings'
+    | '/dashboard/invoices'
+    | '/dashboard/security'
+    | '/dashboard/settings'
+    | '/dashboard/shipments'
+    | '/dashboard/support'
+    | '/dashboard/tracking'
     | '/track/$id'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -176,6 +282,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   BookRoute: typeof BookRoute
   ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   QuoteRoute: typeof QuoteRoute
@@ -236,6 +343,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -264,6 +378,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/track/$id': {
       id: '/track/$id'
       path: '/$id'
@@ -271,8 +392,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrackIdRouteImport
       parentRoute: typeof TrackRoute
     }
+    '/dashboard/tracking': {
+      id: '/dashboard/tracking'
+      path: '/tracking'
+      fullPath: '/dashboard/tracking'
+      preLoaderRoute: typeof DashboardTrackingRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/support': {
+      id: '/dashboard/support'
+      path: '/support'
+      fullPath: '/dashboard/support'
+      preLoaderRoute: typeof DashboardSupportRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/shipments': {
+      id: '/dashboard/shipments'
+      path: '/shipments'
+      fullPath: '/dashboard/shipments'
+      preLoaderRoute: typeof DashboardShipmentsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/security': {
+      id: '/dashboard/security'
+      path: '/security'
+      fullPath: '/dashboard/security'
+      preLoaderRoute: typeof DashboardSecurityRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/invoices': {
+      id: '/dashboard/invoices'
+      path: '/invoices'
+      fullPath: '/dashboard/invoices'
+      preLoaderRoute: typeof DashboardInvoicesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/bookings': {
+      id: '/dashboard/bookings'
+      path: '/bookings'
+      fullPath: '/dashboard/bookings'
+      preLoaderRoute: typeof DashboardBookingsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
+
+interface DashboardRouteChildren {
+  DashboardBookingsRoute: typeof DashboardBookingsRoute
+  DashboardInvoicesRoute: typeof DashboardInvoicesRoute
+  DashboardSecurityRoute: typeof DashboardSecurityRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardShipmentsRoute: typeof DashboardShipmentsRoute
+  DashboardSupportRoute: typeof DashboardSupportRoute
+  DashboardTrackingRoute: typeof DashboardTrackingRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardBookingsRoute: DashboardBookingsRoute,
+  DashboardInvoicesRoute: DashboardInvoicesRoute,
+  DashboardSecurityRoute: DashboardSecurityRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardShipmentsRoute: DashboardShipmentsRoute,
+  DashboardSupportRoute: DashboardSupportRoute,
+  DashboardTrackingRoute: DashboardTrackingRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
 
 interface TrackRouteChildren {
   TrackIdRoute: typeof TrackIdRoute
@@ -289,6 +485,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   BookRoute: BookRoute,
   ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   QuoteRoute: QuoteRoute,
