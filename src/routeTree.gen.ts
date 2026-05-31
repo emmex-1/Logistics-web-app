@@ -13,16 +13,24 @@ import { Route as VerifyOtpRouteImport } from './routes/verify-otp'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as RiderRouteImport } from './routes/rider'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BookRouteImport } from './routes/book'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RiderIndexRouteImport } from './routes/rider.index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as TrackIdRouteImport } from './routes/track.$id'
+import { Route as RiderSettingsRouteImport } from './routes/rider.settings'
+import { Route as RiderHistoryRouteImport } from './routes/rider.history'
+import { Route as RiderEarningsRouteImport } from './routes/rider.earnings'
+import { Route as RiderDeliveriesRouteImport } from './routes/rider.deliveries'
 import { Route as DashboardTrackingRouteImport } from './routes/dashboard.tracking'
 import { Route as DashboardSupportRouteImport } from './routes/dashboard.support'
 import { Route as DashboardShipmentsRouteImport } from './routes/dashboard.shipments'
@@ -30,6 +38,15 @@ import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settin
 import { Route as DashboardSecurityRouteImport } from './routes/dashboard.security'
 import { Route as DashboardInvoicesRouteImport } from './routes/dashboard.invoices'
 import { Route as DashboardBookingsRouteImport } from './routes/dashboard.bookings'
+import { Route as AdminZonesRouteImport } from './routes/admin.zones'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminSupportRouteImport } from './routes/admin.support'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminRidersRouteImport } from './routes/admin.riders'
+import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
+import { Route as AdminFleetRouteImport } from './routes/admin.fleet'
+import { Route as AdminFinanceRouteImport } from './routes/admin.finance'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 
 const VerifyOtpRoute = VerifyOtpRouteImport.update({
   id: '/verify-otp',
@@ -49,6 +66,11 @@ const SignupRoute = SignupRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RiderRoute = RiderRouteImport.update({
+  id: '/rider',
+  path: '/rider',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuoteRoute = QuoteRouteImport.update({
@@ -81,6 +103,11 @@ const BookRoute = BookRouteImport.update({
   path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -91,15 +118,45 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RiderIndexRoute = RiderIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RiderRoute,
+} as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const TrackIdRoute = TrackIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => TrackRoute,
+} as any)
+const RiderSettingsRoute = RiderSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => RiderRoute,
+} as any)
+const RiderHistoryRoute = RiderHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => RiderRoute,
+} as any)
+const RiderEarningsRoute = RiderEarningsRouteImport.update({
+  id: '/earnings',
+  path: '/earnings',
+  getParentRoute: () => RiderRoute,
+} as any)
+const RiderDeliveriesRoute = RiderDeliveriesRouteImport.update({
+  id: '/deliveries',
+  path: '/deliveries',
+  getParentRoute: () => RiderRoute,
 } as any)
 const DashboardTrackingRoute = DashboardTrackingRouteImport.update({
   id: '/tracking',
@@ -136,20 +193,76 @@ const DashboardBookingsRoute = DashboardBookingsRouteImport.update({
   path: '/bookings',
   getParentRoute: () => DashboardRoute,
 } as any)
+const AdminZonesRoute = AdminZonesRouteImport.update({
+  id: '/zones',
+  path: '/zones',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSupportRoute = AdminSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRidersRoute = AdminRidersRouteImport.update({
+  id: '/riders',
+  path: '/riders',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminOrdersRoute = AdminOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFleetRoute = AdminFleetRouteImport.update({
+  id: '/fleet',
+  path: '/fleet',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFinanceRoute = AdminFinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/quote': typeof QuoteRoute
+  '/rider': typeof RiderRouteWithChildren
   '/services': typeof ServicesRoute
   '/signup': typeof SignupRoute
   '/track': typeof TrackRouteWithChildren
   '/verify-otp': typeof VerifyOtpRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/finance': typeof AdminFinanceRoute
+  '/admin/fleet': typeof AdminFleetRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/riders': typeof AdminRidersRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/support': typeof AdminSupportRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/zones': typeof AdminZonesRoute
   '/dashboard/bookings': typeof DashboardBookingsRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/security': typeof DashboardSecurityRoute
@@ -157,8 +270,14 @@ export interface FileRoutesByFullPath {
   '/dashboard/shipments': typeof DashboardShipmentsRoute
   '/dashboard/support': typeof DashboardSupportRoute
   '/dashboard/tracking': typeof DashboardTrackingRoute
+  '/rider/deliveries': typeof RiderDeliveriesRoute
+  '/rider/earnings': typeof RiderEarningsRoute
+  '/rider/history': typeof RiderHistoryRoute
+  '/rider/settings': typeof RiderSettingsRoute
   '/track/$id': typeof TrackIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/rider/': typeof RiderIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -172,6 +291,15 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/track': typeof TrackRouteWithChildren
   '/verify-otp': typeof VerifyOtpRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/finance': typeof AdminFinanceRoute
+  '/admin/fleet': typeof AdminFleetRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/riders': typeof AdminRidersRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/support': typeof AdminSupportRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/zones': typeof AdminZonesRoute
   '/dashboard/bookings': typeof DashboardBookingsRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/security': typeof DashboardSecurityRoute
@@ -179,23 +307,40 @@ export interface FileRoutesByTo {
   '/dashboard/shipments': typeof DashboardShipmentsRoute
   '/dashboard/support': typeof DashboardSupportRoute
   '/dashboard/tracking': typeof DashboardTrackingRoute
+  '/rider/deliveries': typeof RiderDeliveriesRoute
+  '/rider/earnings': typeof RiderEarningsRoute
+  '/rider/history': typeof RiderHistoryRoute
+  '/rider/settings': typeof RiderSettingsRoute
   '/track/$id': typeof TrackIdRoute
+  '/admin': typeof AdminIndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/rider': typeof RiderIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/quote': typeof QuoteRoute
+  '/rider': typeof RiderRouteWithChildren
   '/services': typeof ServicesRoute
   '/signup': typeof SignupRoute
   '/track': typeof TrackRouteWithChildren
   '/verify-otp': typeof VerifyOtpRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/finance': typeof AdminFinanceRoute
+  '/admin/fleet': typeof AdminFleetRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/riders': typeof AdminRidersRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/support': typeof AdminSupportRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/zones': typeof AdminZonesRoute
   '/dashboard/bookings': typeof DashboardBookingsRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/security': typeof DashboardSecurityRoute
@@ -203,24 +348,41 @@ export interface FileRoutesById {
   '/dashboard/shipments': typeof DashboardShipmentsRoute
   '/dashboard/support': typeof DashboardSupportRoute
   '/dashboard/tracking': typeof DashboardTrackingRoute
+  '/rider/deliveries': typeof RiderDeliveriesRoute
+  '/rider/earnings': typeof RiderEarningsRoute
+  '/rider/history': typeof RiderHistoryRoute
+  '/rider/settings': typeof RiderSettingsRoute
   '/track/$id': typeof TrackIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/rider/': typeof RiderIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/book'
     | '/contact'
     | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/quote'
+    | '/rider'
     | '/services'
     | '/signup'
     | '/track'
     | '/verify-otp'
+    | '/admin/analytics'
+    | '/admin/finance'
+    | '/admin/fleet'
+    | '/admin/orders'
+    | '/admin/riders'
+    | '/admin/settings'
+    | '/admin/support'
+    | '/admin/users'
+    | '/admin/zones'
     | '/dashboard/bookings'
     | '/dashboard/invoices'
     | '/dashboard/security'
@@ -228,8 +390,14 @@ export interface FileRouteTypes {
     | '/dashboard/shipments'
     | '/dashboard/support'
     | '/dashboard/tracking'
+    | '/rider/deliveries'
+    | '/rider/earnings'
+    | '/rider/history'
+    | '/rider/settings'
     | '/track/$id'
+    | '/admin/'
     | '/dashboard/'
+    | '/rider/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -243,6 +411,15 @@ export interface FileRouteTypes {
     | '/signup'
     | '/track'
     | '/verify-otp'
+    | '/admin/analytics'
+    | '/admin/finance'
+    | '/admin/fleet'
+    | '/admin/orders'
+    | '/admin/riders'
+    | '/admin/settings'
+    | '/admin/support'
+    | '/admin/users'
+    | '/admin/zones'
     | '/dashboard/bookings'
     | '/dashboard/invoices'
     | '/dashboard/security'
@@ -250,22 +427,39 @@ export interface FileRouteTypes {
     | '/dashboard/shipments'
     | '/dashboard/support'
     | '/dashboard/tracking'
+    | '/rider/deliveries'
+    | '/rider/earnings'
+    | '/rider/history'
+    | '/rider/settings'
     | '/track/$id'
+    | '/admin'
     | '/dashboard'
+    | '/rider'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/book'
     | '/contact'
     | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/quote'
+    | '/rider'
     | '/services'
     | '/signup'
     | '/track'
     | '/verify-otp'
+    | '/admin/analytics'
+    | '/admin/finance'
+    | '/admin/fleet'
+    | '/admin/orders'
+    | '/admin/riders'
+    | '/admin/settings'
+    | '/admin/support'
+    | '/admin/users'
+    | '/admin/zones'
     | '/dashboard/bookings'
     | '/dashboard/invoices'
     | '/dashboard/security'
@@ -273,19 +467,27 @@ export interface FileRouteTypes {
     | '/dashboard/shipments'
     | '/dashboard/support'
     | '/dashboard/tracking'
+    | '/rider/deliveries'
+    | '/rider/earnings'
+    | '/rider/history'
+    | '/rider/settings'
     | '/track/$id'
+    | '/admin/'
     | '/dashboard/'
+    | '/rider/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   BookRoute: typeof BookRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   QuoteRoute: typeof QuoteRoute
+  RiderRoute: typeof RiderRouteWithChildren
   ServicesRoute: typeof ServicesRoute
   SignupRoute: typeof SignupRoute
   TrackRoute: typeof TrackRouteWithChildren
@@ -320,6 +522,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rider': {
+      id: '/rider'
+      path: '/rider'
+      fullPath: '/rider'
+      preLoaderRoute: typeof RiderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quote': {
@@ -364,6 +573,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -378,6 +594,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rider/': {
+      id: '/rider/'
+      path: '/'
+      fullPath: '/rider/'
+      preLoaderRoute: typeof RiderIndexRouteImport
+      parentRoute: typeof RiderRoute
+    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/'
@@ -385,12 +608,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/track/$id': {
       id: '/track/$id'
       path: '/$id'
       fullPath: '/track/$id'
       preLoaderRoute: typeof TrackIdRouteImport
       parentRoute: typeof TrackRoute
+    }
+    '/rider/settings': {
+      id: '/rider/settings'
+      path: '/settings'
+      fullPath: '/rider/settings'
+      preLoaderRoute: typeof RiderSettingsRouteImport
+      parentRoute: typeof RiderRoute
+    }
+    '/rider/history': {
+      id: '/rider/history'
+      path: '/history'
+      fullPath: '/rider/history'
+      preLoaderRoute: typeof RiderHistoryRouteImport
+      parentRoute: typeof RiderRoute
+    }
+    '/rider/earnings': {
+      id: '/rider/earnings'
+      path: '/earnings'
+      fullPath: '/rider/earnings'
+      preLoaderRoute: typeof RiderEarningsRouteImport
+      parentRoute: typeof RiderRoute
+    }
+    '/rider/deliveries': {
+      id: '/rider/deliveries'
+      path: '/deliveries'
+      fullPath: '/rider/deliveries'
+      preLoaderRoute: typeof RiderDeliveriesRouteImport
+      parentRoute: typeof RiderRoute
     }
     '/dashboard/tracking': {
       id: '/dashboard/tracking'
@@ -441,8 +699,99 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardBookingsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/admin/zones': {
+      id: '/admin/zones'
+      path: '/zones'
+      fullPath: '/admin/zones'
+      preLoaderRoute: typeof AdminZonesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/support': {
+      id: '/admin/support'
+      path: '/support'
+      fullPath: '/admin/support'
+      preLoaderRoute: typeof AdminSupportRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/riders': {
+      id: '/admin/riders'
+      path: '/riders'
+      fullPath: '/admin/riders'
+      preLoaderRoute: typeof AdminRidersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/orders': {
+      id: '/admin/orders'
+      path: '/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/fleet': {
+      id: '/admin/fleet'
+      path: '/fleet'
+      fullPath: '/admin/fleet'
+      preLoaderRoute: typeof AdminFleetRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/finance': {
+      id: '/admin/finance'
+      path: '/finance'
+      fullPath: '/admin/finance'
+      preLoaderRoute: typeof AdminFinanceRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
+
+interface AdminRouteChildren {
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminFinanceRoute: typeof AdminFinanceRoute
+  AdminFleetRoute: typeof AdminFleetRoute
+  AdminOrdersRoute: typeof AdminOrdersRoute
+  AdminRidersRoute: typeof AdminRidersRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminSupportRoute: typeof AdminSupportRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminZonesRoute: typeof AdminZonesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminFinanceRoute: AdminFinanceRoute,
+  AdminFleetRoute: AdminFleetRoute,
+  AdminOrdersRoute: AdminOrdersRoute,
+  AdminRidersRoute: AdminRidersRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminSupportRoute: AdminSupportRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminZonesRoute: AdminZonesRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface DashboardRouteChildren {
   DashboardBookingsRoute: typeof DashboardBookingsRoute
@@ -470,6 +819,24 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
   DashboardRouteChildren,
 )
 
+interface RiderRouteChildren {
+  RiderDeliveriesRoute: typeof RiderDeliveriesRoute
+  RiderEarningsRoute: typeof RiderEarningsRoute
+  RiderHistoryRoute: typeof RiderHistoryRoute
+  RiderSettingsRoute: typeof RiderSettingsRoute
+  RiderIndexRoute: typeof RiderIndexRoute
+}
+
+const RiderRouteChildren: RiderRouteChildren = {
+  RiderDeliveriesRoute: RiderDeliveriesRoute,
+  RiderEarningsRoute: RiderEarningsRoute,
+  RiderHistoryRoute: RiderHistoryRoute,
+  RiderSettingsRoute: RiderSettingsRoute,
+  RiderIndexRoute: RiderIndexRoute,
+}
+
+const RiderRouteWithChildren = RiderRoute._addFileChildren(RiderRouteChildren)
+
 interface TrackRouteChildren {
   TrackIdRoute: typeof TrackIdRoute
 }
@@ -483,12 +850,14 @@ const TrackRouteWithChildren = TrackRoute._addFileChildren(TrackRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   BookRoute: BookRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   QuoteRoute: QuoteRoute,
+  RiderRoute: RiderRouteWithChildren,
   ServicesRoute: ServicesRoute,
   SignupRoute: SignupRoute,
   TrackRoute: TrackRouteWithChildren,
