@@ -40,7 +40,7 @@ const schema = z.object({
   vehicle: z.enum(["bike","car","van","truck","trailer"]),
   urgency: z.enum(["standard","same_day","express","scheduled"]),
   weight: z.coerce.number().min(0.1),
-  insurance: z.boolean().default(false),
+  insurance: z.boolean(),
   declaredValue: z.coerce.number().optional(),
 });
 type FormData = z.infer<typeof schema>;
