@@ -396,7 +396,11 @@ function HowItWorks() {
 function TrackPreview() {
   const [code, setCode] = useState("");
   const navigate = useNavigate();
-  const go = () => navigate({ to: code.trim() ? "/track/$id" : "/track", params: { id: code.trim() || "shp_1000" } });
+  const go = () => {
+    const c = code.trim();
+    if (c) navigate({ to: "/track/$id", params: { id: c } });
+    else navigate({ to: "/track" });
+  };
 
   return (
     <section className="border-t bg-surface">
