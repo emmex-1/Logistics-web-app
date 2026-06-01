@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import {
   ArrowRight, Truck, Package, Clock, Shield, MapPin, Zap, Star, ChevronRight,
-  CheckCircle2, BarChart3, Bike, Search, Headphones, Wallet, Route, Box,
+  CheckCircle2, Bike, Search, Headphones, Wallet, Route as RouteIcon, Box,
   Users, Building2, Warehouse, ShoppingBag,
 } from "lucide-react";
 import { MarketingNav } from "@/components/shared/marketing-nav";
