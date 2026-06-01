@@ -239,7 +239,7 @@ function Services() {
     { icon: Bike, title: "Dispatch Riders", desc: "Beat traffic with motorcycle delivery." },
     { icon: ShoppingBag, title: "E-commerce Delivery", desc: "Order fulfilment for online stores." },
     { icon: Building2, title: "Business Logistics", desc: "Dedicated logistics for enterprises." },
-    { icon: Route, title: "Bulk & Multi-Stop", desc: "Distribution to multiple locations." },
+    { icon: RouteIcon, title: "Bulk & Multi-Stop", desc: "Distribution to multiple locations." },
     { icon: Clock, title: "Scheduled Pickups", desc: "Daily, weekly, monthly contracts." },
   ];
 
