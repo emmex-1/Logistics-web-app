@@ -286,4 +286,28 @@
     background-size: 1000px 100%;
     animation: shimmer 2s infinite linear;
   }
+
+  @keyframes marquee-x {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .animate-marquee-x { animation: marquee-x linear infinite; }
+
+  @keyframes marquee-y {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
+  }
+  @keyframes marquee-y-rev {
+    from { transform: translateY(-50%); }
+    to { transform: translateY(0); }
+  }
+  .animate-marquee-y { animation: marquee-y linear infinite; }
+  .animate-marquee-y-rev { animation: marquee-y-rev linear infinite; }
+
+  @keyframes blob {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(30px,-20px) scale(1.06); }
+    66% { transform: translate(-20px,20px) scale(0.96); }
+  }
+  .animate-blob { animation: blob 14s ease-in-out infinite; }
 }
