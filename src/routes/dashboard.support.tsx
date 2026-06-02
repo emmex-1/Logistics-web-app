@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/dashboard/support")({
-  head: () => ({ meta: [{ title: "Support — Sendaro" }] }),
+  head: () => ({ meta: [{ title: "Support — Quick Reach Logistics" }] }),
   component: Support,
 });
 

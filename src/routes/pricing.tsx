@@ -8,13 +8,13 @@ import { Check } from "lucide-react";
 import { NGN } from "@/constants";
 
 export const Route = createFileRoute("/pricing")({
-  head: () => ({ meta: [{ title: "Pricing — Sendaro" }, { name: "description", content: "Transparent Lagos delivery pricing. No hidden fees." }] }),
+  head: () => ({ meta: [{ title: "Pricing — Quick Reach Logistics" }, { name: "description", content: "Transparent Lagos delivery pricing. No hidden fees." }] }),
   component: Pricing,
 });
 
 const tiers = [
   { name: "Saver", price: 2500, blurb: "Best for next-day, non-urgent drops.", features: ["Next-day delivery", "Bike or van", "Standard tracking", "Email receipt"] },
-  { name: "Standard", price: 4800, blurb: "The Sendaro default. Same-day across Lagos.", features: ["Same-day before 6pm", "Live tracking", "₦100k insurance", "WhatsApp updates"], popular: true },
+  { name: "Standard", price: 4800, blurb: "The Quick Reach Logistics default. Same-day across Lagos.", features: ["Same-day before 6pm", "Live tracking", "₦100k insurance", "WhatsApp updates"], popular: true },
   { name: "Express", price: 7200, blurb: "Priority routing in under 3 hours.", features: ["2–3 hour delivery", "Dedicated rider", "₦250k insurance", "Photo POD"] },
   { name: "Priority", price: 12000, blurb: "Time-critical, high-value shipments.", features: ["Under 2 hours", "Senior rider", "₦500k insurance", "24/7 support"] },
 ];

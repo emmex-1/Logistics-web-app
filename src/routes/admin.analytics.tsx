@@ -5,7 +5,7 @@ import { adminService } from "@/services/admin.service";
 import { ResponsiveContainer, AreaChart, Area, Tooltip, XAxis, YAxis, CartesianGrid, BarChart, Bar } from "recharts";
 
 export const Route = createFileRoute("/admin/analytics")({
-  head: () => ({ meta: [{ title: "Analytics — Sendaro Admin" }] }),
+  head: () => ({ meta: [{ title: "Analytics — Quick Reach Logistics Admin" }] }),
   component: Analytics,
 });
 

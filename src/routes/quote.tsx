@@ -24,9 +24,9 @@ import { useBookingStore } from "@/store";
 export const Route = createFileRoute("/quote")({
   head: () => ({
     meta: [
-      { title: "Get a quote — Sendaro" },
+      { title: "Get a quote — Quick Reach Logistics" },
       { name: "description", content: "Instant Lagos delivery pricing in 30 seconds. Pick your tier and book." },
-      { property: "og:title", content: "Get a quote — Sendaro" },
+      { property: "og:title", content: "Get a quote — Quick Reach Logistics" },
       { property: "og:description", content: "Instant Lagos delivery pricing." },
     ],
   }),

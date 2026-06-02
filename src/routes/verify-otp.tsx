@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { useAuthStore } from "@/store";
 
 export const Route = createFileRoute("/verify-otp")({
-  head: () => ({ meta: [{ title: "Verify your phone — Sendaro" }] }),
+  head: () => ({ meta: [{ title: "Verify your phone — Quick Reach Logistics" }] }),
   component: VerifyOtp,
 });
 

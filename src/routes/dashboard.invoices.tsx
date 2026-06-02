@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard/invoices")({
-  head: () => ({ meta: [{ title: "Invoices — Sendaro" }] }),
+  head: () => ({ meta: [{ title: "Invoices — Quick Reach Logistics" }] }),
   component: Invoices,
 });
 

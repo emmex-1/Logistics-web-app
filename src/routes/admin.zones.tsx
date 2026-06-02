@@ -7,7 +7,7 @@ import { LAGOS_LGAS } from "@/constants";
 import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/admin/zones")({
-  head: () => ({ meta: [{ title: "Zones & Pricing — Sendaro Admin" }] }),
+  head: () => ({ meta: [{ title: "Zones & Pricing — Quick Reach Logistics Admin" }] }),
   component: Zones,
 });
 

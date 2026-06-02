@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Star } from "lucide-react";
 
 export const Route = createFileRoute("/admin/riders")({
-  head: () => ({ meta: [{ title: "Riders — Sendaro Admin" }] }),
+  head: () => ({ meta: [{ title: "Riders — Quick Reach Logistics Admin" }] }),
   component: Riders,
 });
 

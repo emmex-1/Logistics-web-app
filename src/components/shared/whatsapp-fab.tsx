@@ -2,12 +2,12 @@ import { MessageCircle, Phone } from "lucide-react";
 import { BRAND } from "@/constants";
 
 export function FloatingActions() {
-  const wa = `https://wa.me/2347007363276?text=${encodeURIComponent("Hi Sendaro, I'd like to book a delivery in Lagos.")}`;
+  const wa = `https://wa.me/2347007363276?text=${encodeURIComponent("Hi Quick Reach Logistics, I'd like to book a delivery in Lagos.")}`;
   return (
     <div className="fixed bottom-5 right-5 z-40 flex flex-col gap-3">
       <a
         href={`tel:${BRAND.phone.replace(/\s/g, "")}`}
-        aria-label="Call Sendaro"
+        aria-label="Call Quick Reach Logistics"
         className="grid h-12 w-12 place-items-center rounded-full border bg-card text-foreground shadow-elevated transition-transform hover:scale-105"
       >
         <Phone className="h-5 w-5" />

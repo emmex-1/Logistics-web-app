@@ -30,7 +30,7 @@ export const areaCoords = (a: string) => LAGOS_POINTS[a] ?? LAGOS_CENTER;
 export const mockUser: User = {
   id: "usr_001",
   fullName: "Tunde Adebayo",
-  email: "tunde@sendaro.ng",
+  email: "tunde@quickreachlogistics.ng",
   phone: "+2348101234567",
   role: "customer",
   avatarUrl: "",
@@ -38,8 +38,8 @@ export const mockUser: User = {
   twoFactorEnabled: true,
 };
 
-export const mockAdmin: User = { ...mockUser, id: "usr_admin", fullName: "Amaka Eze", role: "admin", email: "amaka@sendaro.ng" };
-export const mockRiderUser: User = { ...mockUser, id: "usr_rider", fullName: "Sola Bakare", role: "rider", email: "sola@sendaro.ng" };
+export const mockAdmin: User = { ...mockUser, id: "usr_admin", fullName: "Amaka Eze", role: "admin", email: "amaka@quickreachlogistics.ng" };
+export const mockRiderUser: User = { ...mockUser, id: "usr_rider", fullName: "Sola Bakare", role: "rider", email: "sola@quickreachlogistics.ng" };
 
 // ---------- Drivers ----------
 const driverNames = [
@@ -63,7 +63,7 @@ export const mockDrivers: Driver[] = driverNames.map((n, i) => ({
 const status = ["delivered", "in_transit", "out_for_delivery", "rider_assigned", "confirmed", "picked_up"] as const;
 function makeEvents(s: Shipment["status"]): ShipmentEvent[] {
   const base: ShipmentEvent[] = [
-    { id: "e1", at: iso(-180), status: "confirmed", title: "Order confirmed", description: "Payment received and shipment confirmed.", location: "Sendaro HQ, Lekki" },
+    { id: "e1", at: iso(-180), status: "confirmed", title: "Order confirmed", description: "Payment received and shipment confirmed.", location: "Quick Reach Logistics HQ, Lekki" },
     { id: "e2", at: iso(-160), status: "rider_assigned", title: "Rider assigned", description: "Emeka Okafor is on the way.", location: "Lekki Phase 1" },
     { id: "e3", at: iso(-140), status: "picked_up", title: "Package picked up", location: "12 Admiralty Way, Lekki", coords: LAGOS_POINTS["Lekki Phase 1"] },
     { id: "e4", at: iso(-90), status: "in_transit", title: "In transit", description: "Heading to Ikeja via Third Mainland Bridge.", coords: { lat: 6.5, lng: 3.4 } },

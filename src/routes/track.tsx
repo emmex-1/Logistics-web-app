@@ -13,7 +13,7 @@ import { mockShipments } from "@/mock/data";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/track")({
-  head: () => ({ meta: [{ title: "Track package — Sendaro" }, { name: "description", content: "Track a Sendaro shipment in real time." }] }),
+  head: () => ({ meta: [{ title: "Track package — Quick Reach Logistics" }, { name: "description", content: "Track a Quick Reach Logistics shipment in real time." }] }),
   component: TrackPage,
 });
 

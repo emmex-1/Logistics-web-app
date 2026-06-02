@@ -16,7 +16,7 @@ export function AuthLayout({
           <h2 className="font-display text-4xl font-semibold leading-tight">
             The fastest way to move <br /> anything across Lagos.
           </h2>
-          <p className="mt-4 max-w-md text-primary-foreground/85">Join 18,000+ Lagos businesses already shipping with Sendaro.</p>
+          <p className="mt-4 max-w-md text-primary-foreground/85">Join 18,000+ Lagos businesses already shipping with Quick Reach Logistics.</p>
           <div className="mt-8 max-w-md">
             <AnimatedRouteMap />
           </div>

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { authService } from "@/services/auth.service";
 
 export const Route = createFileRoute("/forgot-password")({
-  head: () => ({ meta: [{ title: "Reset password — Sendaro" }] }),
+  head: () => ({ meta: [{ title: "Reset password — Quick Reach Logistics" }] }),
   component: Forgot,
 });
 

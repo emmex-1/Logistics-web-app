@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { SHIPMENT_STATUS_LABELS } from "@/constants";
 
 export const Route = createFileRoute("/dashboard/tracking")({
-  head: () => ({ meta: [{ title: "Live tracking — Sendaro" }] }),
+  head: () => ({ meta: [{ title: "Live tracking — Quick Reach Logistics" }] }),
   component: LiveTracking,
 });
 

@@ -15,8 +15,8 @@ import { AnimatedRouteMap } from "@/components/shared/animated-route-map";
 export const Route = createFileRoute("/track/$id")({
   head: ({ params }) => ({
     meta: [
-      { title: `Tracking ${params.id} — Sendaro` },
-      { name: "description", content: "Real-time Sendaro shipment tracking." },
+      { title: `Tracking ${params.id} — Quick Reach Logistics` },
+      { name: "description", content: "Real-time Quick Reach Logistics shipment tracking." },
     ],
   }),
   component: TrackDetail,

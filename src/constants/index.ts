@@ -1,6 +1,6 @@
 export const BRAND = {
   name: "QuickReach Logistics",
-  tagline: "Lagos moves faster with Sendaro.",
+  tagline: "Lagos moves faster with QuickReach Logistics.",
   description:
     "Premium logistics for Lagos — same-day deliveries, fleet on demand, and real-time tracking across all 20 LGAs.",
   phone: "+234 9023215226",

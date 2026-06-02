@@ -4,7 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ---------- Sendaro Logistics Design System ----------
+/* ---------- Quick Reach Logistics Logistics Design System ----------
  * Premium Lagos logistics brand. White + signature orange.
  * Typography: Space Grotesk (display) + DM Sans (body).
  * All colors in oklch. Tokens drive utilities through @theme inline.
@@ -91,7 +91,7 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.02 50);
 
-  /* Brand: signature Sendaro orange */
+  /* Brand: signature Quick Reach Logistics orange */
   --primary: oklch(0.68 0.196 42);
   --primary-foreground: oklch(0.99 0.005 80);
   --primary-soft: oklch(0.96 0.04 60);
