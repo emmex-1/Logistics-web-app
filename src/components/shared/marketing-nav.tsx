@@ -6,14 +6,14 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const services = [
-  ["Same-Day Delivery", "/services"],
-  ["Express Delivery", "/services"],
-  ["Dispatch Rider Services", "/services"],
-  ["E-commerce Delivery", "/services"],
-  ["Business Logistics", "/services"],
-  ["Bulk & Multi-Stop", "/services"],
-  ["Scheduled Pickups", "/services"],
-  ["Document & Parcel", "/services"],
+  ["Same-Day Delivery", "same-day-delivery"],
+  ["Express Delivery", "express-delivery"],
+  ["Dispatch Rider Services", "dispatch-rider"],
+  ["E-commerce Delivery", "ecommerce-delivery"],
+  ["Business Logistics", "business-logistics"],
+  ["Bulk & Multi-Stop", "bulk-multi-stop"],
+  ["Scheduled Pickups", "scheduled-pickups"],
+  ["Document & Parcel", "document-parcel"],
 ] as const;
 
 const links = [
@@ -42,8 +42,9 @@ export function MarketingNav() {
             {svc && (
               <div className="absolute left-0 top-full w-64 pt-2">
                 <div className="rounded-2xl border bg-popover p-2 shadow-elevated">
-                  {services.map(([label, to]) => (
-                    <Link key={label} to={to} className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-secondary">{label}</Link>
+                  <Link to="/services" className="block rounded-lg px-3 py-2 text-sm font-semibold text-primary hover:bg-secondary">All services →</Link>
+                  {services.map(([label, slug]) => (
+                    <Link key={label} to="/services/$slug" params={{ slug }} className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-secondary">{label}</Link>
                   ))}
                 </div>
               </div>
