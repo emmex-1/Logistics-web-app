@@ -10,7 +10,7 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/dashboard/shipments")({
-  head: () => ({ meta: [{ title: "Shipments — Sendaro Dashboard" }] }),
+  head: () => ({ meta: [{ title: "Shipments — Quick Reach Logistics Dashboard" }] }),
   component: ShipmentsPage,
 });
 

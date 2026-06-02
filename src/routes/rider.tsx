@@ -11,6 +11,6 @@ const items: NavItem[] = [
 ];
 
 export const Route = createFileRoute("/rider")({
-  head: () => ({ meta: [{ title: "Rider — Sendaro" }] }),
+  head: () => ({ meta: [{ title: "Rider — Quick Reach Logistics" }] }),
   component: () => <AppShell items={items} accentLabel="Rider" title="Rider portal"><Outlet /></AppShell>,
 });

@@ -12,7 +12,7 @@ import { authService } from "@/services/auth.service";
 import { useAuthStore } from "@/store";
 
 export const Route = createFileRoute("/signup")({
-  head: () => ({ meta: [{ title: "Create account — Sendaro" }, { name: "description", content: "Create your Sendaro account." }] }),
+  head: () => ({ meta: [{ title: "Create account — Quick Reach Logistics" }, { name: "description", content: "Create your Quick Reach Logistics account." }] }),
   component: SignupPage,
 });
 
@@ -35,7 +35,7 @@ function SignupPage() {
   return (
     <AuthLayout
       title="Start shipping in minutes."
-      subtitle="Create your Sendaro account. Free forever for individuals."
+      subtitle="Create your Quick Reach Logistics account. Free forever for individuals."
       footer={<>Already have an account? <Link to="/login" className="font-medium text-primary hover:underline">Sign in</Link></>}
     >
       <form onSubmit={handleSubmit((d) => m.mutate(d))} className="space-y-4">

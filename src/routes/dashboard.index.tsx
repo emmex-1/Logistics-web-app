@@ -10,7 +10,7 @@ import { Package, TrendingUp, Wallet, Truck, ArrowUpRight, Bell } from "lucide-r
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/dashboard/")({
-  head: () => ({ meta: [{ title: "Overview — Sendaro Dashboard" }] }),
+  head: () => ({ meta: [{ title: "Overview — Quick Reach Logistics Dashboard" }] }),
   component: Overview,
 });
 

@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/admin/users")({
-  head: () => ({ meta: [{ title: "Users — Sendaro Admin" }] }),
+  head: () => ({ meta: [{ title: "Users — Quick Reach Logistics Admin" }] }),
   component: Users,
 });
 

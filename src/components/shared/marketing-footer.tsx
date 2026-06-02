@@ -33,7 +33,7 @@ export function MarketingFooter() {
       </div>
       <div className="border-t">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-5 text-xs text-muted-foreground sm:flex-row sm:px-6 lg:px-8">
-          <span>© {new Date().getFullYear()} Sendaro Logistics Ltd. Lagos, Nigeria.</span>
+          <span>© {new Date().getFullYear()} Quick Reach Logistics Ltd. Lagos, Nigeria.</span>
           <span className="flex gap-4">
             <Link to="/about" className="hover:text-foreground">Privacy</Link>
             <Link to="/about" className="hover:text-foreground">Terms</Link>

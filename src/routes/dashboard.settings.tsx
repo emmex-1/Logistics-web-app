@@ -6,7 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/dashboard/settings")({
-  head: () => ({ meta: [{ title: "Settings — Sendaro" }] }),
+  head: () => ({ meta: [{ title: "Settings — Quick Reach Logistics" }] }),
   component: Settings,
 });
 
@@ -18,7 +18,7 @@ function Settings() {
         <div className="font-display text-lg font-semibold">Profile</div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5"><Label>Full name</Label><Input defaultValue="Tunde Adebayo" /></div>
-          <div className="space-y-1.5"><Label>Email</Label><Input defaultValue="tunde@sendaro.ng" /></div>
+          <div className="space-y-1.5"><Label>Email</Label><Input defaultValue="tunde@quickreachlogistics.ng" /></div>
           <div className="space-y-1.5"><Label>Phone</Label><Input defaultValue="+2348101234567" /></div>
           <div className="space-y-1.5"><Label>Default pickup area</Label><Input defaultValue="Lekki Phase 1" /></div>
         </div>

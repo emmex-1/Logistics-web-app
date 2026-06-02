@@ -1,15 +1,15 @@
 export const BRAND = {
-  name: "Sendaro",
-  tagline: "Lagos moves faster with Sendaro.",
+  name: "Quick Reach Logistics",
+  tagline: "Lagos moves faster with Quick Reach Logistics.",
   description:
     "Premium logistics for Lagos — same-day deliveries, fleet on demand, and real-time tracking across all 20 LGAs.",
-  phone: "+234 700 SENDARO",
-  email: "hello@sendaro.ng",
+  phone: "+234 700 QUICK REACH",
+  email: "hello@quickreachlogistics.ng",
   address: "12B Admiralty Way, Lekki Phase 1, Lagos",
   social: {
-    twitter: "https://twitter.com/sendaro",
-    instagram: "https://instagram.com/sendaro",
-    linkedin: "https://linkedin.com/company/sendaro",
+    twitter: "https://twitter.com/quickreach",
+    instagram: "https://instagram.com/quickreach",
+    linkedin: "https://linkedin.com/company/quickreach",
   },
 } as const;
 

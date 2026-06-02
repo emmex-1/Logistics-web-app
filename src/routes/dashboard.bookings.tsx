@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Bookmark } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard/bookings")({
-  head: () => ({ meta: [{ title: "Bookings — Sendaro" }] }),
+  head: () => ({ meta: [{ title: "Bookings — Quick Reach Logistics" }] }),
   component: Bookings,
 });
 

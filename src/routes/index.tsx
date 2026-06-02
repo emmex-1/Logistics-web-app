@@ -21,9 +21,9 @@ import { DELIVERY_CATEGORIES } from "@/constants/categories";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sendaro — Premium Logistics for Lagos" },
+      { title: "Quick Reach Logistics — Premium Logistics for Lagos" },
       { name: "description", content: "Same-day deliveries, on-demand fleet, and real-time tracking across all 20 Lagos LGAs." },
-      { property: "og:title", content: "Sendaro — Premium Logistics for Lagos" },
+      { property: "og:title", content: "Quick Reach Logistics — Premium Logistics for Lagos" },
       { property: "og:description", content: "Same-day deliveries, on-demand fleet, real-time tracking." },
     ],
   }),
@@ -71,7 +71,7 @@ function Hero() {
             Live across all 20 Lagos LGAs
           </Badge>
           <h1 className="mt-5 font-display text-[40px] font-semibold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
-            Lagos moves <br className="hidden sm:block" /> faster with <span className="gradient-text">Sendaro.</span>
+            Lagos moves <br className="hidden sm:block" /> faster with <span className="gradient-text">Quick Reach Logistics.</span>
           </h1>
           <p className="mt-5 max-w-xl text-balance text-base text-muted-foreground sm:text-lg">
             Premium same-day deliveries, on-demand fleet, and live tracking — built for the speed and scale Lagos businesses need.
@@ -349,7 +349,7 @@ function WhyChooseUs() {
     <section className="border-t bg-surface">
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
-          <Badge variant="secondary" className="rounded-full">Why Sendaro</Badge>
+          <Badge variant="secondary" className="rounded-full">Why Quick Reach Logistics</Badge>
           <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight sm:text-4xl">A logistics OS built for Lagos.</h2>
         </div>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -489,8 +489,8 @@ function FleetShowcase() {
 /* ---------------- TESTIMONIALS ---------------- */
 function Testimonials() {
   const t = [
-    { name: "Aisha Bello", role: "Ops Lead, Jumia Lagos", quote: "Sendaro cut our island delivery time in half. The live POD alone is worth it.", rating: 5 },
-    { name: "Tunde Okeke", role: "Founder, Lagos Eats", quote: "We dispatch 400+ meals a day on Sendaro. Zero missed drops last month.", rating: 5 },
+    { name: "Aisha Bello", role: "Ops Lead, Jumia Lagos", quote: "Quick Reach Logistics cut our island delivery time in half. The live POD alone is worth it.", rating: 5 },
+    { name: "Tunde Okeke", role: "Founder, Lagos Eats", quote: "We dispatch 400+ meals a day on Quick Reach Logistics. Zero missed drops last month.", rating: 5 },
     { name: "Ngozi Adekunle", role: "Logistics Manager, Interswitch", quote: "Finally a Lagos operator with enterprise-grade dashboards and clean APIs.", rating: 5 },
     { name: "Femi Salau", role: "Owner, Bella Hair Lagos", quote: "Our wigs arrive in perfect condition every time. Customers love the tracking link.", rating: 5 },
     { name: "Chiamaka Eze", role: "Pharmacist, MedPlus", quote: "Same-day refills, even during Lagos traffic. They've never let us down.", rating: 5 },
@@ -534,7 +534,7 @@ function FAQ() {
     ["Which areas do you cover?", "All 20 Lagos LGAs, including Ikorodu, Badagry, and Epe."],
     ["How can I track my shipment?", "Every booking includes a tracking link with live map, driver ETA, and event timeline."],
     ["What items can I send?", "From documents and electronics to furniture and bulk goods. See the categories above."],
-    ["What payment methods do you accept?", "Paystack, Flutterwave, bank transfer, USSD, and a Sendaro wallet for businesses."],
+    ["What payment methods do you accept?", "Paystack, Flutterwave, bank transfer, USSD, and a Quick Reach Logistics wallet for businesses."],
     ["Do you offer business accounts?", "Yes — corporate pricing, SLA guarantees, monthly invoicing, and account management."],
     ["Is my package insured?", "Standard cover is included; Priority shipments come with up to ₦500k declared-value insurance."],
   ];

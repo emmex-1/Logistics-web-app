@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthState>()(
       setSession: (s) => set({ session: s, user: s?.user ?? null }),
       logout: () => set({ session: null, user: null }),
     }),
-    { name: "sendaro.auth" },
+    { name: "quickreach.auth" },
   ),
 );
 
@@ -40,7 +40,7 @@ export const useBookingStore = create<BookingState>()(
       setDraft: (patch) => set((s) => ({ draft: { ...s.draft, ...patch } })),
       reset: () => set({ draft: emptyDraft }),
     }),
-    { name: "sendaro.booking" },
+    { name: "quickreach.booking" },
   ),
 );
 
