@@ -28,6 +28,7 @@ import { Route as RiderIndexRouteImport } from './routes/rider.index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as TrackIdRouteImport } from './routes/track.$id'
+import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as RiderSettingsRouteImport } from './routes/rider.settings'
 import { Route as RiderHistoryRouteImport } from './routes/rider.history'
 import { Route as RiderEarningsRouteImport } from './routes/rider.earnings'
@@ -144,6 +145,11 @@ const TrackIdRoute = TrackIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => TrackRoute,
 } as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ServicesRoute,
+} as any)
 const RiderSettingsRoute = RiderSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -257,7 +263,7 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/quote': typeof QuoteRoute
   '/rider': typeof RiderRouteWithChildren
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/signup': typeof SignupRoute
   '/track': typeof TrackRouteWithChildren
   '/verify-otp': typeof VerifyOtpRoute
@@ -281,6 +287,7 @@ export interface FileRoutesByFullPath {
   '/rider/earnings': typeof RiderEarningsRoute
   '/rider/history': typeof RiderHistoryRoute
   '/rider/settings': typeof RiderSettingsRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/track/$id': typeof TrackIdRoute
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -295,7 +302,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/quote': typeof QuoteRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/signup': typeof SignupRoute
   '/track': typeof TrackRouteWithChildren
   '/verify-otp': typeof VerifyOtpRoute
@@ -319,6 +326,7 @@ export interface FileRoutesByTo {
   '/rider/earnings': typeof RiderEarningsRoute
   '/rider/history': typeof RiderHistoryRoute
   '/rider/settings': typeof RiderSettingsRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/track/$id': typeof TrackIdRoute
   '/admin': typeof AdminIndexRoute
   '/dashboard': typeof DashboardIndexRoute
@@ -337,7 +345,7 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/quote': typeof QuoteRoute
   '/rider': typeof RiderRouteWithChildren
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/signup': typeof SignupRoute
   '/track': typeof TrackRouteWithChildren
   '/verify-otp': typeof VerifyOtpRoute
@@ -361,6 +369,7 @@ export interface FileRoutesById {
   '/rider/earnings': typeof RiderEarningsRoute
   '/rider/history': typeof RiderHistoryRoute
   '/rider/settings': typeof RiderSettingsRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/track/$id': typeof TrackIdRoute
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -404,6 +413,7 @@ export interface FileRouteTypes {
     | '/rider/earnings'
     | '/rider/history'
     | '/rider/settings'
+    | '/services/$slug'
     | '/track/$id'
     | '/admin/'
     | '/dashboard/'
@@ -442,6 +452,7 @@ export interface FileRouteTypes {
     | '/rider/earnings'
     | '/rider/history'
     | '/rider/settings'
+    | '/services/$slug'
     | '/track/$id'
     | '/admin'
     | '/dashboard'
@@ -483,6 +494,7 @@ export interface FileRouteTypes {
     | '/rider/earnings'
     | '/rider/history'
     | '/rider/settings'
+    | '/services/$slug'
     | '/track/$id'
     | '/admin/'
     | '/dashboard/'
@@ -501,7 +513,7 @@ export interface RootRouteChildren {
   PricingRoute: typeof PricingRoute
   QuoteRoute: typeof QuoteRoute
   RiderRoute: typeof RiderRouteWithChildren
-  ServicesRoute: typeof ServicesRoute
+  ServicesRoute: typeof ServicesRouteWithChildren
   SignupRoute: typeof SignupRoute
   TrackRoute: typeof TrackRouteWithChildren
   VerifyOtpRoute: typeof VerifyOtpRoute
@@ -641,6 +653,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/track/$id'
       preLoaderRoute: typeof TrackIdRouteImport
       parentRoute: typeof TrackRoute
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof ServicesRoute
     }
     '/rider/settings': {
       id: '/rider/settings'
@@ -857,6 +876,18 @@ const RiderRouteChildren: RiderRouteChildren = {
 
 const RiderRouteWithChildren = RiderRoute._addFileChildren(RiderRouteChildren)
 
+interface ServicesRouteChildren {
+  ServicesSlugRoute: typeof ServicesSlugRoute
+}
+
+const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesSlugRoute: ServicesSlugRoute,
+}
+
+const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
+  ServicesRouteChildren,
+)
+
 interface TrackRouteChildren {
   TrackIdRoute: typeof TrackIdRoute
 }
@@ -879,7 +910,7 @@ const rootRouteChildren: RootRouteChildren = {
   PricingRoute: PricingRoute,
   QuoteRoute: QuoteRoute,
   RiderRoute: RiderRouteWithChildren,
-  ServicesRoute: ServicesRoute,
+  ServicesRoute: ServicesRouteWithChildren,
   SignupRoute: SignupRoute,
   TrackRoute: TrackRouteWithChildren,
   VerifyOtpRoute: VerifyOtpRoute,
