@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, Check, Clock, ShieldCheck, Sparkles } from "lucide-react";
-import { getService, SERVICES } from "@/constants/services-catalog";
+import { getService, SERVICES, type ServiceDetail } from "@/constants/services-catalog";
 
 export const Route = createFileRoute("/services/$slug")({
-  loader: ({ params }) => {
+  loader: ({ params }): { service: ServiceDetail } => {
     const service = getService(params.slug);
     if (!service) throw notFound();
     return { service };
