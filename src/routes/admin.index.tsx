@@ -6,7 +6,7 @@ import { NGN } from "@/constants";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 export const Route = createFileRoute("/admin/")({
-  head: () => ({ meta: [{ title: "Admin Overview — Sendaro" }] }),
+  head: () => ({ meta: [{ title: "Admin Overview — Quick Reach Logistics" }] }),
   component: AdminOverview,
 });
 

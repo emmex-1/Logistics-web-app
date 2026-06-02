@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { NGN, SHIPMENT_STATUS_LABELS } from "@/constants";
 
 export const Route = createFileRoute("/admin/orders")({
-  head: () => ({ meta: [{ title: "Orders — Sendaro Admin" }] }),
+  head: () => ({ meta: [{ title: "Orders — Quick Reach Logistics Admin" }] }),
   component: Orders,
 });
 

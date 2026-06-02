@@ -6,9 +6,9 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Sendaro Logistics" },
-      { name: "description", content: "Sendaro is building the operating system for African logistics, starting with Lagos." },
-      { property: "og:title", content: "About Sendaro" },
+      { title: "About — Quick Reach Logistics Logistics" },
+      { name: "description", content: "Quick Reach Logistics is building the operating system for African logistics, starting with Lagos." },
+      { property: "og:title", content: "About Quick Reach Logistics" },
       { property: "og:description", content: "Building the operating system for African logistics." },
     ],
   }),
@@ -26,7 +26,7 @@ function About() {
         </h1>
         <p className="mt-6 text-pretty text-muted-foreground">
           Lagos runs on commerce. Every day, millions of parcels, pallets, and packages cross 20 LGAs, three bridges,
-          and one of the densest urban grids on earth. Sendaro exists to make that movement faster, safer, and more
+          and one of the densest urban grids on earth. Quick Reach Logistics exists to make that movement faster, safer, and more
           predictable — for the bodega owner in Mushin and the e-commerce ops team in Lekki alike.
         </p>
         <p className="mt-4 text-pretty text-muted-foreground">

@@ -16,8 +16,8 @@ export const Route = createFileRoute("/services/$slug")({
   },
   head: ({ loaderData }) => {
     const s = loaderData?.service;
-    const title = s ? `${s.title} — Sendaro Logistics` : "Service — Sendaro";
-    const desc = s?.description ?? "Premium Lagos logistics services by Sendaro.";
+    const title = s ? `${s.title} — Quick Reach Logistics Logistics` : "Service — Quick Reach Logistics";
+    const desc = s?.description ?? "Premium Lagos logistics services by Quick Reach Logistics.";
     return {
       meta: [
         { title },
@@ -106,7 +106,7 @@ function ServicePage() {
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <Badge variant="secondary" className="rounded-full">Features</Badge>
-            <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">Why teams pick Sendaro for this.</h2>
+            <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">Why teams pick Quick Reach Logistics for this.</h2>
           </div>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {service.features.map((f) => (

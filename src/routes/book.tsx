@@ -21,7 +21,7 @@ import { toast } from "sonner";
 import type { PaymentProvider } from "@/types";
 
 export const Route = createFileRoute("/book")({
-  head: () => ({ meta: [{ title: "Book delivery — Sendaro" }, { name: "description", content: "Book a Lagos delivery in 7 quick steps." }] }),
+  head: () => ({ meta: [{ title: "Book delivery — Quick Reach Logistics" }, { name: "description", content: "Book a Lagos delivery in 7 quick steps." }] }),
   component: BookingPage,
 });
 
@@ -158,7 +158,7 @@ function BookingPage() {
                     {([
                       ["paystack", "Paystack", CreditCard],
                       ["flutterwave", "Flutterwave", CreditCard],
-                      ["wallet", "Sendaro Wallet", Wallet],
+                      ["wallet", "Quick Reach Logistics Wallet", Wallet],
                       ["transfer", "Bank Transfer", Building2],
                       ["ussd", "USSD", Smartphone],
                     ] as const).map(([k, label, Icon]) => (

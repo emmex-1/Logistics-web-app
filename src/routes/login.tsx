@@ -14,7 +14,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/login")({
-  head: () => ({ meta: [{ title: "Sign in — Sendaro" }, { name: "description", content: "Sign in to your Sendaro account." }] }),
+  head: () => ({ meta: [{ title: "Sign in — Quick Reach Logistics" }, { name: "description", content: "Sign in to your Quick Reach Logistics account." }] }),
   component: LoginPage,
 });
 
@@ -25,7 +25,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const setSession = useAuthStore((s) => s.setSession);
   const [show, setShow] = useState(false);
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema), defaultValues: { email: "tunde@sendaro.ng", password: "password123" } });
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema), defaultValues: { email: "tunde@quickreachlogistics.ng", password: "password123" } });
   const m = useMutation({
     mutationFn: (d: FormData) => authService.login(d.email, d.password),
     onSuccess: (s) => { setSession(s); toast.success("Welcome back!"); navigate({ to: "/dashboard" }); },

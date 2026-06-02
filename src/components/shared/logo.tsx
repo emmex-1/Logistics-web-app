@@ -9,7 +9,7 @@ export function Logo({ className, mark = false }: { className?: string; mark?: b
           <path d="M14 12l4-5 5 7-3 3" />
         </svg>
       </div>
-      {!mark && <span className="font-display text-lg font-semibold tracking-tight">Sendaro</span>}
+      {!mark && <span className="font-display text-lg font-semibold tracking-tight">Quick Reach Logistics</span>}
     </div>
   );
 }

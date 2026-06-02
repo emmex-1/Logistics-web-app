@@ -1,5 +1,5 @@
 /**
- * Domain models for Sendaro Logistics.
+ * Domain models for Quick Reach Logistics Logistics.
  * Mirrors what the future Express + PostgreSQL/Prisma backend will return.
  * Services consume and return these types; UI never touches raw fetch payloads.
  */
