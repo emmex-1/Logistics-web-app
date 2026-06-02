@@ -51,7 +51,7 @@ export const Route = createFileRoute("/services/$slug")({
 });
 
 function ServicePage() {
-  const { service } = Route.useLoaderData();
+  const { service } = Route.useLoaderData() as { service: ServiceDetail };
   const Icon = service.icon;
   const others = SERVICES.filter((s) => s.slug !== service.slug).slice(0, 4);
 
