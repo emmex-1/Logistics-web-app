@@ -4,7 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ---------- Quick Reach Logistics Logistics Design System ----------
+/* ---------- Quick Reach Logistics Design System ----------
  * Premium Lagos logistics brand. White + signature orange.
  * Typography: Space Grotesk (display) + DM Sans (body).
  * All colors in oklch. Tokens drive utilities through @theme inline.

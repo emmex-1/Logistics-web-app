@@ -10,9 +10,9 @@ import { SERVICES } from "@/constants/services-catalog";
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Services — Quick Reach Logistics Logistics" },
+      { title: "Services — Quick Reach Logistics" },
       { name: "description", content: "Same-day, express, dispatch riders, e-commerce, business logistics, bulk multi-stop, scheduled pickups, document & parcel — Quick Reach Logistics's full Lagos service catalogue." },
-      { property: "og:title", content: "Services — Quick Reach Logistics Logistics" },
+      { property: "og:title", content: "Services — Quick Reach Logistics" },
       { property: "og:description", content: "From a single envelope to a full container." },
     ],
   }),

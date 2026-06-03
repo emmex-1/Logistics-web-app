@@ -14,7 +14,7 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Quick Reach Logistics Logistics" },
+      { title: "Contact — Quick Reach Logistics" },
       { name: "description", content: "Talk to Quick Reach Logistics about deliveries, fleet, or enterprise integrations." },
       { property: "og:title", content: "Contact Quick Reach Logistics" },
       { property: "og:description", content: "We're one message away." },

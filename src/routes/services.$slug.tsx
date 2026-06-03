@@ -16,7 +16,7 @@ export const Route = createFileRoute("/services/$slug")({
   },
   head: ({ loaderData }) => {
     const s = loaderData?.service;
-    const title = s ? `${s.title} — Quick Reach Logistics Logistics` : "Service — Quick Reach Logistics";
+    const title = s ? `${s.title} — Quick Reach Logistics` : "Service — Quick Reach Logistics";
     const desc = s?.description ?? "Premium Lagos logistics services by Quick Reach Logistics.";
     return {
       meta: [
