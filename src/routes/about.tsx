@@ -45,13 +45,13 @@ function HeroSection() {
         <div className="absolute inset-0 bg-black/80" />
 
         {/* Subtle diagonal stripe texture */}
-        <div
+        {/* <div
           className="absolute inset-0 pointer-events-none opacity-[0.06]"
           style={{
             backgroundImage:
               "repeating-linear-gradient(45deg,rgba(255,255,255,0.5) 0px,rgba(255,255,255,0.5) 1px,transparent 1px,transparent 60px)",
           }}
-        />
+        /> */}
 
         {/* Content — flex-col justify-end, left-aligned */}
         <div className="relative z-10 flex flex-col justify-end min-h-[260px] sm:min-h-[360px] lg:min-h-[480px] px-6 sm:px-10 lg:px-16 pb-10 sm:pb-14 pt-20 sm:pt-28">
@@ -68,7 +68,7 @@ function HeroSection() {
               className="text-red-500 text-xs font-bold uppercase tracking-[0.22em]"
               style={{ fontFamily: "'Syne', sans-serif" }}
             >
-              Welcome to QuickReach Logistics
+              About QuickReach Logistics
             </span>
           </motion.div>
 
@@ -81,7 +81,7 @@ function HeroSection() {
             style={{
               fontFamily: "'Syne', sans-serif",
               fontWeight: 900,
-              fontSize: "clamp(38px, 5vw, 78px)",
+              fontSize: "clamp(38px, 4vw, 78px)",
               letterSpacing: "-2px",
               lineHeight: 1.05,
             }}
@@ -97,7 +97,7 @@ function HeroSection() {
             className="text-white/70 max-w-md leading-relaxed mb-8"
             style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(13px, 1.6vw, 16px)" }}
           >
-            Delivering across Lagos with speed, reliability, and professionalism — every single time.
+            Delivering across Lagos with speed, reliability, and professionalism every single time.
           </motion.p>
 
           {/* CTA Buttons */}

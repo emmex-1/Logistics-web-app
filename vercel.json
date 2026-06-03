@@ -1,0 +1,10 @@
+{
+  "buildCommand": "vite build",
+  "outputDirectory": "dist/client",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "dist/server/index.js"
+    }
+  ]
+}
