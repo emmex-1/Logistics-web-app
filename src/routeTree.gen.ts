@@ -21,11 +21,13 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BookRouteImport } from './routes/book'
+import { Route as AttendantRouteImport } from './routes/attendant'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RiderIndexRouteImport } from './routes/rider.index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as AttendantIndexRouteImport } from './routes/attendant.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as TrackIdRouteImport } from './routes/track.$id'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
@@ -110,6 +112,11 @@ const BookRoute = BookRouteImport.update({
   path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AttendantRoute = AttendantRouteImport.update({
+  id: '/attendant',
+  path: '/attendant',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -134,6 +141,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRoute,
+} as any)
+const AttendantIndexRoute = AttendantIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AttendantRoute,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
@@ -255,6 +267,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
+  '/attendant': typeof AttendantRouteWithChildren
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
@@ -290,6 +303,7 @@ export interface FileRoutesByFullPath {
   '/services/$slug': typeof ServicesSlugRoute
   '/track/$id': typeof TrackIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/attendant/': typeof AttendantIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/rider/': typeof RiderIndexRoute
 }
@@ -329,6 +343,7 @@ export interface FileRoutesByTo {
   '/services/$slug': typeof ServicesSlugRoute
   '/track/$id': typeof TrackIdRoute
   '/admin': typeof AdminIndexRoute
+  '/attendant': typeof AttendantIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/rider': typeof RiderIndexRoute
 }
@@ -337,6 +352,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
+  '/attendant': typeof AttendantRouteWithChildren
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
@@ -372,6 +388,7 @@ export interface FileRoutesById {
   '/services/$slug': typeof ServicesSlugRoute
   '/track/$id': typeof TrackIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/attendant/': typeof AttendantIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/rider/': typeof RiderIndexRoute
 }
@@ -381,6 +398,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
+    | '/attendant'
     | '/book'
     | '/contact'
     | '/dashboard'
@@ -416,6 +434,7 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/track/$id'
     | '/admin/'
+    | '/attendant/'
     | '/dashboard/'
     | '/rider/'
   fileRoutesByTo: FileRoutesByTo
@@ -455,6 +474,7 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/track/$id'
     | '/admin'
+    | '/attendant'
     | '/dashboard'
     | '/rider'
   id:
@@ -462,6 +482,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
+    | '/attendant'
     | '/book'
     | '/contact'
     | '/dashboard'
@@ -497,6 +518,7 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/track/$id'
     | '/admin/'
+    | '/attendant/'
     | '/dashboard/'
     | '/rider/'
   fileRoutesById: FileRoutesById
@@ -505,6 +527,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AttendantRoute: typeof AttendantRouteWithChildren
   BookRoute: typeof BookRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRouteWithChildren
@@ -605,6 +628,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/attendant': {
+      id: '/attendant'
+      path: '/attendant'
+      fullPath: '/attendant'
+      preLoaderRoute: typeof AttendantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin': {
       id: '/admin'
       path: '/admin'
@@ -639,6 +669,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
+    }
+    '/attendant/': {
+      id: '/attendant/'
+      path: '/'
+      fullPath: '/attendant/'
+      preLoaderRoute: typeof AttendantIndexRouteImport
+      parentRoute: typeof AttendantRoute
     }
     '/admin/': {
       id: '/admin/'
@@ -832,6 +869,18 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface AttendantRouteChildren {
+  AttendantIndexRoute: typeof AttendantIndexRoute
+}
+
+const AttendantRouteChildren: AttendantRouteChildren = {
+  AttendantIndexRoute: AttendantIndexRoute,
+}
+
+const AttendantRouteWithChildren = AttendantRoute._addFileChildren(
+  AttendantRouteChildren,
+)
+
 interface DashboardRouteChildren {
   DashboardBookingsRoute: typeof DashboardBookingsRoute
   DashboardInvoicesRoute: typeof DashboardInvoicesRoute
@@ -902,6 +951,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
+  AttendantRoute: AttendantRouteWithChildren,
   BookRoute: BookRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRouteWithChildren,
@@ -918,13 +968,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
