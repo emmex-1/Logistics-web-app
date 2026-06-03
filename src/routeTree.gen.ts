@@ -24,6 +24,7 @@ import { Route as BookRouteImport } from './routes/book'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as RiderIndexRouteImport } from './routes/rider.index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -124,6 +125,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ServicesRoute,
 } as any)
 const RiderIndexRoute = RiderIndexRouteImport.update({
   id: '/',
@@ -292,6 +298,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/rider/': typeof RiderIndexRoute
+  '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -302,7 +309,6 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/quote': typeof QuoteRoute
-  '/services': typeof ServicesRouteWithChildren
   '/signup': typeof SignupRoute
   '/track': typeof TrackRouteWithChildren
   '/verify-otp': typeof VerifyOtpRoute
@@ -331,6 +337,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/rider': typeof RiderIndexRoute
+  '/services': typeof ServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -374,6 +381,7 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/rider/': typeof RiderIndexRoute
+  '/services/': typeof ServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -418,6 +426,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/dashboard/'
     | '/rider/'
+    | '/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -428,7 +437,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/pricing'
     | '/quote'
-    | '/services'
     | '/signup'
     | '/track'
     | '/verify-otp'
@@ -457,6 +465,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/dashboard'
     | '/rider'
+    | '/services'
   id:
     | '__root__'
     | '/'
@@ -499,6 +508,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/dashboard/'
     | '/rider/'
+    | '/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -625,6 +635,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/services/': {
+      id: '/services/'
+      path: '/'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof ServicesRoute
     }
     '/rider/': {
       id: '/rider/'
@@ -878,10 +895,12 @@ const RiderRouteWithChildren = RiderRoute._addFileChildren(RiderRouteChildren)
 
 interface ServicesRouteChildren {
   ServicesSlugRoute: typeof ServicesSlugRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
 const ServicesRouteChildren: ServicesRouteChildren = {
   ServicesSlugRoute: ServicesSlugRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
 }
 
 const ServicesRouteWithChildren = ServicesRoute._addFileChildren(

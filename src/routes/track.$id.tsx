@@ -8,7 +8,20 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { trackingService } from "@/services/shipment.service";
 import type { Shipment } from "@/types";
-import { Phone, Star, MapPin, Clock, Package, CheckCircle2, Truck, ChevronLeft, Share2 } from "lucide-react";
+import {
+  Phone,
+  Star,
+  MapPin,
+  Clock,
+  Package,
+  CheckCircle2,
+  Truck,
+  ChevronLeft,
+  Share2,
+  Navigation,
+  Shield,
+  AlertCircle,
+} from "lucide-react";
 import { SHIPMENT_STATUS_LABELS, NGN } from "@/constants";
 import { AnimatedRouteMap } from "@/components/shared/animated-route-map";
 
@@ -16,7 +29,10 @@ export const Route = createFileRoute("/track/$id")({
   head: ({ params }) => ({
     meta: [
       { title: `Tracking ${params.id} — Quick Reach Logistics` },
-      { name: "description", content: "Real-time Quick Reach Logistics shipment tracking." },
+      {
+        name: "description",
+        content: "Real-time Quick Reach Logistics shipment tracking.",
+      },
     ],
   }),
   component: TrackDetail,
@@ -25,131 +41,363 @@ export const Route = createFileRoute("/track/$id")({
 function TrackDetail() {
   const { id } = Route.useParams();
   const [shp, setShp] = useState<Shipment | null>(null);
+
   useEffect(() => {
     const unsub = trackingService.subscribe(id, setShp);
     return unsub;
   }, [id]);
 
-  if (!shp) return (
-    <div className="min-h-screen bg-background">
-      <MarketingNav />
-      <div className="mx-auto max-w-7xl space-y-4 px-4 py-12 sm:px-6 lg:px-8">
-        <div className="h-8 w-48 animate-pulse rounded-md bg-muted" />
-        <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-          <div className="h-[420px] animate-pulse rounded-2xl bg-muted" />
-          <div className="space-y-4">
-            <div className="h-24 animate-pulse rounded-2xl bg-muted" />
-            <div className="h-48 animate-pulse rounded-2xl bg-muted" />
+  if (!shp) {
+    return (
+      <div className="min-h-screen bg-background">
+        <MarketingNav />
+        <div className="mx-auto max-w-7xl space-y-6 px-4 py-12 sm:px-6 lg:px-8">
+          {/* Skeleton shimmer */}
+          <div className="h-7 w-40 animate-pulse rounded-lg bg-muted" />
+          <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
+            <div className="space-y-4">
+              <div className="aspect-[16/10] animate-pulse rounded-2xl bg-muted" />
+              <div className="h-52 animate-pulse rounded-2xl bg-muted" />
+            </div>
+            <div className="space-y-4">
+              <div className="h-28 animate-pulse rounded-2xl bg-muted" />
+              <div className="h-36 animate-pulse rounded-2xl bg-muted" />
+              <div className="h-44 animate-pulse rounded-2xl bg-muted" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  const isActive =
+    shp.status !== "delivered" &&
+    shp.status !== "failed" &&
+    shp.status !== "cancelled";
 
   return (
     <div className="min-h-screen bg-background">
       <MarketingNav />
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+
+      {/* ── Status banner for active shipments ── */}
+      {isActive && (
+        <div
+          className="flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-white"
+          style={{ backgroundColor: "#ef0004" }}
+        >
+          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-white/70" />
+          Your delivery is on the way · Updates every few seconds
+        </div>
+      )}
+
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {/* ── Page header ── */}
+        <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
           <div>
-            <Button asChild variant="ghost" size="sm" className="-ml-3"><Link to="/track"><ChevronLeft className="mr-1 h-4 w-4" />All shipments</Link></Button>
-            <h1 className="mt-1 font-display text-2xl font-semibold tracking-tight">Tracking <span className="font-mono">{shp.trackingCode}</span></h1>
-            <p className="text-sm text-muted-foreground">{shp.pickup.area} → {shp.destination.area}</p>
+            <Button asChild variant="ghost" size="sm" className="-ml-3 mb-1">
+              <Link to="/track">
+                <ChevronLeft className="mr-1 h-4 w-4" /> All shipments
+              </Link>
+            </Button>
+            <h1 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
+              Tracking{" "}
+              <span className="font-mono" style={{ color: "#ef0004" }}>
+                {shp.trackingCode}
+              </span>
+            </h1>
+            <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
+              <MapPin className="h-3.5 w-3.5" />
+              {shp.pickup.area}
+              <span className="mx-1 text-slate-300">→</span>
+              {shp.destination.area}
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <StatusBadge status={shp.status} />
-            <Button variant="outline" size="sm"><Share2 className="mr-1 h-4 w-4" />Share</Button>
+            <Button variant="outline" size="sm" className="gap-1.5">
+              <Share2 className="h-3.5 w-3.5" /> Share
+            </Button>
           </div>
         </div>
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-          <div className="space-y-4">
-            <AnimatedRouteMap className="!aspect-[16/10]" />
-            <Card className="p-6">
-              <div className="font-display text-lg font-semibold">Status timeline</div>
-              <ol className="mt-5 space-y-5">
-                {shp.events.map((e, i) => (
-                  <li key={e.id} className="relative grid grid-cols-[28px_1fr] gap-4">
-                    <div className="relative">
-                      <div className={`grid h-7 w-7 place-items-center rounded-full ${i === shp.events.length - 1 ? "gradient-primary text-primary-foreground shadow-glow" : "border bg-card text-muted-foreground"}`}>
-                        {i === shp.events.length - 1 ? <Truck className="h-3.5 w-3.5" /> : <CheckCircle2 className="h-3.5 w-3.5" />}
+        <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
+          {/* ── Left column ── */}
+          <div className="space-y-5">
+            {/* Map */}
+            <Card className="overflow-hidden p-0 shadow-sm">
+              <AnimatedRouteMap className="!aspect-[16/10]" />
+            </Card>
+
+            {/* Timeline */}
+            <Card className="p-6 shadow-sm">
+              <div className="mb-5 flex items-center gap-2">
+                <Navigation className="h-4 w-4" style={{ color: "#ef0004" }} />
+                <h2 className="font-display text-base font-semibold">
+                  Status Timeline
+                </h2>
+              </div>
+              <ol className="space-y-0">
+                {shp.events.map((e, i) => {
+                  const isLatest = i === shp.events.length - 1;
+                  return (
+                    <li
+                      key={e.id}
+                      className="relative grid grid-cols-[28px_1fr] gap-x-4"
+                    >
+                      {/* Dot + line */}
+                      <div className="relative flex flex-col items-center">
+                        <div
+                          className="z-10 grid h-7 w-7 flex-shrink-0 place-items-center rounded-full transition-colors"
+                          style={
+                            isLatest
+                              ? {
+                                  backgroundColor: "#ef0004",
+                                  color: "#fff",
+                                  boxShadow: "0 0 0 4px rgba(239,0,4,0.15)",
+                                }
+                              : {
+                                  backgroundColor: "#f0fdf4",
+                                  color: "#16a34a",
+                                  border: "1px solid #bbf7d0",
+                                }
+                          }
+                        >
+                          {isLatest ? (
+                            <Truck className="h-3.5 w-3.5" />
+                          ) : (
+                            <CheckCircle2 className="h-3.5 w-3.5" />
+                          )}
+                        </div>
+                        {i !== shp.events.length - 1 && (
+                          <div className="my-1 w-px flex-1 bg-border" />
+                        )}
                       </div>
-                      {i !== shp.events.length - 1 && <div className="absolute left-1/2 top-7 h-full w-px -translate-x-1/2 bg-border" />}
-                    </div>
-                    <div className="pb-2">
-                      <div className="text-sm font-medium">{e.title}</div>
-                      {e.description && <div className="text-xs text-muted-foreground">{e.description}</div>}
-                      <div className="mt-1 text-xs text-muted-foreground">{new Date(e.at).toLocaleString()} {e.location && `· ${e.location}`}</div>
-                    </div>
-                  </li>
-                ))}
+
+                      {/* Content */}
+                      <div className={`pb-5 ${i === shp.events.length - 1 ? "pb-0" : ""}`}>
+                        <p
+                          className="text-sm font-semibold"
+                          style={isLatest ? { color: "#ef0004" } : undefined}
+                        >
+                          {e.title}
+                        </p>
+                        {e.description && (
+                          <p className="text-xs text-muted-foreground">
+                            {e.description}
+                          </p>
+                        )}
+                        <p className="mt-0.5 text-xs text-muted-foreground">
+                          {new Date(e.at).toLocaleString()}
+                          {e.location && ` · ${e.location}`}
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })}
               </ol>
             </Card>
           </div>
 
+          {/* ── Right column ── */}
           <div className="space-y-4">
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-              <Card className="p-5">
-                <div className="text-xs uppercase tracking-widest text-muted-foreground">ETA</div>
-                <div className="mt-1 flex items-baseline gap-2">
-                  <span className="font-display text-4xl font-semibold">{shp.etaMinutes ?? 0}</span>
-                  <span className="text-sm text-muted-foreground">min</span>
+            {/* ETA card */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <Card
+                className="overflow-hidden p-0 shadow-sm"
+                style={{ borderColor: "rgba(239,0,4,0.2)" }}
+              >
+                <div
+                  className="px-5 py-4"
+                  style={{ backgroundColor: "#ef0004" }}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-widest text-red-100">
+                    Estimated Arrival
+                  </p>
+                  <div className="mt-1 flex items-baseline gap-2">
+                    <span className="font-display text-5xl font-bold text-white">
+                      {shp.etaMinutes ?? 0}
+                    </span>
+                    <span className="text-lg font-medium text-red-200">
+                      min
+                    </span>
+                  </div>
                 </div>
-                <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground"><Clock className="h-3 w-3" />Updates every few seconds</div>
+                <div className="flex items-center gap-1.5 px-5 py-2.5 text-xs text-muted-foreground">
+                  <Clock className="h-3.5 w-3.5" style={{ color: "#ef0004" }} />
+                  Updates every few seconds
+                </div>
               </Card>
             </motion.div>
 
+            {/* Rider card */}
             {shp.driver && (
-              <Card className="p-5">
-                <div className="font-display text-sm font-semibold">Your rider</div>
-                <div className="mt-4 flex items-center gap-4">
-                  <div className="grid h-12 w-12 place-items-center rounded-full gradient-primary font-display font-semibold text-primary-foreground">
-                    {shp.driver.name.split(" ").map((s) => s[0]).join("")}
+              <Card className="p-5 shadow-sm">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  Your Rider
+                </p>
+                <div className="flex items-center gap-4">
+                  <div
+                    className="grid h-12 w-12 flex-shrink-0 place-items-center rounded-full font-display text-base font-bold text-white"
+                    style={{ backgroundColor: "#ef0004" }}
+                  >
+                    {shp.driver.name
+                      .split(" ")
+                      .map((s) => s[0])
+                      .join("")}
                   </div>
-                  <div className="flex-1">
-                    <div className="font-medium">{shp.driver.name}</div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold">{shp.driver.name}</p>
                     <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                      <Star className="h-3 w-3 fill-warning text-warning" /> {shp.driver.rating.toFixed(1)} · {shp.driver.trips} trips
+                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                      {shp.driver.rating.toFixed(1)} · {shp.driver.trips} trips
                     </div>
-                    <div className="mt-1 text-xs text-muted-foreground">{shp.driver.vehicle.model} · {shp.driver.vehicle.plate}</div>
+                    <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                      {shp.driver.vehicle.model} · {shp.driver.vehicle.plate}
+                    </p>
                   </div>
-                  <Button size="icon" variant="outline"><Phone className="h-4 w-4" /></Button>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className="flex-shrink-0 hover:text-white"
+                    style={
+                      {
+                        "--hover-bg": "#ef0004",
+                      } as any
+                    }
+                  >
+                    <Phone className="h-4 w-4" />
+                  </Button>
                 </div>
               </Card>
             )}
 
-            <Card className="p-5">
-              <div className="font-display text-sm font-semibold">Shipment details</div>
-              <dl className="mt-3 grid grid-cols-2 gap-y-2 text-sm">
-                <dt className="text-muted-foreground">Pickup</dt><dd className="font-medium text-right flex items-center justify-end gap-1"><MapPin className="h-3 w-3" />{shp.pickup.area}</dd>
-                <dt className="text-muted-foreground">Drop</dt><dd className="font-medium text-right flex items-center justify-end gap-1"><MapPin className="h-3 w-3" />{shp.destination.area}</dd>
-                <dt className="text-muted-foreground">Cargo</dt><dd className="font-medium text-right flex items-center justify-end gap-1"><Package className="h-3 w-3" />{shp.cargo}</dd>
-                <dt className="text-muted-foreground">Distance</dt><dd className="font-medium text-right">{shp.pricing.distanceKm} km</dd>
-                <dt className="text-muted-foreground">Total</dt><dd className="font-medium text-right">{NGN(shp.pricing.total)}</dd>
+            {/* Shipment details */}
+            <Card className="p-5 shadow-sm">
+              <div className="mb-3 flex items-center gap-2">
+                <Package className="h-4 w-4" style={{ color: "#ef0004" }} />
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  Shipment Details
+                </p>
+              </div>
+              <dl className="space-y-0 divide-y text-sm">
+                {[
+                  ["Pickup", shp.pickup.area, MapPin],
+                  ["Drop", shp.destination.area, MapPin],
+                  ["Cargo", shp.cargo, Package],
+                  ["Distance", `${shp.pricing.distanceKm} km`, null],
+                  ["Total", NGN(shp.pricing.total), null],
+                ].map(([k, v, Icon]: any) => (
+                  <div
+                    key={k as string}
+                    className="flex items-center justify-between py-2.5"
+                  >
+                    <span className="text-muted-foreground">{k}</span>
+                    <span className="flex items-center gap-1 font-semibold">
+                      {Icon && <Icon className="h-3 w-3 text-slate-400" />}
+                      {v}
+                    </span>
+                  </div>
+                ))}
               </dl>
             </Card>
 
-            {shp.pod && (
-              <Card className="p-5">
-                <div className="font-display text-sm font-semibold">Proof of delivery</div>
-                <div className="mt-3 text-sm">
-                  Received by <span className="font-medium">{shp.pod.receivedBy}</span><br />
-                  <span className="text-xs text-muted-foreground">{new Date(shp.pod.receivedAt).toLocaleString()}</span>
+            {/* Insurance */}
+            {shp.insurance && (
+              <Card
+                className="flex items-center gap-3 p-4 shadow-sm"
+                style={{ borderColor: "rgba(239,0,4,0.2)", backgroundColor: "rgba(239,0,4,0.03)" }}
+              >
+                <Shield className="h-5 w-5 flex-shrink-0" style={{ color: "#ef0004" }} />
+                <div>
+                  <p className="text-sm font-semibold">Insured delivery</p>
+                  <p className="text-xs text-muted-foreground">
+                    Covered up to ₦500,000
+                  </p>
                 </div>
-                {shp.pod.notes && <p className="mt-2 text-xs text-muted-foreground">"{shp.pod.notes}"</p>}
+              </Card>
+            )}
+
+            {/* Proof of delivery */}
+            {shp.pod && (
+              <Card className="p-5 shadow-sm">
+                <div className="mb-3 flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                  <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                    Proof of Delivery
+                  </p>
+                </div>
+                <p className="text-sm">
+                  Received by{" "}
+                  <span className="font-semibold">{shp.pod.receivedBy}</span>
+                </p>
+                <p className="mt-0.5 text-xs text-muted-foreground">
+                  {new Date(shp.pod.receivedAt).toLocaleString()}
+                </p>
+                {shp.pod.notes && (
+                  <p className="mt-2 rounded-lg bg-slate-50 px-3 py-2 text-xs text-muted-foreground">
+                    "{shp.pod.notes}"
+                  </p>
+                )}
+              </Card>
+            )}
+
+            {/* Failed/cancelled notice */}
+            {(shp.status === "failed" || shp.status === "cancelled") && (
+              <Card className="flex items-start gap-3 border-destructive/30 bg-destructive/5 p-5 shadow-sm">
+                <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-destructive" />
+                <div>
+                  <p className="text-sm font-semibold text-destructive">
+                    Delivery {shp.status}
+                  </p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    Contact support or rebook this delivery.
+                  </p>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="mt-3"
+                    asChild
+                  >
+                    <Link to="/book">Rebook delivery</Link>
+                  </Button>
+                </div>
               </Card>
             )}
           </div>
         </div>
       </main>
+
       <MarketingFooter />
     </div>
   );
 }
 
 function StatusBadge({ status }: { status: Shipment["status"] }) {
-  const color = status === "delivered" ? "bg-success/15 text-success" :
-    status === "failed" || status === "cancelled" ? "bg-destructive/15 text-destructive" :
-    "bg-primary/15 text-primary";
-  return <Badge className={`rounded-full font-medium ${color}`}>{SHIPMENT_STATUS_LABELS[status]}</Badge>;
+  const styles =
+    status === "delivered"
+      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+      : status === "failed" || status === "cancelled"
+        ? "bg-red-50 text-red-700 border-red-200"
+        : "text-white border-transparent";
+
+  return (
+    <Badge
+      className={`rounded-full border px-3 py-1 text-xs font-semibold ${styles}`}
+      style={
+        status !== "delivered" &&
+        status !== "failed" &&
+        status !== "cancelled"
+          ? { backgroundColor: "#ef0004" }
+          : undefined
+      }
+    >
+      {status === "in_transit" && (
+        <span className="mr-1.5 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
+      )}
+      {SHIPMENT_STATUS_LABELS[status]}
+    </Badge>
+  );
 }
