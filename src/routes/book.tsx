@@ -453,6 +453,8 @@ function SuccessScreen({ shipmentId, estimated }: { shipmentId: string; estimate
               <Link
                 to="/track/$id"
                 params={{ id: shipmentId }}
+                // params={{ id: s.id }}
+                  search={{ id: undefined }}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold text-white transition-all hover:opacity-90"
                 style={{ background: "#ef0004", fontFamily: "'Syne', sans-serif" }}
               >
