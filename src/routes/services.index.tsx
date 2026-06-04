@@ -13,7 +13,7 @@ import { useState } from "react";
 import { MarketingNav } from "@/components/shared/marketing-nav";
 import { MarketingFooter } from "@/components/shared/marketing-footer";
 import { SERVICES } from "@/constants/services-catalog";
-import heroImage from "/media/about-craft.webp";
+import heroImage from "/media/bk.jpg";
 
 export const Route = createFileRoute("/services/")({
   head: () => ({

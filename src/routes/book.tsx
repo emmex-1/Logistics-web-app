@@ -68,13 +68,13 @@ export const Route = createFileRoute("/book")({
    STEPS CONFIG
 ───────────────────────────────────────── */
 const STEPS = [
-  { label: "Shipment",  icon: Package,     desc: "What are you sending?" },
-  { label: "Pickup",    icon: MapPin,      desc: "Where are we collecting from?" },
-  { label: "Receiver",  icon: User,        desc: "Who's receiving the package?" },
-  { label: "Package",   icon: Shield,      desc: "Weight, photos, insurance & notes" },
+  { label: "Shipment",  icon: Package,       desc: "What are you sending?" },
+  { label: "Pickup",    icon: MapPin,        desc: "Where are we collecting from?" },
+  { label: "Receiver",  icon: User,          desc: "Who's receiving the package?" },
+  { label: "Package",   icon: Shield,        desc: "Weight, photos, insurance & notes" },
   { label: "Schedule",  icon: CalendarClock, desc: "When should we dispatch?" },
   { label: "Review",    icon: ClipboardList, desc: "Confirm your booking details" },
-  { label: "Payment",   icon: Banknote,    desc: "Choose how to pay" },
+  { label: "Payment",   icon: Banknote,      desc: "Choose how to pay" },
 ] as const;
 
 const PAYMENT_OPTIONS = [
@@ -104,7 +104,7 @@ interface Draft {
 function HeroSection() {
   return (
     <section className="bg-white px-2 sm:px-3 pt-2 pb-0">
-      <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden min-h-[240px] sm:min-h-[320px] lg:min-h-[420px]">
+      <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden min-h-[260px] sm:min-h-[360px] lg:min-h-[480px]">
         <img
           src="https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=1600&q=80"
           alt="Book a delivery with QuickReach Logistics"
@@ -453,8 +453,7 @@ function SuccessScreen({ shipmentId, estimated }: { shipmentId: string; estimate
               <Link
                 to="/track/$id"
                 params={{ id: shipmentId }}
-                // params={{ id: s.id }}
-                  search={{ id: undefined }}
+                search={{ id: undefined }}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold text-white transition-all hover:opacity-90"
                 style={{ background: "#ef0004", fontFamily: "'Syne', sans-serif" }}
               >
@@ -534,6 +533,59 @@ const FieldGroup = ({ label, children }: { label: string; children: React.ReactN
 );
 
 /* ─────────────────────────────────────────
+   MOBILE FARE BREAKDOWN (inline, step 0 only)
+───────────────────────────────────────── */
+function MobileFareBreakdown({
+  weight,
+  urgency,
+  urgencySurcharge,
+  estimated,
+}: {
+  weight: number;
+  urgency: string;
+  urgencySurcharge: number;
+  estimated: number;
+}) {
+  return (
+    <div
+      className="lg:hidden rounded-xl border overflow-hidden"
+      style={{ background: "#fafafa" }}
+    >
+      <div style={{ background: "#0f0f0f", padding: "10px 16px" }}>
+        <p
+          className="text-xs font-bold uppercase tracking-widest"
+          style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Syne', sans-serif" }}
+        >
+          Fare Breakdown
+        </p>
+      </div>
+      <div className="divide-y divide-border px-4 py-1 text-sm">
+        <div className="flex justify-between py-2.5">
+          <span className="text-muted-foreground">Base fare</span>
+          <span className="font-medium">{NGN(4800)}</span>
+        </div>
+        <div className="flex justify-between py-2.5">
+          <span className="text-muted-foreground">Weight ({weight} kg)</span>
+          <span className="font-medium">{NGN(weight * 120)}</span>
+        </div>
+        {urgencySurcharge > 0 && (
+          <div className="flex justify-between py-2.5" style={{ color: "#ef0004" }}>
+            <span>Express surcharge</span>
+            <span className="font-medium">{NGN(urgencySurcharge)}</span>
+          </div>
+        )}
+        <div className="flex justify-between py-3 font-bold">
+          <span>Total</span>
+          <span style={{ color: "#ef0004", fontFamily: "'Syne', sans-serif", fontSize: "16px" }}>
+            {NGN(estimated)}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
    MAIN PAGE
 ───────────────────────────────────────── */
 function BookingPage() {
@@ -575,7 +627,6 @@ function BookingPage() {
     onSuccess: (shp) => {
       setConfirmedShipmentId(shp.id);
       setConfirmed(true);
-      // Scroll to top
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
     onError: () => toast.error("Booking failed. Please try again."),
@@ -680,8 +731,8 @@ function BookingPage() {
                   </div>
                 </Card>
 
-                {/* Fare breakdown */}
-                <Card className="p-4 shadow-sm">
+                {/* Fare breakdown — desktop only */}
+                <Card className="hidden lg:block p-4 shadow-sm">
                   <p className="mb-3 text-xs font-bold uppercase tracking-widest text-muted-foreground">Fare Breakdown</p>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
@@ -740,7 +791,7 @@ function BookingPage() {
                   </div>
 
                   {/* Step body */}
-                  <div className="p-6 sm:p-8">
+                  <div className="p-4 sm:p-8">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={step}
@@ -792,8 +843,16 @@ function BookingPage() {
                               </Badge>
                             </div>
 
+                            {/* ── Mobile fare breakdown (only on step 0, below the bike box) ── */}
+                            <MobileFareBreakdown
+                              weight={d.weight}
+                              urgency={d.urgency}
+                              urgencySurcharge={urgencySurcharge}
+                              estimated={estimated}
+                            />
+
                             <FieldGroup label="Urgency">
-                              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                                 {Object.entries(URGENCY_LABELS).map(([k, l]) => (
                                   <button
                                     key={k}
@@ -942,9 +1001,9 @@ function BookingPage() {
                               ["Schedule", d.scheduledFor ? new Date(d.scheduledFor).toLocaleString("en-NG") : "Dispatch immediately"],
                               ["Estimated fare", NGN(estimated)],
                             ].map(([k, v]) => (
-                              <div key={k} className="flex items-center justify-between px-4 py-3.5">
-                                <span className="text-sm text-muted-foreground">{k}</span>
-                                <span className={`text-sm font-semibold ${k === "Estimated fare" ? "text-[#ef0004]" : ""}`}>
+                              <div key={k} className="flex items-start justify-between gap-4 px-4 py-3.5">
+                                <span className="text-sm text-muted-foreground flex-shrink-0">{k}</span>
+                                <span className={`text-sm font-semibold text-right ${k === "Estimated fare" ? "text-[#ef0004]" : ""}`}>
                                   {v}
                                 </span>
                               </div>
@@ -968,13 +1027,14 @@ function BookingPage() {
                         {/* ── Step 6: Payment ── */}
                         {step === 6 && (
                           <>
-                            <div className="grid gap-3 sm:grid-cols-2">
+                            {/* Single-column on mobile, 2-col on sm+ */}
+                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                               {PAYMENT_OPTIONS.map(([k, label, Icon, sub]) => (
                                 <button
                                   key={k}
                                   type="button"
                                   onClick={() => set({ provider: k })}
-                                  className={`flex items-center gap-3 rounded-xl border p-4 text-left transition-all ${
+                                  className={`flex items-center gap-3 rounded-xl border p-4 text-left transition-all w-full ${
                                     d.provider === k
                                       ? "border-[#ef0004] bg-red-50 shadow-sm"
                                       : "hover:border-slate-300 hover:bg-slate-50"
@@ -983,25 +1043,29 @@ function BookingPage() {
                                   <div
                                     className="grid flex-shrink-0 place-items-center rounded-lg"
                                     style={{
-                                      width: "36px", height: "36px",
+                                      width: "40px", height: "40px",
                                       background: d.provider === k ? "#ef0004" : "#f1f5f9",
                                     }}
                                   >
                                     <Icon className="h-4 w-4" style={{ color: d.provider === k ? "#fff" : "#64748b" }} />
                                   </div>
-                                  <div>
+                                  <div className="flex-1 min-w-0">
                                     <p className="text-sm font-semibold">{label}</p>
-                                    <p className="text-xs text-muted-foreground">{sub}</p>
+                                    <p className="text-xs text-muted-foreground truncate">{sub}</p>
                                   </div>
-                                  {d.provider === k && <Check className="ml-auto h-4 w-4" style={{ color: "#ef0004" }} />}
+                                  {d.provider === k && (
+                                    <Check className="flex-shrink-0 h-4 w-4" style={{ color: "#ef0004" }} />
+                                  )}
                                 </button>
                               ))}
                             </div>
+
+                            {/* Pay summary */}
                             <div
                               className="rounded-xl px-4 py-3"
                               style={{ background: "rgba(239,0,4,0.04)", border: "1px solid rgba(239,0,4,0.15)" }}
                             >
-                              <p className="text-sm font-medium" style={{ color: "#c0392b" }}>
+                              <p className="text-sm font-medium leading-relaxed" style={{ color: "#c0392b" }}>
                                 You'll pay{" "}
                                 <span style={{ fontWeight: 800, color: "#ef0004" }}>{NGN(estimated)}</span>{" "}
                                 via {PAYMENT_OPTIONS.find(([k]) => k === d.provider)?.[1]}.
@@ -1018,7 +1082,7 @@ function BookingPage() {
                   </div>
 
                   {/* Navigation footer */}
-                  <div className="flex items-center justify-between border-t bg-slate-50 px-6 py-4">
+                  <div className="flex items-center justify-between border-t bg-slate-50 px-4 sm:px-6 py-4">
                     <Button variant="ghost" onClick={prev} disabled={step === 0} className="gap-1.5">
                       <ChevronLeft className="h-4 w-4" /> Back
                     </Button>
@@ -1046,7 +1110,7 @@ function BookingPage() {
                       <Button
                         onClick={() => book.mutate()}
                         disabled={book.isPending}
-                        className="gap-2 text-white"
+                        className="gap-2 text-white text-xs sm:text-sm"
                         style={{ background: "#ef0004" }}
                       >
                         {book.isPending ? "Confirming…" : (

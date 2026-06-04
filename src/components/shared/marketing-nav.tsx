@@ -20,6 +20,8 @@ export function MarketingNav() {
   const hideTimer             = useRef<ReturnType<typeof setTimeout> | null>(null);
   const path = useRouterState({ select: (r) => r.location.pathname });
 
+  const isDarkPage = path.startsWith("/services/");
+
   /* ── scroll detection ── */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -53,10 +55,10 @@ export function MarketingNav() {
       <div
         className="mx-auto flex h-[56px] max-w-6xl items-center justify-between px-4 lg:px-6"
         style={{
-          background:       scrolled ? "rgba(30,27,27,0.95)" : "rgba(255,255,255,0.08)",
+          background: scrolled || isDarkPage ? "rgba(30,27,27,0.95)" : "rgba(255,255,255,0.08)",
           backdropFilter:   "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
-          border:           scrolled ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(255,255,255,0.14)",
+          border: scrolled || isDarkPage ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(255,255,255,0.14)",
           transition:       "background 0.3s ease, border 0.3s ease",
           borderRadius:     "999px",
           boxShadow:        "0 4px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1)",
@@ -159,7 +161,9 @@ export function MarketingNav() {
 
           <NavLink to="/pricing" active={path === "/pricing"}>Pricing</NavLink>
           <NavLink to="/quote"   active={path === "/quote"}>Get Quote</NavLink>
+           <NavLink to="/book" active={path === "/book"}>Book Delivery</NavLink>
           <NavLink to="/contact" active={path === "/contact"}>Contact</NavLink>
+         
         </nav>
 
         {/* ── Desktop right CTAs ── */}
@@ -217,7 +221,9 @@ export function MarketingNav() {
             { to: "/about"   as const, label: "About"     },
             { to: "/pricing" as const, label: "Pricing"   },
             { to: "/quote"   as const, label: "Get Quote" },
+            { to: "/book" as const, label: "Book Delivery"   },
             { to: "/contact" as const, label: "Contact"   },
+            
           ].map((l) => (
             <Link
               key={l.to}

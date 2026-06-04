@@ -79,14 +79,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Quick Reach Logistics — Premium Logistics for Lagos" },
+      { title: "Quick Reach Logistics — Best Logistics for Lagos" },
       { name: "description", content: "Quick Reach Logistics is a premium logistics platform for Lagos. Same-day deliveries, on-demand fleet, and real-time tracking across all 20 LGAs." },
       { name: "author", content: "Quick Reach Logistics" },
-      { property: "og:title", content: "Quick Reach Logistics — Premium Logistics for Lagos" },
+      { property: "og:title", content: "Quick Reach Logistics — Best Logistics for Lagos" },
       { property: "og:description", content: "Same-day deliveries, on-demand fleet, real-time tracking across Lagos." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      // { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {

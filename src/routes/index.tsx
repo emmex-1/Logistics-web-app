@@ -135,20 +135,20 @@ function Hero() {
             <h1
               style={{
                 fontFamily: "'Syne', sans-serif",
-                fontSize: "clamp(28px, 5.2vw, 60px)",
+                fontSize: "clamp(28px, 5.2vw, 58px)",
                 fontWeight: 700,
                 lineHeight: 1.06,
                 letterSpacing: "-1.5px",
                 color: "#fff",
               }}
             >
-              Lagos same-day<br />delivery Fast,<br />on time and trusted.
+              Fast, Reliable <br />Logistics Delivery<br />Across Lagos.
             </h1>
             <p
               className="mt-5 max-w-md"
               style={{ color: "rgba(255,255,255,0.6)", fontSize: "15px", lineHeight: 1.7 }}
             >
-              Premium dispatch, on-demand fleet, and live tracking built for the speed and scale Lagos businesses need.
+We deliver anything across Lagos quickly and safely, from documents to packages with speed care and real-time tracking.
             </p>
             <div className="mt-8 flex gap-2 items-center">
               <Link
@@ -434,8 +434,8 @@ function WhyChooseUs() {
   const items = [
     { title: "Fast Turnaround", desc: "Quick pickups and timely deliveries across all LGAs.", img: "/media/huge.jpg" },
     { title: "Professional Riders", desc: "Trained, vetted, and fully tracked personnel.", img: "/media/rd.png" },
-    { title: "Real-Time Tracking", desc: "Live map and proof-of-delivery on every shipment.", img: "https://images.unsplash.com/photo-1527576539890-dfa815648363?w=600&q=70" },
-    { title: "Affordable Rates", desc: "Transparent pricing, zero hidden fees.", img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=70" },
+    { title: "Real-Time Tracking", desc: "Live map and proof-of-delivery on every shipment.", img: "/media/track.jpg" },
+    { title: "Affordable Rates", desc: "Transparent pricing, zero hidden fees.", img: "/media/cur.jpg" },
     { title: "Secure Handling", desc: "Insured cargo with signature confirmation.", img: "/media/del.jpg" },
     { title: "Dedicated Support", desc: "WhatsApp and voice support, available 24/7.", img: "/media/qrb.jpg" },
   ];

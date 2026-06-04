@@ -58,14 +58,11 @@ export const SERVICES: ServiceDetail[] = [
     tint: "from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/20",
     eta: "2 – 4 hrs",
     priceFrom: "₦1,500",
-    highlights: [
-      "Dedicated rider assigned instantly",
-      "Live GPS tracking link shared via SMS & WhatsApp",
-      "Photo proof of delivery",
-      "Up to ₦100,000 parcel insurance included",
-      "Priority customer support line",
-      "Available 7 days a week, 7 AM – 10 PM",
-    ],
+highlights: [
+  "Dedicated bike rider dispatched within minutes",
+  "Live GPS tracking shared via WhatsApp & SMS",
+  "Photo proof of delivery on every order",
+],
     features: [
       {
         title: "Instant Dispatch",
@@ -184,14 +181,11 @@ export const SERVICES: ServiceDetail[] = [
     tint: "from-sky-50 to-blue-50 dark:from-sky-950/30 dark:to-blue-950/20",
     eta: "On your schedule",
     priceFrom: "₦1,200",
-    highlights: [
-      "Book up to 30 days in advance",
-      "Recurring schedule support (daily, weekly, monthly)",
-      "Automated reminders 1 hour before pickup",
-      "Route-optimised for punctuality",
-      "Dedicated account manager for 10+ shipments/week",
-      "Flexible rescheduling up to 2 hours before pickup",
-    ],
+ highlights: [
+  "Pre-book your pickup up to 30 days in advance",
+  "Automated reminder sent 1 hour before pickup",
+  "Flexible rescheduling up to 2 hours before slot",
+],
     features: [
       {
         title: "Flexible Windows",
@@ -281,14 +275,11 @@ export const SERVICES: ServiceDetail[] = [
     tint: "from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20",
     eta: "24 – 72 hrs",
     priceFrom: "₦15,000",
-    highlights: [
-      "Vans (1 ton) to articulated trucks (30 tons)",
-      "Nationwide coverage: Lagos to Abuja, PH, Kano & more",
-      "Dedicated fleet coordinator per shipment",
-      "Real-time fleet tracking via dashboard",
-      "Cargo insurance up to ₦10 million",
-      "Loading & off-loading crew available on request",
-    ],
+highlights: [
+  "Contact us to arrange trucks & large vehicle runs",
+  "Nationwide coverage from Lagos to Abuja, PH & more",
+  "Dedicated coordinator assigned to every shipment",
+],
     features: [
       { title: "Fleet Variety", desc: "Right-size your shipment — pick from motorcycles, vans, 5-ton trucks, or 30-ton artics." },
       { title: "Nationwide Routes", desc: "Pre-cleared routes to 18 major Nigerian cities with known ETAs and toll costs included." },
@@ -427,14 +418,11 @@ export const SERVICES: ServiceDetail[] = [
     tint: "from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/20",
     eta: "Same day – 3 days",
     priceFrom: "₦900 / order",
-    highlights: [
-      "Shopify, WooCommerce & Paystack integrations",
-      "Branded packing available (your tape, tissue, inserts)",
-      "Automated tracking SMS sent to your customers",
-      "Returns management included",
-      "COD collection & next-day remittance",
-      "Dedicated e-commerce dashboard with analytics",
-    ],
+highlights: [
+  "Plug directly into your Shopify or WooCommerce store",
+  "COD collected and remitted to you next business day",
+  "Branded packaging using your own materials",
+],
     features: [
       { title: "Store Integrations", desc: "Connect your Shopify or WooCommerce store in under 10 minutes. Orders flow in automatically." },
       { title: "Branded Packaging", desc: "Supply your packaging materials and we'll use them — your customer, your brand experience." },
@@ -500,14 +488,11 @@ export const SERVICES: ServiceDetail[] = [
     tint: "from-slate-50 to-zinc-100 dark:from-slate-950/30 dark:to-zinc-900/20",
     eta: "SLA-defined",
     priceFrom: "₦50,000 / mo",
-    highlights: [
-      "Dedicated account manager & ops coordinator",
-      "Custom SLA with financial penalties for breaches",
-      "Branded vehicles available on request",
-      "Monthly performance reports & analytics",
-      "Invoice billing (30-day NET terms available)",
-      "API & ERP integration for automated dispatch",
-    ],
+highlights: [
+  "Dedicated account manager for your business",
+  "Custom SLA with guaranteed delivery windows",
+  "Monthly performance reports and analytics",
+],
     features: [
       { title: "SLA Contracts", desc: "Define your own KPIs — on-time rate, response time, damage rate — backed by penalties." },
       { title: "Branded Fleet", desc: "Vehicles wrapped in your livery for a seamless brand experience at delivery." },
@@ -573,14 +558,11 @@ export const SERVICES: ServiceDetail[] = [
     tint: "from-orange-50 to-red-50 dark:from-orange-950/30 dark:to-red-950/20",
     eta: "Dispatch same day",
     priceFrom: "₦5,000 / pallet/mo",
-    highlights: [
-      "3 strategic Lagos warehouse locations",
-      "Flexible billing: per pallet, per shelf, or per sqm",
-      "CCTV monitored 24/7 with security personnel",
-      "Stock management system with live inventory view",
-      "Same-day dispatch of stored goods",
-      "Goods-in-storage insurance included",
-    ],
+highlights: [
+  "3 secure Lagos locations — Apapa, Ojota & Lekki",
+  "CCTV monitored 24/7 with on-site security",
+  "Same-day dispatch for orders raised before 11 AM",
+],
     features: [
       { title: "3 Locations", desc: "Apapa, Ojota, and Lekki warehouses — store close to where your customers are." },
       { title: "Flexible Terms", desc: "Weekly, monthly, or annual terms. Scale space up or down with 7 days' notice." },
@@ -646,14 +628,11 @@ export const SERVICES: ServiceDetail[] = [
     tint: "from-pink-50 to-rose-50 dark:from-pink-950/30 dark:to-rose-950/20",
     eta: "Within 1 hr",
     priceFrom: "₦800",
-    highlights: [
-      "Rider at your location within 1 hour",
-      "Available 7 AM – 10 PM daily",
-      "Feeds into any delivery service seamlessly",
-      "Packaging materials supplied on request",
-      "Digital receipt issued at pickup",
-      "Track from pickup to final delivery",
-    ],
+highlights: [
+  "Bike rider at your location within 1 hour",
+  "Available 7 AM – 10 PM, 7 days a week",
+  "Digital receipt issued the moment we collect",
+],
     features: [
       { title: "1-Hour Response", desc: "A rider is dispatched within 5 minutes of booking and reaches you in under 60 minutes." },
       { title: "Packaging Support", desc: "Need a box, bubble wrap, or tape? We bring basic packing materials at cost." },
@@ -712,6 +691,28 @@ export const SERVICES: ServiceDetail[] = [
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-export function getService(slug: string): ServiceDetail | undefined {
-  return SERVICES.find((s) => s.slug === slug);
+// At the bottom of services-catalog.ts, add:
+
+// Icon map — client-side only, never serialized
+export const SERVICE_ICON_MAP: Record<string, LucideIcon> = {
+  "express-delivery": Zap,
+  "scheduled-delivery": Clock,
+  "bulk-freight": Truck,
+  "ecommerce-fulfilment": ShoppingBag,
+  "corporate-logistics": Building2,
+  "warehouse-storage": Archive,
+  "package-pickup": Package,
+};
+
+// Serializable version — no icon field
+export type ServiceDetailSafe = Omit<ServiceDetail, "icon">;
+
+// Safe catalog — strip icon before it ever touches the loader
+export const SERVICES_SAFE: ServiceDetailSafe[] = SERVICES.map(
+  ({ icon, ...rest }) => rest
+);
+
+export function getService(slug: string): ServiceDetailSafe | undefined {
+  return SERVICES_SAFE.find((s) => s.slug === slug);
 }
+
