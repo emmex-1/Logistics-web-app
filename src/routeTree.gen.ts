@@ -43,6 +43,20 @@ import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settin
 import { Route as DashboardSecurityRouteImport } from './routes/dashboard.security'
 import { Route as DashboardInvoicesRouteImport } from './routes/dashboard.invoices'
 import { Route as DashboardBookingsRouteImport } from './routes/dashboard.bookings'
+import { Route as AttendantTrackRouteImport } from './routes/attendant.track'
+import { Route as AttendantSummaryRouteImport } from './routes/attendant.summary'
+import { Route as AttendantSignoutRouteImport } from './routes/attendant.signout'
+import { Route as AttendantShipmentsRouteImport } from './routes/attendant.shipments'
+import { Route as AttendantReceiptsRouteImport } from './routes/attendant.receipts'
+import { Route as AttendantProfileRouteImport } from './routes/attendant.profile'
+import { Route as AttendantPaymentsRouteImport } from './routes/attendant.payments'
+import { Route as AttendantNotificationsRouteImport } from './routes/attendant.notifications'
+import { Route as AttendantNotesRouteImport } from './routes/attendant.notes'
+import { Route as AttendantIntakeRouteImport } from './routes/attendant.intake'
+import { Route as AttendantDispatchRouteImport } from './routes/attendant.dispatch'
+import { Route as AttendantCustomersRouteImport } from './routes/attendant.customers'
+import { Route as AttendantCreateRouteImport } from './routes/attendant.create'
+import { Route as AttendantCaptureRouteImport } from './routes/attendant.capture'
 import { Route as AdminZonesRouteImport } from './routes/admin.zones'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminSupportRouteImport } from './routes/admin.support'
@@ -223,6 +237,76 @@ const DashboardBookingsRoute = DashboardBookingsRouteImport.update({
   path: '/bookings',
   getParentRoute: () => DashboardRoute,
 } as any)
+const AttendantTrackRoute = AttendantTrackRouteImport.update({
+  id: '/track',
+  path: '/track',
+  getParentRoute: () => AttendantRoute,
+} as any)
+const AttendantSummaryRoute = AttendantSummaryRouteImport.update({
+  id: '/summary',
+  path: '/summary',
+  getParentRoute: () => AttendantRoute,
+} as any)
+const AttendantSignoutRoute = AttendantSignoutRouteImport.update({
+  id: '/signout',
+  path: '/signout',
+  getParentRoute: () => AttendantRoute,
+} as any)
+const AttendantShipmentsRoute = AttendantShipmentsRouteImport.update({
+  id: '/shipments',
+  path: '/shipments',
+  getParentRoute: () => AttendantRoute,
+} as any)
+const AttendantReceiptsRoute = AttendantReceiptsRouteImport.update({
+  id: '/receipts',
+  path: '/receipts',
+  getParentRoute: () => AttendantRoute,
+} as any)
+const AttendantProfileRoute = AttendantProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AttendantRoute,
+} as any)
+const AttendantPaymentsRoute = AttendantPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AttendantRoute,
+} as any)
+const AttendantNotificationsRoute = AttendantNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AttendantRoute,
+} as any)
+const AttendantNotesRoute = AttendantNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => AttendantRoute,
+} as any)
+const AttendantIntakeRoute = AttendantIntakeRouteImport.update({
+  id: '/intake',
+  path: '/intake',
+  getParentRoute: () => AttendantRoute,
+} as any)
+const AttendantDispatchRoute = AttendantDispatchRouteImport.update({
+  id: '/dispatch',
+  path: '/dispatch',
+  getParentRoute: () => AttendantRoute,
+} as any)
+const AttendantCustomersRoute = AttendantCustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
+  getParentRoute: () => AttendantRoute,
+} as any)
+const AttendantCreateRoute = AttendantCreateRouteImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => AttendantRoute,
+} as any)
+const AttendantCaptureRoute = AttendantCaptureRouteImport.update({
+  id: '/capture',
+  path: '/capture',
+  getParentRoute: () => AttendantRoute,
+} as any)
 const AdminZonesRoute = AdminZonesRouteImport.update({
   id: '/zones',
   path: '/zones',
@@ -295,6 +379,20 @@ export interface FileRoutesByFullPath {
   '/admin/support': typeof AdminSupportRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/zones': typeof AdminZonesRoute
+  '/attendant/capture': typeof AttendantCaptureRoute
+  '/attendant/create': typeof AttendantCreateRoute
+  '/attendant/customers': typeof AttendantCustomersRoute
+  '/attendant/dispatch': typeof AttendantDispatchRoute
+  '/attendant/intake': typeof AttendantIntakeRoute
+  '/attendant/notes': typeof AttendantNotesRoute
+  '/attendant/notifications': typeof AttendantNotificationsRoute
+  '/attendant/payments': typeof AttendantPaymentsRoute
+  '/attendant/profile': typeof AttendantProfileRoute
+  '/attendant/receipts': typeof AttendantReceiptsRoute
+  '/attendant/shipments': typeof AttendantShipmentsRoute
+  '/attendant/signout': typeof AttendantSignoutRoute
+  '/attendant/summary': typeof AttendantSummaryRoute
+  '/attendant/track': typeof AttendantTrackRoute
   '/dashboard/bookings': typeof DashboardBookingsRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/security': typeof DashboardSecurityRoute
@@ -335,6 +433,20 @@ export interface FileRoutesByTo {
   '/admin/support': typeof AdminSupportRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/zones': typeof AdminZonesRoute
+  '/attendant/capture': typeof AttendantCaptureRoute
+  '/attendant/create': typeof AttendantCreateRoute
+  '/attendant/customers': typeof AttendantCustomersRoute
+  '/attendant/dispatch': typeof AttendantDispatchRoute
+  '/attendant/intake': typeof AttendantIntakeRoute
+  '/attendant/notes': typeof AttendantNotesRoute
+  '/attendant/notifications': typeof AttendantNotificationsRoute
+  '/attendant/payments': typeof AttendantPaymentsRoute
+  '/attendant/profile': typeof AttendantProfileRoute
+  '/attendant/receipts': typeof AttendantReceiptsRoute
+  '/attendant/shipments': typeof AttendantShipmentsRoute
+  '/attendant/signout': typeof AttendantSignoutRoute
+  '/attendant/summary': typeof AttendantSummaryRoute
+  '/attendant/track': typeof AttendantTrackRoute
   '/dashboard/bookings': typeof DashboardBookingsRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/security': typeof DashboardSecurityRoute
@@ -381,6 +493,20 @@ export interface FileRoutesById {
   '/admin/support': typeof AdminSupportRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/zones': typeof AdminZonesRoute
+  '/attendant/capture': typeof AttendantCaptureRoute
+  '/attendant/create': typeof AttendantCreateRoute
+  '/attendant/customers': typeof AttendantCustomersRoute
+  '/attendant/dispatch': typeof AttendantDispatchRoute
+  '/attendant/intake': typeof AttendantIntakeRoute
+  '/attendant/notes': typeof AttendantNotesRoute
+  '/attendant/notifications': typeof AttendantNotificationsRoute
+  '/attendant/payments': typeof AttendantPaymentsRoute
+  '/attendant/profile': typeof AttendantProfileRoute
+  '/attendant/receipts': typeof AttendantReceiptsRoute
+  '/attendant/shipments': typeof AttendantShipmentsRoute
+  '/attendant/signout': typeof AttendantSignoutRoute
+  '/attendant/summary': typeof AttendantSummaryRoute
+  '/attendant/track': typeof AttendantTrackRoute
   '/dashboard/bookings': typeof DashboardBookingsRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/security': typeof DashboardSecurityRoute
@@ -428,6 +554,20 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/admin/users'
     | '/admin/zones'
+    | '/attendant/capture'
+    | '/attendant/create'
+    | '/attendant/customers'
+    | '/attendant/dispatch'
+    | '/attendant/intake'
+    | '/attendant/notes'
+    | '/attendant/notifications'
+    | '/attendant/payments'
+    | '/attendant/profile'
+    | '/attendant/receipts'
+    | '/attendant/shipments'
+    | '/attendant/signout'
+    | '/attendant/summary'
+    | '/attendant/track'
     | '/dashboard/bookings'
     | '/dashboard/invoices'
     | '/dashboard/security'
@@ -468,6 +608,20 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/admin/users'
     | '/admin/zones'
+    | '/attendant/capture'
+    | '/attendant/create'
+    | '/attendant/customers'
+    | '/attendant/dispatch'
+    | '/attendant/intake'
+    | '/attendant/notes'
+    | '/attendant/notifications'
+    | '/attendant/payments'
+    | '/attendant/profile'
+    | '/attendant/receipts'
+    | '/attendant/shipments'
+    | '/attendant/signout'
+    | '/attendant/summary'
+    | '/attendant/track'
     | '/dashboard/bookings'
     | '/dashboard/invoices'
     | '/dashboard/security'
@@ -513,6 +667,20 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/admin/users'
     | '/admin/zones'
+    | '/attendant/capture'
+    | '/attendant/create'
+    | '/attendant/customers'
+    | '/attendant/dispatch'
+    | '/attendant/intake'
+    | '/attendant/notes'
+    | '/attendant/notifications'
+    | '/attendant/payments'
+    | '/attendant/profile'
+    | '/attendant/receipts'
+    | '/attendant/shipments'
+    | '/attendant/signout'
+    | '/attendant/summary'
+    | '/attendant/track'
     | '/dashboard/bookings'
     | '/dashboard/invoices'
     | '/dashboard/security'
@@ -792,6 +960,104 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardBookingsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/attendant/track': {
+      id: '/attendant/track'
+      path: '/track'
+      fullPath: '/attendant/track'
+      preLoaderRoute: typeof AttendantTrackRouteImport
+      parentRoute: typeof AttendantRoute
+    }
+    '/attendant/summary': {
+      id: '/attendant/summary'
+      path: '/summary'
+      fullPath: '/attendant/summary'
+      preLoaderRoute: typeof AttendantSummaryRouteImport
+      parentRoute: typeof AttendantRoute
+    }
+    '/attendant/signout': {
+      id: '/attendant/signout'
+      path: '/signout'
+      fullPath: '/attendant/signout'
+      preLoaderRoute: typeof AttendantSignoutRouteImport
+      parentRoute: typeof AttendantRoute
+    }
+    '/attendant/shipments': {
+      id: '/attendant/shipments'
+      path: '/shipments'
+      fullPath: '/attendant/shipments'
+      preLoaderRoute: typeof AttendantShipmentsRouteImport
+      parentRoute: typeof AttendantRoute
+    }
+    '/attendant/receipts': {
+      id: '/attendant/receipts'
+      path: '/receipts'
+      fullPath: '/attendant/receipts'
+      preLoaderRoute: typeof AttendantReceiptsRouteImport
+      parentRoute: typeof AttendantRoute
+    }
+    '/attendant/profile': {
+      id: '/attendant/profile'
+      path: '/profile'
+      fullPath: '/attendant/profile'
+      preLoaderRoute: typeof AttendantProfileRouteImport
+      parentRoute: typeof AttendantRoute
+    }
+    '/attendant/payments': {
+      id: '/attendant/payments'
+      path: '/payments'
+      fullPath: '/attendant/payments'
+      preLoaderRoute: typeof AttendantPaymentsRouteImport
+      parentRoute: typeof AttendantRoute
+    }
+    '/attendant/notifications': {
+      id: '/attendant/notifications'
+      path: '/notifications'
+      fullPath: '/attendant/notifications'
+      preLoaderRoute: typeof AttendantNotificationsRouteImport
+      parentRoute: typeof AttendantRoute
+    }
+    '/attendant/notes': {
+      id: '/attendant/notes'
+      path: '/notes'
+      fullPath: '/attendant/notes'
+      preLoaderRoute: typeof AttendantNotesRouteImport
+      parentRoute: typeof AttendantRoute
+    }
+    '/attendant/intake': {
+      id: '/attendant/intake'
+      path: '/intake'
+      fullPath: '/attendant/intake'
+      preLoaderRoute: typeof AttendantIntakeRouteImport
+      parentRoute: typeof AttendantRoute
+    }
+    '/attendant/dispatch': {
+      id: '/attendant/dispatch'
+      path: '/dispatch'
+      fullPath: '/attendant/dispatch'
+      preLoaderRoute: typeof AttendantDispatchRouteImport
+      parentRoute: typeof AttendantRoute
+    }
+    '/attendant/customers': {
+      id: '/attendant/customers'
+      path: '/customers'
+      fullPath: '/attendant/customers'
+      preLoaderRoute: typeof AttendantCustomersRouteImport
+      parentRoute: typeof AttendantRoute
+    }
+    '/attendant/create': {
+      id: '/attendant/create'
+      path: '/create'
+      fullPath: '/attendant/create'
+      preLoaderRoute: typeof AttendantCreateRouteImport
+      parentRoute: typeof AttendantRoute
+    }
+    '/attendant/capture': {
+      id: '/attendant/capture'
+      path: '/capture'
+      fullPath: '/attendant/capture'
+      preLoaderRoute: typeof AttendantCaptureRouteImport
+      parentRoute: typeof AttendantRoute
+    }
     '/admin/zones': {
       id: '/admin/zones'
       path: '/zones'
@@ -887,10 +1153,38 @@ const AdminRouteChildren: AdminRouteChildren = {
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface AttendantRouteChildren {
+  AttendantCaptureRoute: typeof AttendantCaptureRoute
+  AttendantCreateRoute: typeof AttendantCreateRoute
+  AttendantCustomersRoute: typeof AttendantCustomersRoute
+  AttendantDispatchRoute: typeof AttendantDispatchRoute
+  AttendantIntakeRoute: typeof AttendantIntakeRoute
+  AttendantNotesRoute: typeof AttendantNotesRoute
+  AttendantNotificationsRoute: typeof AttendantNotificationsRoute
+  AttendantPaymentsRoute: typeof AttendantPaymentsRoute
+  AttendantProfileRoute: typeof AttendantProfileRoute
+  AttendantReceiptsRoute: typeof AttendantReceiptsRoute
+  AttendantShipmentsRoute: typeof AttendantShipmentsRoute
+  AttendantSignoutRoute: typeof AttendantSignoutRoute
+  AttendantSummaryRoute: typeof AttendantSummaryRoute
+  AttendantTrackRoute: typeof AttendantTrackRoute
   AttendantIndexRoute: typeof AttendantIndexRoute
 }
 
 const AttendantRouteChildren: AttendantRouteChildren = {
+  AttendantCaptureRoute: AttendantCaptureRoute,
+  AttendantCreateRoute: AttendantCreateRoute,
+  AttendantCustomersRoute: AttendantCustomersRoute,
+  AttendantDispatchRoute: AttendantDispatchRoute,
+  AttendantIntakeRoute: AttendantIntakeRoute,
+  AttendantNotesRoute: AttendantNotesRoute,
+  AttendantNotificationsRoute: AttendantNotificationsRoute,
+  AttendantPaymentsRoute: AttendantPaymentsRoute,
+  AttendantProfileRoute: AttendantProfileRoute,
+  AttendantReceiptsRoute: AttendantReceiptsRoute,
+  AttendantShipmentsRoute: AttendantShipmentsRoute,
+  AttendantSignoutRoute: AttendantSignoutRoute,
+  AttendantSummaryRoute: AttendantSummaryRoute,
+  AttendantTrackRoute: AttendantTrackRoute,
   AttendantIndexRoute: AttendantIndexRoute,
 }
 
