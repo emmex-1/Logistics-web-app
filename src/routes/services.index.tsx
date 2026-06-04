@@ -27,18 +27,6 @@ export const Route = createFileRoute("/services/")({
   component: ServicesPage,
 });
 
-/* ─── LAGOS-RELEVANT SERVICES ONLY ─── */
-// Filter to only Lagos bike-delivery relevant services
-// const LAGOS_SERVICE_SLUGS = [
-//   "same-day-delivery",
-//   "express-delivery",
-//   "dispatch-rider",
-//   "ecommerce-delivery",
-//   "business-logistics",
-//   "scheduled-pickups",
-//   "document-parcel",
-// ];
-
 const SERVICE_IMAGES: Record<string, string> = {
   "same-day-delivery":  "https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=700&q=80",
   "express-delivery":   "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80",
@@ -133,7 +121,7 @@ function HeroSection() {
 }
 
 /* ═══════════════════════════════════════════
-   2. SERVICES GRID — Lagos bike-relevant only
+   2. SERVICES GRID
 ═══════════════════════════════════════════ */
 function ServicesGrid() {
   return (
@@ -204,8 +192,9 @@ function ServicesGrid() {
     </section>
   );
 }
+
 /* ═══════════════════════════════════════════
-   3. WHY BUSINESSES CHOOSE US — glass cards on black bg
+   3. WHY BUSINESSES CHOOSE US
 ═══════════════════════════════════════════ */
 const WHY_US = [
   { icon: Zap,         title: "Fast Turnaround",     desc: "Quick pickups and timely deliveries across all 20 Lagos LGAs via our professional bike fleet." },
@@ -271,7 +260,7 @@ function WhyChooseUs() {
 }
 
 /* ═══════════════════════════════════════════
-   4. INDUSTRIES WE SERVE — redesigned with icons
+   4. INDUSTRIES WE SERVE — FIXED RESPONSIVE
 ═══════════════════════════════════════════ */
 const INDUSTRIES = [
   { label: "E-commerce",               Icon: ShoppingBag,   color: "#ef0004" },
@@ -301,7 +290,10 @@ function Industries() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
+        {/* FIX: Changed to 1 col on mobile, 2 on sm, 3 on lg.
+            Icon is flex-shrink-0 and has a fixed min-width.
+            Label uses min-w-0 + break-words so it wraps instead of overflowing. */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {INDUSTRIES.map((ind) => {
             const Icon = ind.Icon;
             return (
@@ -311,21 +303,24 @@ function Industries() {
                 style={{
                   background: "#fff",
                   border: "1px solid #eaeaea",
+                  minWidth: 0, // prevent grid blowout
                 }}
               >
-                {/* Icon circle */}
+                {/* Icon circle — fixed size, never shrinks */}
                 <div
                   className="flex items-center justify-center rounded-xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
                   style={{
                     width: "46px",
                     height: "46px",
+                    minWidth: "46px",
                     background: `${ind.color}14`,
                     border: `1.5px solid ${ind.color}30`,
                   }}
                 >
                   <Icon size={20} color={ind.color} strokeWidth={1.8} />
                 </div>
-                {/* Label */}
+
+                {/* Label — min-w-0 allows text to wrap within flex container */}
                 <p
                   style={{
                     fontFamily: "'Syne', sans-serif",
@@ -333,6 +328,8 @@ function Industries() {
                     fontWeight: 700,
                     color: "#0f0f0f",
                     lineHeight: 1.3,
+                    minWidth: 0,
+                    wordBreak: "break-word",
                   }}
                 >
                   {ind.label}
@@ -347,9 +344,7 @@ function Industries() {
 }
 
 /* ═══════════════════════════════════════════
-   5. HOW IT WORKS — Zendsolv-inspired layout
-   Large ghost numbers behind, icon boxes above connectors,
-   step number badge top-right of icon, title + desc below
+   5. HOW IT WORKS
 ═══════════════════════════════════════════ */
 const PROCESS_STEPS = [
   {
@@ -429,7 +424,7 @@ function DeliveryProcess() {
             const isLast = i === PROCESS_STEPS.length - 1;
 
             return (
-              <div key={p.step} className="relative flex flex-col" style={{ paddingRight: isLast ? "0" : "0" }}>
+              <div key={p.step} className="relative flex flex-col">
 
                 {/* Ghost number watermark */}
                 <div
@@ -466,7 +461,7 @@ function DeliveryProcess() {
                   >
                     <Icon size={22} color={isActive ? "#fff" : "#555"} strokeWidth={1.8} />
 
-                    {/* Step badge — top right of icon */}
+                    {/* Step badge */}
                     <span
                       style={{
                         position: "absolute",

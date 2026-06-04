@@ -123,7 +123,8 @@ function IntroSection() {
   return (
     <section style={{ background: "#fff", padding: "96px 0" }}>
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
+        
+<div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
 
           {/* LEFT — text content */}
           <div className="lg:w-[55%] flex flex-col gap-5">
@@ -469,6 +470,8 @@ function WhyChooseUs() {
 /* ─────────────────────────────────────────
    VALIDATION / TRUST SECTION
 ───────────────────────────────────────── */
+// Replace the entire Validation function with this:
+
 function Validation() {
   return (
     <section style={{ background: "#0a0a0a", padding: "100px 0" }}>
@@ -517,8 +520,48 @@ function Validation() {
 
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
 
-          {/* LEFT — verification text content */}
-          <div className="lg:w-1/2 flex flex-col gap-6">
+          {/* CAC image — order-first on mobile, order-last on desktop (right column) */}
+          <div className="w-full lg:w-1/2 order-first lg:order-last">
+            <div
+              className="rounded-2xl overflow-hidden"
+              style={{
+                background: "#1a1a1a",
+                border: "1px solid rgba(255,255,255,0.08)",
+                padding: "24px",
+              }}
+            >
+              <motion.div
+                initial={{ opacity: 0, x: 24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="flex justify-center"
+              >
+                <div className="w-full max-w-md overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-sm">
+                  <div className="h-[500px] overflow-hidden rounded-xl border border-border/60 bg-muted">
+                    <img
+                      src="./media/qrcac.jpg"
+                      alt="Certificate of Incorporation"
+                      className="h-full w-full object-cover mix-blend-normal dark:opacity-90 dark:contrast-125"
+                      loading="lazy"
+                    />
+                  </div>
+                  <p className="mt-3 text-center text-xs text-muted-foreground/60 font-mono">
+                    Certificate of Incorporation — QuickReach Logistics
+                  </p>
+                </div>
+              </motion.div>
+              <p
+                className="text-center mt-3"
+                style={{ color: "rgba(255,255,255,0.4)", fontSize: "12px" }}
+              >
+                Certificate of Incorporation — Corporate Affairs Commission
+              </p>
+            </div>
+          </div>
+
+          {/* Text — order-last on mobile, order-first on desktop (left column) */}
+          <div className="lg:w-1/2 flex flex-col gap-6 order-last lg:order-first">
             <span
               style={{
                 fontSize: "11px",
@@ -569,55 +612,11 @@ function Validation() {
             </div>
           </div>
 
-          {/* RIGHT — CAC document image card */}
-          <div className="lg:w-1/2 w-full">
-            <div
-              className="rounded-2xl overflow-hidden"
-              style={{
-                background: "#1a1a1a",
-                border: "1px solid rgba(255,255,255,0.08)",
-                padding: "24px",
-              }}
-            >
-              {/* CAC Certificate Image — replace src with your actual CAC image path */}
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex justify-center"
-          >
-            <div className="w-full max-w-md overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-sm">
-<div className="h-[500px] overflow-hidden rounded-xl border border-border/60 bg-muted">
-  <img
-    src="./media/qrcac.jpg"
-    alt="Certificate of Incorporation"
-    className="h-full w-full object-cover mix-blend-normal dark:opacity-90 dark:contrast-125"
-    loading="lazy"
-  />
-</div>
-              <p className="mt-3 text-center text-xs text-muted-foreground/60 font-mono">
-                Certificate of Incorporation — Rexsolv Limited
-              </p>
-            </div>
-          </motion.div>
-
-              {/* Caption */}
-              <p
-                className="text-center mt-3"
-                style={{ color: "rgba(255,255,255,0.4)", fontSize: "12px" }}
-              >
-                Certificate of Incorporation — Corporate Affairs Commission
-              </p>
-            </div>
-          </div>
-
         </div>
       </div>
     </section>
   );
 }
-
 /* ─────────────────────────────────────────
    MEET OUR TEAM
 ───────────────────────────────────────── */

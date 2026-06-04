@@ -27,6 +27,11 @@ import {
   Bike,
   Shield,
   X,
+  // How It Works icons
+  ClipboardList,
+  Zap as ZapIcon,
+  CheckSquare,
+  Bike as BikeIcon,
 } from "lucide-react";
 import { BRAND, NGN } from "@/constants";
 import { useBookingStore } from "@/store";
@@ -77,15 +82,12 @@ const CARGO_CATEGORIES = [
   "Other",
 ];
 
-// Categories that always trigger custom quote
 const CUSTOM_QUOTE_TRIGGERS = new Set([
   "Furniture",
   "Bulky / Oversized",
   "Multiple Drop-offs",
 ]);
 
-// Base route pricing (from the price image, Ajah-based reference)
-// We derive a distance proxy from a simplified zone map
 type Zone = 1 | 2 | 3 | 4 | 5;
 const AREA_ZONE: Record<string, Zone> = {
   "Ajah": 1, "Sangotodo": 1, "Chevron": 1, "Orchid": 1, "VGC": 1, "Ogombo": 1,
@@ -179,7 +181,7 @@ function calculateQuote(
 }
 
 /* ─────────────────────────────────────────
-   HERO SECTION — matches About/Services style
+   HERO SECTION
 ───────────────────────────────────────── */
 function HeroSection() {
   return (
@@ -295,7 +297,6 @@ function Combobox({
     const handler = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);
-        // if allowCustom and user typed something not in list, keep it
         if (allowCustom && query && !options.includes(query)) {
           onChange(query);
         }
@@ -378,8 +379,10 @@ function QuotePage() {
   const setDraft = useBookingStore((s) => s.setDraft);
 
   // Form state
-  const [pickup, setPickup] = useState("");
-  const [dest, setDest] = useState("");
+  const [pickupArea, setPickupArea] = useState("");
+  const [pickupAddress, setPickupAddress] = useState("");
+  const [destArea, setDestArea] = useState("");
+  const [destAddress, setDestAddress] = useState("");
   const [cargo, setCargo] = useState("");
   const [description, setDescription] = useState("");
   const [weight, setWeight] = useState<number>(1);
@@ -395,32 +398,32 @@ function QuotePage() {
   const [calculated, setCalculated] = useState(false);
 
   const handleCalculate = () => {
-    if (!pickup || !dest) {
-      toast.error("Please enter both pickup and delivery locations.");
+    if (!pickupArea || !destArea) {
+      toast.error("Please enter both pickup and delivery areas.");
       return;
     }
     if (!cargo) {
       toast.error("Please select or enter an item category.");
       return;
     }
-    const r = calculateQuote(pickup, dest, cargo, weight, urgency, insured, declaredValue);
+    const r = calculateQuote(pickupArea, destArea, cargo, weight, urgency, insured, declaredValue);
     setResult(r);
     setCalculated(true);
-    // Scroll to result
     setTimeout(() => {
       document.getElementById("quote-result")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 100);
   };
 
-  // Build WhatsApp pre-filled message
   const buildWhatsAppURL = () => {
     const phone = (BRAND.phone ?? "2348000000000").replace(/\D/g, "");
     const msg = `Hello,
 
 I would like to request a custom delivery quote.
 
-Pickup Location: ${pickup || "(not provided)"}
-Delivery Location: ${dest || "(not provided)"}
+Pickup Area: ${pickupArea || "(not provided)"}
+Pickup Address: ${pickupAddress || "(not provided)"}
+Delivery Area: ${destArea || "(not provided)"}
+Delivery Address: ${destAddress || "(not provided)"}
 Item Category: ${cargo || "(not provided)"}
 Item Description: ${description || "(not provided)"}
 Estimated Weight: ${weight ? `${weight} kg` : "(not provided)"}
@@ -469,7 +472,7 @@ Thank you.`;
                     Tell us about your delivery
                   </h2>
                   <p style={{ color: "#666", fontSize: "14px", marginTop: "6px" }}>
-                    Type any address or pick from suggestions. All fields help us calculate accurately.
+                    Enter the area and full street address for both pickup and delivery.
                   </p>
                 </div>
 
@@ -497,30 +500,62 @@ Thank you.`;
 
                   <div className="space-y-6 p-6">
 
-                    {/* Route */}
-                    <div className="space-y-3">
+                    {/* ── ROUTE — area + exact address for both ── */}
+                    <div className="space-y-4">
                       <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                         <MapPin className="h-3.5 w-3.5" style={{ color: "#ef0004" }} />
-                        Route
+                        Pickup Location
                       </p>
-                      <div className="grid gap-3 sm:grid-cols-2">
+
+                      {/* Pickup */}
+                      <div className="rounded-xl border border-border p-4 space-y-3" style={{ background: "#fafafa" }}>
                         <div className="space-y-1.5">
-                          <Label className="text-sm font-medium">Pickup Location</Label>
+                          <Label className="text-sm font-medium">Pickup Area</Label>
                           <Combobox
-                            value={pickup}
-                            onChange={setPickup}
+                            value={pickupArea}
+                            onChange={setPickupArea}
                             options={LAGOS_AREAS}
-                            placeholder="Type or pick area…"
+                            placeholder="Select or type area…"
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <Label className="text-sm font-medium">Delivery Location</Label>
-                          <Combobox
-                            value={dest}
-                            onChange={setDest}
-                            options={LAGOS_AREAS}
-                            placeholder="Type or pick area…"
+                          <Label className="text-sm font-medium">Pickup Street Address</Label>
+                          <Input
+                            value={pickupAddress}
+                            onChange={(e) => setPickupAddress(e.target.value)}
+                            placeholder="e.g. 12 Admiralty Way, Lekki Phase 1"
                           />
+                          <p className="text-xs text-muted-foreground">
+                            Full address helps the rider locate you quickly
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Delivery */}
+                      <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground mt-2">
+                        <MapPin className="h-3.5 w-3.5" style={{ color: "#22c55e" }} />
+                        Delivery Location
+                      </p>
+                      <div className="rounded-xl border border-border p-4 space-y-3" style={{ background: "#fafafa" }}>
+                        <div className="space-y-1.5">
+                          <Label className="text-sm font-medium">Delivery Area</Label>
+                          <Combobox
+                            value={destArea}
+                            onChange={setDestArea}
+                            options={LAGOS_AREAS}
+                            placeholder="Select or type area…"
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label className="text-sm font-medium">Delivery Street Address</Label>
+                          <Input
+                            value={destAddress}
+                            onChange={(e) => setDestAddress(e.target.value)}
+                            placeholder="e.g. 45 Allen Avenue, Ikeja"
+                          />
+                          <p className="text-xs text-muted-foreground">
+                            Full address ensures accurate delivery to the receiver
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -717,7 +752,7 @@ Thank you.`;
                   </div>
                 </Card>
 
-                {/* Custom quote CTA — for customers who can't find their spec */}
+                {/* Custom quote CTA */}
                 <div
                   className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl px-5 py-4"
                   style={{ background: "#0f0f0f" }}
@@ -768,7 +803,6 @@ Thank you.`;
                           Fill in your shipment details and click "Calculate My Price" for an instant result.
                         </p>
                       </div>
-                      {/* Placeholder tier cards */}
                       <div className="mt-2 grid w-full max-w-sm grid-cols-2 gap-2">
                         {["Standard", "Express", "Same Day", "Scheduled"].map((t) => (
                           <div key={t} className="rounded-xl border bg-white px-4 py-3 text-left opacity-40">
@@ -781,8 +815,10 @@ Thank you.`;
                   ) : result?.canAutoPrice ? (
                     <AutoPriceResult
                       result={result}
-                      pickup={pickup}
-                      dest={dest}
+                      pickupArea={pickupArea}
+                      pickupAddress={pickupAddress}
+                      destArea={destArea}
+                      destAddress={destAddress}
                       urgency={urgency}
                       insured={insured}
                       onBook={handleBook}
@@ -818,21 +854,28 @@ Thank you.`;
 ───────────────────────────────────────── */
 function AutoPriceResult({
   result,
-  pickup,
-  dest,
+  pickupArea,
+  pickupAddress,
+  destArea,
+  destAddress,
   urgency,
   insured,
   onBook,
   onWhatsApp,
 }: {
   result: QuoteResult;
-  pickup: string;
-  dest: string;
+  pickupArea: string;
+  pickupAddress: string;
+  destArea: string;
+  destAddress: string;
   urgency: string;
   insured: boolean;
   onBook: () => void;
   onWhatsApp: string;
 }) {
+  const pickupLabel = pickupAddress ? `${pickupAddress}, ${pickupArea}` : pickupArea;
+  const destLabel = destAddress ? `${destAddress}, ${destArea}` : destArea;
+
   return (
     <motion.div
       key="auto"
@@ -863,16 +906,16 @@ function AutoPriceResult({
                 {result.eta}
               </span>
             </div>
-            <div className="flex items-center gap-2 mt-1.5">
-              <MapPin size={13} color="rgba(255,255,255,0.5)" />
-              <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "13px" }}>
-                {pickup} → {dest}
+            <div className="flex items-start gap-2 mt-1.5">
+              <MapPin size={13} color="rgba(255,255,255,0.5)" className="flex-shrink-0 mt-0.5" />
+              <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "13px", wordBreak: "break-word" }}>
+                {pickupLabel} → {destLabel}
               </span>
             </div>
           </div>
           <div
-            className="flex items-center justify-center rounded-2xl"
-            style={{ width: "56px", height: "56px", background: "rgba(239,0,4,0.15)", flexShrink: 0 }}
+            className="flex items-center justify-center rounded-2xl flex-shrink-0"
+            style={{ width: "56px", height: "56px", background: "rgba(239,0,4,0.15)" }}
           >
             <CheckCircle2 size={28} style={{ color: "#ef0004" }} />
           </div>
@@ -977,15 +1020,14 @@ function CustomQuoteResult({
       exit={{ opacity: 0 }}
       className="space-y-5"
     >
-      {/* Custom quote alert */}
       <div
         className="rounded-2xl p-6 flex flex-col gap-4"
         style={{ background: "linear-gradient(135deg, #78350f 0%, #92400e 100%)" }}
       >
         <div className="flex items-center gap-3">
           <div
-            className="flex items-center justify-center rounded-xl"
-            style={{ width: "48px", height: "48px", background: "rgba(245,158,11,0.2)", flexShrink: 0 }}
+            className="flex items-center justify-center rounded-xl flex-shrink-0"
+            style={{ width: "48px", height: "48px", background: "rgba(245,158,11,0.2)" }}
           >
             <AlertTriangle size={24} color="#f59e0b" />
           </div>
@@ -1011,7 +1053,6 @@ function CustomQuoteResult({
         </p>
       </div>
 
-      {/* What happens next */}
       <Card className="p-5 shadow-sm">
         <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
           What Happens Next
@@ -1036,7 +1077,6 @@ function CustomQuoteResult({
         </div>
       </Card>
 
-      {/* WhatsApp CTA */}
       <a
         href={whatsAppURL}
         target="_blank"
@@ -1057,8 +1097,35 @@ function CustomQuoteResult({
 }
 
 /* ─────────────────────────────────────────
-   HOW IT WORKS
+   HOW IT WORKS — ICONS INSTEAD OF EMOJIS
 ───────────────────────────────────────── */
+const HOW_IT_WORKS_STEPS = [
+  {
+    Icon: ClipboardList,
+    title: "Enter Details",
+    step: "01.",
+    desc: "Type your pickup area, full street address, delivery location, item details, and preferred speed.",
+  },
+  {
+    Icon: Calculator,
+    title: "Get Instant Price",
+    step: "02.",
+    desc: "Our system calculates your exact fare in real time — no waiting, no calls.",
+  },
+  {
+    Icon: CheckCircle2,
+    title: "Book Delivery",
+    step: "03.",
+    desc: "Hit 'Book This Delivery' to confirm. Special requests go straight to WhatsApp.",
+  },
+  {
+    Icon: Bike,
+    title: "Rider Dispatched",
+    step: "04.",
+    desc: "Your box-bike rider is dispatched and you track every km in real time.",
+  },
+];
+
 function HowItWorks() {
   return (
     <section style={{ background: "#f8f8f8", padding: "80px 0" }}>
@@ -1072,27 +1139,35 @@ function HowItWorks() {
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {[
-            { step: "01.", icon: "📍", title: "Enter Details", desc: "Type your pickup and delivery locations, item details, and preferred speed." },
-            { step: "02.", icon: "⚡", title: "Get Instant Price", desc: "Our system calculates your exact fare in real time — no waiting, no calls." },
-            { step: "03.", icon: "✅", title: "Book Delivery", desc: "Hit 'Book This Delivery' to confirm. Special requests go straight to WhatsApp." },
-            { step: "04.", icon: "🛵", title: "Rider Dispatched", desc: "Your box-bike rider is dispatched and you track every km in real time." },
-          ].map((v) => (
-            <div
-              key={v.step}
-              className="rounded-2xl p-6 flex flex-col gap-4"
-              style={{ background: "#fff", border: "1px solid #eee" }}
-            >
-              <div className="flex items-center gap-3">
-                <span style={{ fontSize: "24px" }}>{v.icon}</span>
-                <span style={{ fontFamily: "'Syne', sans-serif", fontSize: "13px", fontWeight: 700, color: "#ef0004" }}>{v.step}</span>
+          {HOW_IT_WORKS_STEPS.map((v) => {
+            const Icon = v.Icon;
+            return (
+              <div
+                key={v.step}
+                className="rounded-2xl p-6 flex flex-col gap-4"
+                style={{ background: "#fff", border: "1px solid #eee" }}
+              >
+                <div className="flex items-center gap-3">
+                  {/* Icon box */}
+                  <div
+                    className="flex items-center justify-center rounded-xl flex-shrink-0"
+                    style={{ width: "40px", height: "40px", background: "rgba(239,0,4,0.08)", border: "1px solid rgba(239,0,4,0.15)" }}
+                  >
+                    <Icon size={20} color="#ef0004" strokeWidth={1.8} />
+                  </div>
+                  <span style={{ fontFamily: "'Syne', sans-serif", fontSize: "13px", fontWeight: 700, color: "#ef0004" }}>
+                    {v.step}
+                  </span>
+                </div>
+                <div>
+                  <p style={{ fontFamily: "'Syne', sans-serif", fontSize: "16px", fontWeight: 700, color: "#0f0f0f", marginBottom: "6px" }}>
+                    {v.title}
+                  </p>
+                  <p style={{ fontSize: "13px", color: "#666", lineHeight: 1.65 }}>{v.desc}</p>
+                </div>
               </div>
-              <div>
-                <p style={{ fontFamily: "'Syne', sans-serif", fontSize: "16px", fontWeight: 700, color: "#0f0f0f", marginBottom: "6px" }}>{v.title}</p>
-                <p style={{ fontSize: "13px", color: "#666", lineHeight: 1.65 }}>{v.desc}</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -1100,7 +1175,7 @@ function HowItWorks() {
 }
 
 /* ─────────────────────────────────────────
-   FINAL CTA — matches About page style
+   FINAL CTA
 ───────────────────────────────────────── */
 function FinalCTA({ whatsAppURL }: { whatsAppURL: string }) {
   return (
