@@ -68,9 +68,9 @@ function Hero() {
   const handleTrack = () => navigate({ to: "/track" });
 
     const heroImages = [
-    "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1800&q=80",
-    "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1800&q=80",
-    "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1800&q=80",
+    "/media/rider5.jpg",
+    "/media/rd.png",
+    "/media/rider3.jpg",
   ];
   const [bgIndex, setBgIndex] = useState(0);
 
@@ -113,7 +113,7 @@ function Hero() {
           lineHeight: 1,
         }}
       >
-        QuickReach Logistics
+        {/* QuickReach Logistics */}
       </div>
 
       <div
@@ -203,10 +203,10 @@ function Hero() {
                     className="rounded-full px-3 py-1 text-xs font-bold text-white"
                     style={{ background: "#d35c5e" }}
                   >
-                    Track Shipment
+                    Track Delivery
                   </div>
                   <span className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
-                    Enter details below
+                    Enter number below
                   </span>
                 </div>
               </div>
@@ -239,7 +239,7 @@ function Hero() {
                   className="w-full rounded-xl py-3.5 text-sm font-bold flex items-center justify-center gap-2 transition-all hover:opacity-90 active:scale-[0.99]"
                   style={{ background: "#ef0004", color: "#fff" }}
                 >
-                  Track Shipment <ArrowUpRight className="h-4 w-4" />
+                  Track Delivery <ArrowUpRight className="h-4 w-4" />
                 </button>
               </div>
             </div>
@@ -357,25 +357,25 @@ function ServicesOverview() {
 function ServiceImageGrid() {
   const cards = [
     {
-      img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80",
+      img: "/media/rider5.jpg",
       title: "Same-Day Delivery",
       desc: "Fast pickup and delivery across Lagos for urgent parcels, documents, and customer orders.",
       tag: "Express",
     },
     {
-      img: "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=800&q=80",
+      img: "/media/rider1.jpg",
       title: "Business Logistics",
       desc: "Professional riders available for personal, business, and recurring delivery needs.",
       tag: "Rider Service",
     },
     {
-      img: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=800&q=80",
+      img: "/media/ride.jpg",
       title: "E-commerce Delivery",
       desc: "Reliable last-mile delivery for online stores, Instagram vendors, and growing businesses.",
       tag: "E-commerce",
     },
     {
-      img: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&q=80",
+      img: "/media/rider3.jpg",
       title: "Multi-Stop Delivery",
       desc: "Efficient delivery routes for businesses sending packages to multiple locations in Lagos.",
       tag: "Business",
@@ -518,13 +518,13 @@ function WhyChooseUs() {
       // icon: Zap,
       title: "Fast Turnaround",
       desc: "Quick pickups and timely deliveries across all LGAs.",
-      img: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&q=70",
+      img: "/media/huge.jpg",
     },
     {
       // icon: Users,
       title: "Professional Riders",
       desc: "Trained, vetted, and fully tracked personnel.",
-      img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=70",
+      img: "/media/rd.png",
     },
     {
       // icon: MapPin,
@@ -542,13 +542,13 @@ function WhyChooseUs() {
       // icon: Shield,
       title: "Secure Handling",
       desc: "Insured cargo with signature confirmation.",
-      img: "https://images.unsplash.com/photo-1553413077-190dd305871c?w=600&q=70",
+      img: "/media/del.jpg",
     },
     {
       // icon: Headphones,
       title: "Dedicated Support",
       desc: "WhatsApp and voice support, available 24/7.",
-      img: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=600&q=70",
+      img: "/media/qrb.jpg",
     },
   ];
 
@@ -566,7 +566,7 @@ function WhyChooseUs() {
           left: 0,
           right: 0,
           bottom: "-20%",
-          backgroundImage: "url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1800&q=75')",
+          backgroundImage: "url('/media/rceo.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           zIndex: 0,
@@ -785,7 +785,7 @@ function DeliveryRateBanner() {
                 className="text-xs uppercase tracking-widest mb-3"
                 style={{ color: "rgba(255, 34, 0, 0.8)", fontWeight: 700 }}
               >
-                ● Delivery Rate Announcement
+                ● Delivery Rate
               </p>
               <h2
                 style={{
@@ -831,7 +831,7 @@ function DeliveryRateBanner() {
                     letterSpacing: "-2px",
                   }}
                 >
-                  20%
+                  10%
                 </div>
                 <div className="text-xs font-semibold mt-1" style={{ color: "rgba(255,255,255,0.6)" }}>
                   OFF every 10 parcels
@@ -1703,7 +1703,7 @@ function FAQ() {
           <div className="relative hidden lg:block">
 <div className="relative overflow-hidden rounded-3xl" style={{ height: "560px" }}>
   <img
-    src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80"
+    src="/media/rider5.jpg"
     alt="Delivery"
     className="w-full h-full object-cover"
   />
@@ -1758,7 +1758,7 @@ function FinalCTA() {
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: "url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1600&q=80')",
+              backgroundImage: "url('/media/huge.jpg')",
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}

@@ -77,13 +77,13 @@ export const DELIVERY_CATEGORIES: DeliveryCategory[] = [
     tint: "from-slate-400/30 to-zinc-400/20",
     img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=70",
   },
-  {
-    id: "furniture", name: "Furniture", icon: Sofa,
-    blurb: "Mini-truck and trailer fleet for big drops.",
-    bullets: ["Chairs", "Tables", "Office furniture"],
-    tint: "from-amber-500/30 to-yellow-400/20",
-    img: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=70",
-  },
+  // {
+  //   id: "furniture", name: "Furniture", icon: Sofa,
+  //   blurb: "Mini-truck and trailer fleet for big drops.",
+  //   bullets: ["Chairs", "Tables", "Office furniture"],
+  //   tint: "from-amber-500/30 to-yellow-400/20",
+  //   img: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=70",
+  // },
   {
     id: "gifts", name: "Gifts & Personal", icon: Gift,
     blurb: "White-glove care for thoughtful arrivals.",
@@ -91,11 +91,11 @@ export const DELIVERY_CATEGORIES: DeliveryCategory[] = [
     tint: "from-violet-400/30 to-purple-400/20",
     img: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&q=70",
   },
-  {
-    id: "bulk", name: "Bulk Goods", icon: Boxes,
-    blurb: "Wholesale and distributor stock at scale.",
-    bullets: ["Cartons", "Wholesale", "Distributor stock"],
-    tint: "from-lime-400/30 to-emerald-400/20",
-    img: "https://images.unsplash.com/photo-1553413077-190dd305871c?w=600&q=70",
-  },
+  // {
+  //   id: "bulk", name: "Bulk Goods", icon: Boxes,
+  //   blurb: "Wholesale and distributor stock at scale.",
+  //   bullets: ["Cartons", "Wholesale", "Distributor stock"],
+  //   tint: "from-lime-400/30 to-emerald-400/20",
+  //   img: "https://images.unsplash.com/photo-1553413077-190dd305871c?w=600&q=70",
+  // },
 ];

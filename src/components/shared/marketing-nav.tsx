@@ -6,20 +6,20 @@ import { cn } from "@/lib/utils";
 const services = [
   { label: "Express Delivery",      slug: "express-delivery" },
   { label: "Scheduled Delivery",    slug: "scheduled-delivery" },
-  { label: "Bulk Freight",          slug: "bulk-freight" },
-  { label: "Cold Chain",            slug: "cold-chain" },
+  // { label: "Bulk Freight",          slug: "bulk-freight" },
+  // { label: "Cold Chain",            slug: "cold-chain" },
   { label: "E-Commerce Fulfilment", slug: "ecommerce-fulfilment" },
-  { label: "Corporate Logistics",   slug: "corporate-logistics" },
+  // { label: "Corporate Logistics",   slug: "corporate-logistics" },
   { label: "Warehouse & Storage",   slug: "warehouse-storage" },
   { label: "Package Pickup",        slug: "package-pickup" },
 ];
 
-const resources = [
-  ["Blog", "/blog"],
-  ["Case Studies", "/case-studies"],
-  ["API Docs", "/docs"],
-  ["Help Center", "/help"],
-];
+// const resources = [
+//   ["Blog", "/blog"],
+//   ["Case Studies", "/case-studies"],
+//   ["API Docs", "/docs"],
+//   ["Help Center", "/help"],
+// ];
 
 export function MarketingNav() {
   const [open, setOpen] = useState(false);
@@ -164,7 +164,7 @@ export function MarketingNav() {
           </Link>
 
           {/* Resources dropdown */}
-          <div
+          {/* <div
             className="relative"
             onMouseEnter={() => setRes(true)}
             onMouseLeave={() => setRes(false)}
@@ -197,7 +197,7 @@ export function MarketingNav() {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
 
           <Link
             to="/contact"

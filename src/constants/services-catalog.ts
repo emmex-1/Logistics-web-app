@@ -344,78 +344,78 @@ export const SERVICES: ServiceDetail[] = [
     ],
   },
 
-  {
-    slug: "cold-chain",
-    title: "Cold Chain",
-    tagline: "Temperature-controlled delivery for perishables and pharma.",
-    description:
-      "Pharmaceuticals, fresh produce, dairy, and frozen foods demand an unbroken cold chain. Our refrigerated vans and data-logged temperature sensors ensure your goods arrive at exactly the right temperature.",
-    icon: Thermometer,
-    tint: "from-cyan-50 to-indigo-50 dark:from-cyan-950/30 dark:to-indigo-950/20",
-    eta: "4 – 48 hrs",
-    priceFrom: "₦4,500",
-    highlights: [
-      "Refrigerated vans: 2°C to 8°C and -18°C to -22°C zones",
-      "Continuous IoT temperature logging",
-      "NAFDAC-compliant pharmaceutical transport",
-      "Temperature excursion alerts in real time",
-      "Insulated packaging available on request",
-      "Certificate of temperature compliance on delivery",
-    ],
-    features: [
-      { title: "Dual Temp Zones", desc: "Chilled (2–8°C) and frozen (-18 to -22°C) available in the same vehicle with partition." },
-      { title: "IoT Data Loggers", desc: "Sensor readings every 5 minutes; exportable PDF report provided on delivery." },
-      { title: "NAFDAC Compliant", desc: "All pharmaceutical runs follow GDP (Good Distribution Practice) guidelines." },
-      { title: "Excursion Alerts", desc: "If temperature deviates from range, you and our ops team are alerted immediately." },
-    ],
-    bestFor: [
-      { label: "Pharmaceutical Companies", desc: "Move vaccines, insulin, and biologics safely across the supply chain." },
-      { label: "Supermarkets & Food Retail", desc: "Replenish chilled and frozen aisles without breaking the cold chain." },
-      { label: "Restaurants & Hotels", desc: "Receive fresh produce and seafood that arrives as good as it left." },
-      { label: "Laboratories", desc: "Transport blood samples, cultures, and reagents under strict temperature control." },
-    ],
-    coverageAreas: [
-      { zone: "Lagos Metro", areas: ["All Lagos zones"], eta: "4 – 8 hrs" },
-      { zone: "South West Corridor", areas: ["Ibadan", "Abeokuta", "Sagamu"], eta: "8 – 16 hrs" },
-      { zone: "Abuja & FCT", areas: ["Central Abuja", "Gwagwalada", "Kubwa"], eta: "24 – 48 hrs" },
-    ],
-    pricing: [
-      { label: "Chilled", price: "From ₦4,500", description: "2–8°C. Documents, pharma, dairy, fresh produce up to 50 kg." },
-      { label: "Frozen", price: "From ₦6,500", description: "-18 to -22°C. Ice cream, frozen meat, and sensitive biologics.", popular: true },
-      { label: "GDP Pharma", price: "Custom", description: "Full NAFDAC-compliant documentation, dedicated vehicle, and compliance report." },
-    ],
-    useCases: [
-      "Hospital-to-hospital vaccine redistribution",
-      "Restaurant daily fresh seafood delivery",
-      "Supermarket frozen aisle restocking",
-      "Laboratory specimen inter-facility transport",
-      "Bakery cake and dessert delivery for events",
-    ],
-    process: [
-      { step: "Specify your temperature range", desc: "Tell us chilled or frozen, cargo type, and volume." },
-      { step: "Vehicle preparation", desc: "Our team pre-cools the van 30 minutes before pickup to ensure it's at target temp." },
-      { step: "Sensor-monitored transit", desc: "IoT loggers record temperature every 5 minutes throughout the journey." },
-      { step: "Delivery + compliance cert", desc: "Goods delivered in-range; a signed temperature certificate is emailed to you." },
-    ],
-    faqs: [
-      {
-        q: "What happens if there's a temperature excursion?",
-        a: "You're notified immediately via SMS and WhatsApp. If the excursion is our fault, we cover replacement costs per our SLA.",
-      },
-      {
-        q: "Can I see the temperature log after delivery?",
-        a: "Yes — a full PDF report with a time-stamped chart is automatically emailed to you within 30 minutes of delivery.",
-      },
-      {
-        q: "Do you supply insulated packaging?",
-        a: "We supply validated insulated boxes and gel packs at cost. Alternatively, we can pick up in your own packaging.",
-      },
-      {
-        q: "Are your vehicles NAFDAC-registered?",
-        a: "Yes, our pharmaceutical-grade fleet holds current NAFDAC Good Distribution Practice (GDP) certification.",
-      },
-    ],
-  },
+  // {
+  //   slug: "cold-chain",
+  //   title: "Cold Chain",
+  //   tagline: "Temperature-controlled delivery for perishables and pharma.",
+  //   description:
+  //     "Pharmaceuticals, fresh produce, dairy, and frozen foods demand an unbroken cold chain. Our refrigerated vans and data-logged temperature sensors ensure your goods arrive at exactly the right temperature.",
+  //   icon: Thermometer,
+  //   tint: "from-cyan-50 to-indigo-50 dark:from-cyan-950/30 dark:to-indigo-950/20",
+  //   eta: "4 – 48 hrs",
+  //   priceFrom: "₦4,500",
+  //   highlights: [
+  //     "Refrigerated vans: 2°C to 8°C and -18°C to -22°C zones",
+  //     "Continuous IoT temperature logging",
+  //     "NAFDAC-compliant pharmaceutical transport",
+  //     "Temperature excursion alerts in real time",
+  //     "Insulated packaging available on request",
+  //     "Certificate of temperature compliance on delivery",
+  //   ],
+  //   features: [
+  //     { title: "Dual Temp Zones", desc: "Chilled (2–8°C) and frozen (-18 to -22°C) available in the same vehicle with partition." },
+  //     { title: "IoT Data Loggers", desc: "Sensor readings every 5 minutes; exportable PDF report provided on delivery." },
+  //     { title: "NAFDAC Compliant", desc: "All pharmaceutical runs follow GDP (Good Distribution Practice) guidelines." },
+  //     { title: "Excursion Alerts", desc: "If temperature deviates from range, you and our ops team are alerted immediately." },
+  //   ],
+  //   bestFor: [
+  //     { label: "Pharmaceutical Companies", desc: "Move vaccines, insulin, and biologics safely across the supply chain." },
+  //     { label: "Supermarkets & Food Retail", desc: "Replenish chilled and frozen aisles without breaking the cold chain." },
+  //     { label: "Restaurants & Hotels", desc: "Receive fresh produce and seafood that arrives as good as it left." },
+  //     { label: "Laboratories", desc: "Transport blood samples, cultures, and reagents under strict temperature control." },
+  //   ],
+  //   coverageAreas: [
+  //     { zone: "Lagos Metro", areas: ["All Lagos zones"], eta: "4 – 8 hrs" },
+  //     { zone: "South West Corridor", areas: ["Ibadan", "Abeokuta", "Sagamu"], eta: "8 – 16 hrs" },
+  //     { zone: "Abuja & FCT", areas: ["Central Abuja", "Gwagwalada", "Kubwa"], eta: "24 – 48 hrs" },
+  //   ],
+  //   pricing: [
+  //     { label: "Chilled", price: "From ₦4,500", description: "2–8°C. Documents, pharma, dairy, fresh produce up to 50 kg." },
+  //     { label: "Frozen", price: "From ₦6,500", description: "-18 to -22°C. Ice cream, frozen meat, and sensitive biologics.", popular: true },
+  //     { label: "GDP Pharma", price: "Custom", description: "Full NAFDAC-compliant documentation, dedicated vehicle, and compliance report." },
+  //   ],
+  //   useCases: [
+  //     "Hospital-to-hospital vaccine redistribution",
+  //     "Restaurant daily fresh seafood delivery",
+  //     "Supermarket frozen aisle restocking",
+  //     "Laboratory specimen inter-facility transport",
+  //     "Bakery cake and dessert delivery for events",
+  //   ],
+  //   process: [
+  //     { step: "Specify your temperature range", desc: "Tell us chilled or frozen, cargo type, and volume." },
+  //     { step: "Vehicle preparation", desc: "Our team pre-cools the van 30 minutes before pickup to ensure it's at target temp." },
+  //     { step: "Sensor-monitored transit", desc: "IoT loggers record temperature every 5 minutes throughout the journey." },
+  //     { step: "Delivery + compliance cert", desc: "Goods delivered in-range; a signed temperature certificate is emailed to you." },
+  //   ],
+  //   faqs: [
+  //     {
+  //       q: "What happens if there's a temperature excursion?",
+  //       a: "You're notified immediately via SMS and WhatsApp. If the excursion is our fault, we cover replacement costs per our SLA.",
+  //     },
+  //     {
+  //       q: "Can I see the temperature log after delivery?",
+  //       a: "Yes — a full PDF report with a time-stamped chart is automatically emailed to you within 30 minutes of delivery.",
+  //     },
+  //     {
+  //       q: "Do you supply insulated packaging?",
+  //       a: "We supply validated insulated boxes and gel packs at cost. Alternatively, we can pick up in your own packaging.",
+  //     },
+  //     {
+  //       q: "Are your vehicles NAFDAC-registered?",
+  //       a: "Yes, our pharmaceutical-grade fleet holds current NAFDAC Good Distribution Practice (GDP) certification.",
+  //     },
+  //   ],
+  // },
 
   {
     slug: "ecommerce-fulfilment",

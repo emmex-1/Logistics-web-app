@@ -16,6 +16,10 @@ import {
   Clock,
   ArrowRight,
   Scan,
+  ArrowUpRight,
+  MapPin,
+  Bell,
+  Star,
 } from "lucide-react";
 import { trackingService } from "@/services/shipment.service";
 import { mockShipments } from "@/mock/data";
@@ -26,21 +30,457 @@ export const Route = createFileRoute("/track")({
   head: () => ({
     meta: [
       { title: "Track Package — Quick Reach Logistics" },
-      {
-        name: "description",
-        content: "Track a Quick Reach Logistics shipment in real time.",
-      },
+      { name: "description", content: "Track a Quick Reach Logistics shipment in real time." },
     ],
   }),
   component: TrackPage,
 });
 
-const STEPS_PREVIEW = [
-  { icon: Package, label: "Booked", desc: "Order confirmed" },
-  { icon: Truck, label: "In Transit", desc: "Rider on the way" },
-  { icon: CheckCircle2, label: "Delivered", desc: "Package received" },
+/* ─────────────────────────────────────────
+   HERO — matches About/Services pattern
+───────────────────────────────────────── */
+function HeroSection({ code, setCode, onSubmit, pending }: {
+  code: string;
+  setCode: (v: string) => void;
+  onSubmit: () => void;
+  pending: boolean;
+}) {
+  return (
+    <section className="bg-white px-2 sm:px-3 pt-2 pb-0">
+      <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden min-h-[320px] sm:min-h-[420px] lg:min-h-[540px]">
+
+        {/* Background image */}
+        <img
+          src="https://images.unsplash.com/photo-1605745341112-85968b19335b?w=1600&q=80"
+          alt="Track your QuickReach Logistics delivery"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/82" />
+
+        {/* Red glow */}
+        <div
+          className="pointer-events-none absolute top-0 right-0 w-96 h-96 rounded-full opacity-15 blur-3xl"
+          style={{ background: "#ef0004" }}
+        />
+
+        {/* Content */}
+        <div className="relative z-10 flex flex-col justify-end min-h-[320px] sm:min-h-[420px] lg:min-h-[540px] px-6 sm:px-10 lg:px-16 pb-10 sm:pb-14 pt-20 sm:pt-28">
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="flex items-center gap-2 mb-3"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500 inline-block animate-pulse" />
+            <span
+              className="text-red-500 text-xs font-bold uppercase tracking-[0.22em]"
+              style={{ fontFamily: "'Syne', sans-serif" }}
+            >
+              Live Tracking
+            </span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.12 }}
+            className="text-white font-bold leading-tight mb-3"
+            style={{
+              fontFamily: "'Syne', sans-serif", fontWeight: 900,
+              fontSize: "clamp(36px, 4vw, 74px)", letterSpacing: "-2px", lineHeight: 1.05,
+            }}
+          >
+            Where's Your<br />
+            <span style={{ color: "#ef0004" }}>Package?</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.22 }}
+            className="text-white/70 max-w-md leading-relaxed mb-8"
+            style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(13px, 1.6vw, 16px)" }}
+          >
+            Enter your tracking code for live status, rider location, and real-time ETA across Lagos.
+          </motion.p>
+
+          {/* Search bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.32 }}
+            className="w-full max-w-xl"
+          >
+            <div
+              className="flex overflow-hidden rounded-2xl"
+              style={{ background: "#fff", boxShadow: "0 8px 40px rgba(0,0,0,0.3)" }}
+            >
+              <div className="relative flex-1">
+                <Scan
+                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2"
+                  size={18}
+                  style={{ color: "#94a3b8" }}
+                />
+                <input
+                  value={code}
+                  onChange={(e) => setCode(e.target.value.toUpperCase())}
+                  onKeyDown={(e) => e.key === "Enter" && onSubmit()}
+                  placeholder="e.g. SDR9000235"
+                  className="h-14 w-full bg-transparent pl-12 pr-4 text-base font-mono font-semibold tracking-wider outline-none placeholder:text-slate-300"
+                  style={{ color: "#0f0f0f" }}
+                />
+              </div>
+              <button
+                onClick={onSubmit}
+                disabled={pending}
+                className="flex items-center gap-2 px-7 text-sm font-bold text-white transition-all hover:opacity-90 disabled:opacity-60"
+                style={{ background: "#ef0004", fontFamily: "'Syne', sans-serif", minWidth: "120px", justifyContent: "center" }}
+              >
+                {pending ? "Looking…" : (
+                  <>Track <ArrowRight size={16} /></>
+                )}
+              </button>
+            </div>
+
+            {/* Sample codes */}
+            <div className="mt-4 flex flex-wrap gap-2">
+              <span className="text-xs text-white/40 self-center mr-1 uppercase tracking-wider">Try:</span>
+              {mockShipments.slice(0, 4).map((s) => (
+                <Link
+                  key={s.id}
+                  to="/track/$id"
+                  params={{ id: s.id }}
+                  className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-mono font-medium transition-all hover:bg-white/15"
+                  style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.7)" }}
+                >
+                  <span
+                    className="inline-block h-1.5 w-1.5 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: s.status === "delivered" ? "#22c55e" : s.status === "in_transit" ? "#ef0004" : "#64748b" }}
+                  />
+                  {s.trackingCode}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────
+   HOW IT WORKS — with connector lines
+───────────────────────────────────────── */
+const HOW_STEPS = [
+  {
+    icon: Package,
+    number: "01",
+    title: "Book Your Delivery",
+    desc: "Complete your booking in a few steps — pickup, destination, package details, and payment.",
+    color: "#ef0004",
+    bg: "rgba(239,0,4,0.08)",
+  },
+  {
+    icon: Truck,
+    number: "02",
+    title: "Rider Dispatched",
+    desc: "Your box-bike rider is immediately assigned and dispatched to your pickup location.",
+    color: "#f59e0b",
+    bg: "rgba(245,158,11,0.08)",
+  },
+  {
+    icon: MapPin,
+    number: "03",
+    title: "Track in Real Time",
+    desc: "Enter your tracking code to see live rider location, status updates, and ETA.",
+    color: "#3b82f6",
+    bg: "rgba(59,130,246,0.08)",
+  },
+  {
+    icon: Bell,
+    number: "04",
+    title: "WhatsApp Updates",
+    desc: "Receive live notifications on every status change — pickup, in transit, and delivered.",
+    color: "#8b5cf6",
+    bg: "rgba(139,92,246,0.08)",
+  },
+  {
+    icon: CheckCircle2,
+    number: "05",
+    title: "Delivered & Confirmed",
+    desc: "Recipient confirms delivery. You get proof of delivery with photo and timestamp.",
+    color: "#22c55e",
+    bg: "rgba(34,197,94,0.08)",
+  },
 ];
 
+function HowItWorks() {
+  return (
+    <section style={{ background: "#fff", padding: "88px 0" }}>
+      <div className="mx-auto max-w-7xl px-5 lg:px-8">
+
+        {/* Header */}
+        <div className="text-center mb-16">
+          <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#ef0004", fontFamily: "'Syne', sans-serif" }}>
+            How It Works
+          </span>
+          <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 800, color: "#0f0f0f", letterSpacing: "-1px", marginTop: "8px", lineHeight: 1.1 }}>
+            From Booking to<br />Doorstep Delivery
+          </h2>
+          <p style={{ color: "#666", fontSize: "15px", lineHeight: 1.75, maxWidth: "480px", margin: "12px auto 0" }}>
+            A seamless end-to-end process built for Lagos — fast, trackable, and zero stress.
+          </p>
+        </div>
+
+        {/* Steps — desktop: horizontal with connector lines */}
+        <div className="hidden lg:block">
+          {/* Connector line row */}
+          <div className="relative flex items-start justify-between gap-0">
+
+            {/* Background connector line */}
+            <div
+              className="absolute top-[36px] left-[10%] right-[10%] h-px"
+              style={{ background: "linear-gradient(90deg, #ef0004 0%, #f59e0b 25%, #3b82f6 50%, #8b5cf6 75%, #22c55e 100%)", opacity: 0.25 }}
+            />
+
+            {HOW_STEPS.map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={step.number}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  className="relative flex flex-col items-center text-center"
+                  style={{ width: "18%" }}
+                >
+                  {/* Step number above icon */}
+                  <span
+                    className="mb-3 font-bold text-xs"
+                    style={{ fontFamily: "'Syne', sans-serif", color: step.color, letterSpacing: "0.1em" }}
+                  >
+                    {step.number}
+                  </span>
+
+                  {/* Icon circle */}
+                  <div
+                    className="relative flex items-center justify-center rounded-full mb-5 z-10"
+                    style={{
+                      width: "72px", height: "72px",
+                      background: step.bg,
+                      border: `2px solid ${step.color}22`,
+                      boxShadow: `0 0 0 6px ${step.color}08`,
+                    }}
+                  >
+                    <Icon size={28} style={{ color: step.color }} />
+
+                    {/* Connector dot on right (except last) */}
+                    {i < HOW_STEPS.length - 1 && (
+                      <div
+                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 rounded-full z-20"
+                        style={{ width: "10px", height: "10px", background: step.color, border: "2px solid #fff" }}
+                      />
+                    )}
+                    {/* Connector dot on left (except first) */}
+                    {i > 0 && (
+                      <div
+                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full z-20"
+                        style={{ width: "10px", height: "10px", background: HOW_STEPS[i - 1].color, border: "2px solid #fff" }}
+                      />
+                    )}
+                  </div>
+
+                  {/* Text */}
+                  <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "15px", color: "#0f0f0f", lineHeight: 1.2, marginBottom: "8px" }}>
+                    {step.title}
+                  </p>
+                  <p style={{ fontSize: "12.5px", color: "#777", lineHeight: 1.65 }}>
+                    {step.desc}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Steps — mobile: vertical with left connector line */}
+        <div className="lg:hidden space-y-0">
+          {HOW_STEPS.map((step, i) => {
+            const Icon = step.icon;
+            const isLast = i === HOW_STEPS.length - 1;
+            return (
+              <motion.div
+                key={step.number}
+                initial={{ opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="relative flex gap-5"
+                style={{ paddingBottom: isLast ? 0 : "32px" }}
+              >
+                {/* Left column: icon + vertical line */}
+                <div className="flex flex-col items-center flex-shrink-0">
+                  <div
+                    className="flex items-center justify-center rounded-full z-10"
+                    style={{
+                      width: "56px", height: "56px",
+                      background: step.bg,
+                      border: `2px solid ${step.color}30`,
+                    }}
+                  >
+                    <Icon size={22} style={{ color: step.color }} />
+                  </div>
+                  {/* Vertical connector line */}
+                  {!isLast && (
+                    <div
+                      className="flex-1 w-px mt-2"
+                      style={{ background: `linear-gradient(to bottom, ${step.color}40, ${HOW_STEPS[i + 1].color}40)`, minHeight: "32px" }}
+                    />
+                  )}
+                </div>
+
+                {/* Right column: text */}
+                <div className="flex-1 pb-1 pt-1">
+                  <span style={{ fontFamily: "'Syne', sans-serif", fontSize: "10px", fontWeight: 700, color: step.color, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                    {step.number}
+                  </span>
+                  <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "16px", color: "#0f0f0f", lineHeight: 1.2, marginTop: "2px", marginBottom: "6px" }}>
+                    {step.title}
+                  </p>
+                  <p style={{ fontSize: "13px", color: "#777", lineHeight: 1.65 }}>
+                    {step.desc}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Bottom CTA row */}
+        <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link
+            to="/book"
+            className="inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-bold text-white transition-all hover:opacity-90"
+            style={{ background: "#ef0004", fontFamily: "'Syne', sans-serif" }}
+          >
+            Book a Delivery
+            <span className="inline-flex items-center justify-center rounded-full" style={{ width: "22px", height: "22px", background: "rgba(0,0,0,0.2)" }}>
+              <ArrowUpRight size={12} color="#fff" />
+            </span>
+          </Link>
+          <Link
+            to="/quote"
+            className="inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-bold border border-slate-200 text-slate-700 transition-all hover:bg-slate-50"
+            style={{ fontFamily: "'Syne', sans-serif" }}
+          >
+            Get a Quote
+          </Link>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────
+   FEATURE STRIP
+───────────────────────────────────────── */
+function FeatureStrip() {
+  return (
+    <section style={{ background: "#f8f8f8", borderTop: "1px solid #eee", padding: "48px 0" }}>
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          {[
+            { icon: Clock, label: "Real-time ETA", desc: "Updates every few seconds" },
+            { icon: Truck, label: "Rider Location", desc: "Live map tracking" },
+            { icon: Package, label: "Status History", desc: "Full event timeline" },
+            { icon: CheckCircle2, label: "Proof of Delivery", desc: "Recipient confirmation" },
+          ].map(({ icon: Icon, label, desc }) => (
+            <div
+              key={label}
+              className="flex flex-col gap-3 rounded-2xl p-5"
+              style={{ background: "#fff", border: "1px solid #eee" }}
+            >
+              <div
+                className="flex items-center justify-center rounded-xl"
+                style={{ width: "40px", height: "40px", background: "rgba(239,0,4,0.08)" }}
+              >
+                <Icon size={18} style={{ color: "#ef0004" }} />
+              </div>
+              <div>
+                <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "13px", color: "#0f0f0f" }}>{label}</p>
+                <p style={{ fontSize: "12px", color: "#888", marginTop: "2px" }}>{desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────
+   FINAL CTA — matches About page style
+───────────────────────────────────────── */
+function FinalCTA() {
+  return (
+    <section style={{ background: "#f8f3f3" }}>
+      <div className="mx-auto max-w-7xl px-5 pb-24 pt-8 lg:px-8">
+        <div
+          className="relative overflow-hidden rounded-3xl p-12 sm:p-16"
+          style={{ minHeight: "300px" }}
+        >
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: "url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1600&q=80')",
+              backgroundSize: "cover", backgroundPosition: "center",
+            }}
+          />
+          <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.75)" }} />
+          <div className="relative flex flex-col items-center text-center gap-8" style={{ zIndex: 2 }}>
+            <div>
+              <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 800, color: "#fff", letterSpacing: "-1px", lineHeight: 1.1 }}>
+                Ready to Deliver With Confidence?
+              </h2>
+              <p className="mt-3 max-w-lg mx-auto" style={{ color: "rgba(255,255,255,0.75)", fontSize: "15px" }}>
+                Join hundreds of businesses across Lagos who trust QuickReach Logistics for fast, reliable, and professional delivery.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <Link
+                to="/book"
+                className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-bold transition-all hover:opacity-90"
+                style={{ background: "#ef0004", color: "#fff", fontFamily: "'Syne', sans-serif" }}
+              >
+                Book Delivery
+                <span className="inline-flex items-center justify-center rounded-full" style={{ width: "22px", height: "22px", background: "rgba(0,0,0,0.25)" }}>
+                  <ArrowUpRight size={12} color="#fff" />
+                </span>
+              </Link>
+              <Link
+                to="/quote"
+                className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-bold border border-white/40 text-white transition-all hover:bg-white/10"
+                style={{ fontFamily: "'Syne', sans-serif" }}
+              >
+                Get Quote
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────
+   PAGE ROOT
+───────────────────────────────────────── */
 function TrackPage() {
   const navigate = useNavigate();
   const [code, setCode] = useState("");
@@ -48,208 +488,23 @@ function TrackPage() {
   const m = useMutation({
     mutationFn: trackingService.byCode,
     onSuccess: (s) => navigate({ to: "/track/$id", params: { id: s.id } }),
-    onError: () =>
-      toast.error("Tracking code not found. Try one of the examples below."),
+    onError: () => toast.error("Tracking code not found. Try one of the sample codes."),
   });
 
   return (
     <div className="min-h-screen bg-background">
       <MarketingNav />
-
       <main>
-        {/* ── Hero ── */}
-        <section className="relative overflow-hidden bg-slate-950 pb-24 pt-20">
-          {/* Red glow blob */}
-          <div
-            className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-20 blur-3xl"
-            style={{ background: "#ef0004" }}
-          />
-          {/* Grid pattern */}
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.04]"
-            style={{
-              backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
-            }}
-          />
-
-          <div className="relative mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45 }}
-            >
-              <Badge
-                className="mb-5 rounded-full border-white/10 bg-white/8 text-white"
-                style={{ backgroundColor: "rgba(239,0,4,0.15)", borderColor: "rgba(239,0,4,0.3)", color: "#fca5a5" }}
-              >
-                <span className="mr-1.5 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-[#ef0004]" />
-                Live Tracking
-              </Badge>
-
-              <h1 className="font-display text-5xl font-bold tracking-tight text-white sm:text-6xl">
-                Where's your{" "}
-                <span style={{ color: "#ef0004" }}>package?</span>
-              </h1>
-              <p className="mx-auto mt-5 max-w-md text-lg text-slate-400">
-                Enter your tracking code for live status, rider location, and
-                real-time ETA across Lagos.
-              </p>
-            </motion.div>
-
-            {/* Search bar */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.1 }}
-              className="mt-10"
-            >
-              <Card className="overflow-hidden border-0 bg-white p-2 shadow-2xl">
-                <form
-                  className="flex gap-2"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (code) m.mutate(code);
-                  }}
-                >
-                  <div className="relative flex-1">
-                    <Scan className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
-                    <Input
-                      value={code}
-                      onChange={(e) => setCode(e.target.value.toUpperCase())}
-                      placeholder="e.g. SDR9000235"
-                      className="h-13 border-0 bg-transparent pl-11 text-base font-mono font-semibold tracking-wider shadow-none focus-visible:ring-0"
-                    />
-                  </div>
-                  <Button
-                    size="lg"
-                    type="submit"
-                    disabled={m.isPending}
-                    className="h-13 gap-2 px-6 text-white"
-                    style={{ backgroundColor: "#ef0004" }}
-                  >
-                    {m.isPending ? (
-                      "Looking…"
-                    ) : (
-                      <>
-                        Track <ArrowRight className="h-4 w-4" />
-                      </>
-                    )}
-                  </Button>
-                </form>
-              </Card>
-            </motion.div>
-
-            {/* Sample codes */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.25 }}
-              className="mt-6"
-            >
-              <p className="mb-3 text-xs uppercase tracking-widest text-slate-500">
-                Try a sample code
-              </p>
-              <div className="flex flex-wrap justify-center gap-2">
-                {mockShipments.slice(0, 6).map((s) => (
-                  <Link
-                    key={s.id}
-                    to="/track/$id"
-                    params={{ id: s.id }}
-                    className="group flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-mono font-medium text-slate-300 transition-all hover:border-[#ef0004]/40 hover:bg-[#ef0004]/10 hover:text-white"
-                  >
-                    <span
-                      className="inline-block h-1.5 w-1.5 rounded-full"
-                      style={{
-                        backgroundColor:
-                          s.status === "delivered"
-                            ? "#22c55e"
-                            : s.status === "in_transit"
-                              ? "#ef0004"
-                              : "#64748b",
-                      }}
-                    />
-                    {s.trackingCode}
-                    <span className="text-slate-500 group-hover:text-slate-400">
-                      ·{" "}
-                      {SHIPMENT_STATUS_LABELS[
-                        s.status as keyof typeof SHIPMENT_STATUS_LABELS
-                      ] ?? s.status}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ── How tracking works ── */}
-        <section className="border-t bg-slate-50 py-16">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <p className="mb-8 text-center text-xs font-semibold uppercase tracking-widest text-slate-400">
-              How it works
-            </p>
-            <div className="grid gap-6 sm:grid-cols-3">
-              {STEPS_PREVIEW.map(({ icon: Icon, label, desc }, i) => (
-                <motion.div
-                  key={label}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * i }}
-                  className="flex flex-col items-center gap-3 text-center"
-                >
-                  <div
-                    className="grid h-14 w-14 place-items-center rounded-2xl"
-                    style={{
-                      backgroundColor:
-                        i === 0
-                          ? "rgba(239,0,4,0.08)"
-                          : i === 1
-                            ? "rgba(239,0,4,0.12)"
-                            : "rgba(34,197,94,0.1)",
-                    }}
-                  >
-                    <Icon
-                      className="h-6 w-6"
-                      style={{ color: i < 2 ? "#ef0004" : "#22c55e" }}
-                    />
-                  </div>
-                  <div>
-                    <p className="font-semibold">{label}</p>
-                    <p className="text-sm text-muted-foreground">{desc}</p>
-                  </div>
-                  {i < 2 && (
-                    <div className="hidden sm:block absolute translate-x-[130px] translate-y-[-36px]" />
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── Feature strip ── */}
-        <section className="border-t py-10">
-          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-              {[
-                { icon: Clock, label: "Real-time ETA", desc: "Updates every few seconds" },
-                { icon: Truck, label: "Rider Location", desc: "Live map tracking" },
-                { icon: Package, label: "Status History", desc: "Full event timeline" },
-                { icon: CheckCircle2, label: "Proof of Delivery", desc: "Recipient confirmation" },
-              ].map(({ icon: Icon, label, desc }) => (
-                <div key={label} className="flex flex-col gap-2 rounded-xl border bg-card p-4">
-                  <Icon className="h-5 w-5" style={{ color: "#ef0004" }} />
-                  <div>
-                    <p className="text-sm font-semibold">{label}</p>
-                    <p className="text-xs text-muted-foreground">{desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <HeroSection
+          code={code}
+          setCode={setCode}
+          onSubmit={() => { if (code) m.mutate(code); }}
+          pending={m.isPending}
+        />
+        <HowItWorks />
+        <FeatureStrip />
+        <FinalCTA />
       </main>
-
       <MarketingFooter />
     </div>
   );

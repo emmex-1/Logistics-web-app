@@ -94,7 +94,7 @@ function LoginPage() {
           <div
             className="absolute inset-0"
             style={{
-              background: "linear-gradient(145deg, rgba(200,0,0,0.78) 0%, rgba(110,0,0,0.62) 45%, rgba(8,8,8,0.88) 100%)",
+              background: "linear-gradient(145deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.62) 45%, rgba(0, 0, 0, 0.88) 100%)",
             }}
           />
           <div className="relative z-10 flex flex-col h-full p-10">

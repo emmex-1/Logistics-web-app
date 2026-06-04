@@ -1,8 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useMutation } from "@tanstack/react-query";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MarketingNav } from "@/components/shared/marketing-nav";
 import { MarketingFooter } from "@/components/shared/marketing-footer";
@@ -10,33 +7,30 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Check,
   MessageCircle,
-  Bookmark,
   MapPin,
   Package,
   Zap,
   ArrowRight,
   Calculator,
-  Truck,
   Clock,
+  ArrowUpRight,
+  ChevronDown,
+  Calendar,
+  AlertTriangle,
+  CheckCircle2,
+  Bike,
+  Shield,
+  X,
 } from "lucide-react";
-import { quoteService } from "@/services/quote.service";
-import { areaCoords, LAGOS_AREAS } from "@/mock/data";
-import { CARGO_LABELS, NGN, URGENCY_LABELS, VEHICLE_LABELS } from "@/constants";
-import type { QuoteResult } from "@/types";
-import { toast } from "sonner";
+import { BRAND, NGN } from "@/constants";
 import { useBookingStore } from "@/store";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/quote")({
   head: () => ({
@@ -52,557 +46,1116 @@ export const Route = createFileRoute("/quote")({
   component: QuotePage,
 });
 
-const schema = z.object({
-  pickupArea: z.string().min(1),
-  destArea: z.string().min(1),
-  cargo: z.enum([
-    "documents",
-    "parcel",
-    "electronics",
-    "food",
-    "fragile",
-    "furniture",
-    "pallet",
-    "container",
-  ]),
-  vehicle: z.enum(["bike", "car", "van", "truck", "trailer"]),
-  urgency: z.enum(["standard", "same_day", "express", "scheduled"]),
-  weight: z.coerce.number().min(0.1),
-  insurance: z.boolean(),
-  declaredValue: z.coerce.number().optional(),
-});
-type FormData = z.infer<typeof schema>;
+/* ─────────────────────────────────────────
+   CONSTANTS & HELPERS
+───────────────────────────────────────── */
+const LAGOS_AREAS = [
+  "Ajah", "Alimosho", "Apapa", "Badagry", "Festac", "Gbagada",
+  "Ikeja", "Ikeja GRA", "Ikoyi", "Ikorodu", "Isale Eko", "Lagos Island",
+  "Lekki Phase 1", "Lekki Phase 2", "Maryland", "Mile 2", "Mushin",
+  "Ojota", "Ojudu Berger", "Ojo", "Orile", "Oshodi", "Shomolu",
+  "Surulere", "Sangotodo", "Chevron", "Orchid", "VGC", "Ogombo",
+  "V.I", "Victoria Island", "Yaba", "Ago Palace", "Ogba",
+  "Ikotun", "Igando", "Iyana Ipaja", "Egbeda", "Magodo",
+];
 
+const CARGO_CATEGORIES = [
+  "Documents / Envelopes",
+  "Small Parcel (fits in box)",
+  "Electronics",
+  "Food & Beverages",
+  "Clothing & Fashion",
+  "Pharmacy / Medicine",
+  "Books & Stationery",
+  "Cosmetics & Beauty",
+  "Gifts & Packages",
+  "E-commerce Orders",
+  "Fragile Items",
+  "Furniture",
+  "Bulky / Oversized",
+  "Multiple Drop-offs",
+  "Other",
+];
+
+// Categories that always trigger custom quote
+const CUSTOM_QUOTE_TRIGGERS = new Set([
+  "Furniture",
+  "Bulky / Oversized",
+  "Multiple Drop-offs",
+]);
+
+// Base route pricing (from the price image, Ajah-based reference)
+// We derive a distance proxy from a simplified zone map
+type Zone = 1 | 2 | 3 | 4 | 5;
+const AREA_ZONE: Record<string, Zone> = {
+  "Ajah": 1, "Sangotodo": 1, "Chevron": 1, "Orchid": 1, "VGC": 1, "Ogombo": 1,
+  "Lekki Phase 1": 2, "Lekki Phase 2": 2,
+  "V.I": 2, "Victoria Island": 2, "Ikoyi": 2,
+  "Lagos Island": 3, "Isale Eko": 3, "Apapa": 3,
+  "Surulere": 3, "Yaba": 3, "Festac": 3, "Mile 2": 3, "Orile": 3,
+  "Gbagada": 3, "Ojota": 3, "Maryland": 3, "Shomolu": 3, "Mushin": 3,
+  "Ikeja": 4, "Ikeja GRA": 4, "Ago Palace": 4, "Ogba": 4, "Ojudu Berger": 4,
+  "Oshodi": 4, "Badagry": 4, "Iyana Ipaja": 4, "Egbeda": 4, "Magodo": 4,
+  "Ikotun": 4, "Igando": 4,
+  "Ikorodu": 5, "Alimosho": 5, "Ojo": 5,
+};
+
+const ZONE_BASE_PRICE: Record<number, number> = {
+  0: 1500, 1: 2000, 2: 2500, 3: 3500, 4: 4500, 5: 6000,
+};
+
+function getZone(area: string): Zone {
+  return AREA_ZONE[area] ?? 3;
+}
+
+function calcBasePrice(pickup: string, dest: string): number {
+  const z1 = getZone(pickup);
+  const z2 = getZone(dest);
+  const diff = Math.abs(z1 - z2);
+  return ZONE_BASE_PRICE[diff] ?? 3500;
+}
+
+const WEIGHT_SURCHARGE = (kg: number) => {
+  if (kg <= 5) return 0;
+  if (kg <= 15) return 500;
+  if (kg <= 30) return 1200;
+  return 2500;
+};
+
+const URGENCY_MULTIPLIER: Record<string, number> = {
+  standard: 1,
+  same_day: 1.2,
+  express: 1.6,
+  scheduled: 1,
+};
+
+const URGENCY_ETA: Record<string, string> = {
+  standard: "Next day",
+  same_day: "Same day before 6 PM",
+  express: "2–3 hours",
+  scheduled: "Your chosen time",
+};
+
+interface QuoteResult {
+  base: number;
+  weightSurcharge: number;
+  urgencyFee: number;
+  insurance: number;
+  total: number;
+  eta: string;
+  canAutoPrice: boolean;
+}
+
+function calculateQuote(
+  pickup: string,
+  dest: string,
+  cargo: string,
+  weight: number,
+  urgency: string,
+  insured: boolean,
+  declaredValue: number,
+): QuoteResult | null {
+  if (!pickup || !dest) return null;
+
+  const isCustom =
+    CUSTOM_QUOTE_TRIGGERS.has(cargo) ||
+    weight > 50 ||
+    cargo === "Fragile Items";
+
+  if (isCustom) {
+    return { base: 0, weightSurcharge: 0, urgencyFee: 0, insurance: 0, total: 0, eta: "", canAutoPrice: false };
+  }
+
+  const base = calcBasePrice(pickup, dest);
+  const weightSurcharge = WEIGHT_SURCHARGE(weight);
+  const urgencyFee = Math.round(base * (URGENCY_MULTIPLIER[urgency] - 1));
+  const subtotal = base + weightSurcharge + urgencyFee;
+  const insuranceFee = insured ? Math.round(declaredValue * 0.015) : 0;
+  const vat = Math.round(subtotal * 0.075);
+  const total = subtotal + insuranceFee + vat;
+  const eta = URGENCY_ETA[urgency] ?? "Next day";
+
+  return { base, weightSurcharge, urgencyFee, insurance: insuranceFee, total, eta, canAutoPrice: true };
+}
+
+/* ─────────────────────────────────────────
+   HERO SECTION — matches About/Services style
+───────────────────────────────────────── */
+function HeroSection() {
+  return (
+    <section className="bg-white px-2 sm:px-3 pt-2 pb-0">
+      <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden min-h-[260px] sm:min-h-[360px] lg:min-h-[480px]">
+        <img
+          src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=1600&q=80"
+          alt="QuickReach Logistics Delivery"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-black/80" />
+        <div className="relative z-10 flex flex-col justify-end min-h-[260px] sm:min-h-[360px] lg:min-h-[480px] px-6 sm:px-10 lg:px-16 pb-10 sm:pb-14 pt-20 sm:pt-28">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="flex items-center gap-2 mb-3"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500 inline-block" />
+            <span
+              className="text-red-500 text-xs font-bold uppercase tracking-[0.22em]"
+              style={{ fontFamily: "'Syne', sans-serif" }}
+            >
+              Quote Engine
+            </span>
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.12 }}
+            className="text-white font-bold leading-tight mb-3"
+            style={{
+              fontFamily: "'Syne', sans-serif",
+              fontWeight: 900,
+              fontSize: "clamp(38px, 4vw, 78px)",
+              letterSpacing: "-2px",
+              lineHeight: 1.05,
+            }}
+          >
+            Get Your<br />Instant Quote.
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.22 }}
+            className="text-white/70 max-w-md leading-relaxed mb-8"
+            style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(13px, 1.6vw, 16px)" }}
+          >
+            Instant Lagos delivery pricing in 30 seconds. Fill in your details and we'll calculate the cost — or route you straight to WhatsApp for custom requests.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.34 }}
+            className="flex flex-wrap gap-3"
+          >
+            <a
+              href="#quote-form"
+              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-bold transition-all hover:opacity-90"
+              style={{ background: "#ef0004", color: "#fff", fontFamily: "'Syne', sans-serif" }}
+            >
+              Calculate Now
+              <span
+                className="inline-flex items-center justify-center rounded-full"
+                style={{ width: "22px", height: "22px", background: "rgba(0,0,0,0.25)" }}
+              >
+                <ArrowUpRight size={12} color="#fff" />
+              </span>
+            </a>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-bold border border-white/30 text-white transition-all hover:bg-white/10"
+              style={{ fontFamily: "'Syne', sans-serif" }}
+            >
+              Contact Us
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────
+   COMBOBOX — type or pick from list
+───────────────────────────────────────── */
+function Combobox({
+  value,
+  onChange,
+  options,
+  placeholder,
+  allowCustom = true,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  options: string[];
+  placeholder?: string;
+  allowCustom?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState(value);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const filtered = options.filter((o) =>
+    o.toLowerCase().includes(query.toLowerCase())
+  );
+
+  useEffect(() => {
+    setQuery(value);
+  }, [value]);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+        // if allowCustom and user typed something not in list, keep it
+        if (allowCustom && query && !options.includes(query)) {
+          onChange(query);
+        }
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [query, options, allowCustom, onChange]);
+
+  return (
+    <div ref={ref} className="relative">
+      <div className="relative">
+        <Input
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            if (allowCustom) onChange(e.target.value);
+            setOpen(true);
+          }}
+          onFocus={() => setOpen(true)}
+          placeholder={placeholder}
+          className="pr-8"
+        />
+        <button
+          type="button"
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
+          onClick={() => setOpen((o) => !o)}
+          tabIndex={-1}
+        >
+          <ChevronDown size={14} />
+        </button>
+      </div>
+      <AnimatePresence>
+        {open && filtered.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.12 }}
+            className="absolute z-50 mt-1 w-full rounded-xl border border-border bg-white shadow-lg overflow-hidden"
+            style={{ maxHeight: "220px", overflowY: "auto" }}
+          >
+            {allowCustom && query && !options.includes(query) && (
+              <button
+                type="button"
+                className="flex w-full items-center gap-2 px-3 py-2.5 text-sm hover:bg-slate-50 border-b border-border text-muted-foreground"
+                onMouseDown={() => { onChange(query); setOpen(false); }}
+              >
+                <span className="text-xs font-semibold text-red-500 uppercase tracking-wider">Custom:</span>
+                {query}
+              </button>
+            )}
+            {filtered.map((opt) => (
+              <button
+                key={opt}
+                type="button"
+                className={`flex w-full items-center gap-2 px-3 py-2.5 text-sm hover:bg-slate-50 ${value === opt ? "bg-red-50 text-[#ef0004] font-medium" : ""}`}
+                onMouseDown={() => {
+                  onChange(opt);
+                  setQuery(opt);
+                  setOpen(false);
+                }}
+              >
+                {value === opt && <Check size={12} className="flex-shrink-0" style={{ color: "#ef0004" }} />}
+                {opt}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   MAIN QUOTE PAGE
+───────────────────────────────────────── */
 function QuotePage() {
   const navigate = useNavigate();
   const setDraft = useBookingStore((s) => s.setDraft);
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      pickupArea: "Lekki Phase 1",
-      destArea: "Ikeja GRA",
-      cargo: "parcel",
+
+  // Form state
+  const [pickup, setPickup] = useState("");
+  const [dest, setDest] = useState("");
+  const [cargo, setCargo] = useState("");
+  const [description, setDescription] = useState("");
+  const [weight, setWeight] = useState<number>(1);
+  const [urgency, setUrgency] = useState<"standard" | "same_day" | "express" | "scheduled">("same_day");
+  const [scheduleDate, setScheduleDate] = useState("");
+  const [scheduleTime, setScheduleTime] = useState("");
+  const [insured, setInsured] = useState(false);
+  const [declaredValue, setDeclaredValue] = useState<number>(0);
+  const [additionalDetails, setAdditionalDetails] = useState("");
+
+  // Result
+  const [result, setResult] = useState<QuoteResult | null>(null);
+  const [calculated, setCalculated] = useState(false);
+
+  const handleCalculate = () => {
+    if (!pickup || !dest) {
+      toast.error("Please enter both pickup and delivery locations.");
+      return;
+    }
+    if (!cargo) {
+      toast.error("Please select or enter an item category.");
+      return;
+    }
+    const r = calculateQuote(pickup, dest, cargo, weight, urgency, insured, declaredValue);
+    setResult(r);
+    setCalculated(true);
+    // Scroll to result
+    setTimeout(() => {
+      document.getElementById("quote-result")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+  };
+
+  // Build WhatsApp pre-filled message
+  const buildWhatsAppURL = () => {
+    const phone = (BRAND.phone ?? "2348000000000").replace(/\D/g, "");
+    const msg = `Hello,
+
+I would like to request a custom delivery quote.
+
+Pickup Location: ${pickup || "(not provided)"}
+Delivery Location: ${dest || "(not provided)"}
+Item Category: ${cargo || "(not provided)"}
+Item Description: ${description || "(not provided)"}
+Estimated Weight: ${weight ? `${weight} kg` : "(not provided)"}
+Delivery Type: ${urgency === "scheduled" ? `Scheduled — ${scheduleDate} ${scheduleTime}` : urgency.replace("_", " ")}
+Additional Details: ${additionalDetails || "(none)"}
+
+Thank you.`;
+
+    return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+  };
+
+  const handleBook = () => {
+    setDraft({
+      pricing: {
+        total: result?.total ?? 0,
+        base: result?.base ?? 0,
+        distanceKm: 0,
+        etaMinutes: 0,
+        distance: 0, weight: 0, vehicle: 0, urgency: 0, insurance: result?.insurance ?? 0, fuel: 0, vat: 0, currency: "NGN",
+      },
       vehicle: "bike",
-      urgency: "same_day",
-      weight: 3,
-      insurance: false,
-    },
-  });
-
-  const m = useMutation({
-    mutationFn: (d: FormData) =>
-      quoteService.create({
-        pickup: { area: d.pickupArea, coords: areaCoords(d.pickupArea) },
-        destination: {
-          area: d.destArea,
-          coords: areaCoords(d.destArea),
-        },
-        cargo: d.cargo,
-        vehicle: d.vehicle,
-        urgency: d.urgency,
-        weightKg: d.weight,
-        insurance: d.insurance,
-        declaredValue: d.declaredValue,
-      }),
-  });
-
-  const insurance = watch("insurance");
+      urgency,
+      step: 1,
+    });
+    navigate({ to: "/book" });
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <MarketingNav />
+      <main>
+        <HeroSection />
 
-      {/* Hero strip */}
-      <div className="border-b bg-slate-950 py-10">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Badge
-            className="mb-3 rounded-full border-white/10 text-xs font-semibold"
-            style={{
-              backgroundColor: "rgba(239,0,4,0.15)",
-              borderColor: "rgba(239,0,4,0.3)",
-              color: "#fca5a5",
-            }}
-          >
-            <Calculator className="mr-1.5 h-3 w-3" /> Quote Engine
-          </Badge>
-          <h1 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Instant Lagos{" "}
-            <span style={{ color: "#ef0004" }}>Delivery Pricing</span>
-          </h1>
-          <p className="mt-2 text-slate-400">
-            Fill in the details — we'll show four pricing tiers in seconds. Pick
-            what fits and book instantly.
-          </p>
-        </div>
-      </div>
+        {/* ── FORM SECTION ── */}
+        <section id="quote-form" className="py-16">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid gap-10 lg:grid-cols-[520px_1fr]">
 
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[480px_1fr]">
-          {/* ── Form card ── */}
-          <div>
-            <Card className="overflow-hidden p-0 shadow-sm">
-              {/* Card header */}
-              <div className="border-b bg-slate-50 px-6 py-4">
-                <h2 className="font-display text-base font-semibold">
-                  Shipment Details
-                </h2>
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  All fields are used to calculate your fare accurately.
-                </p>
-              </div>
-
-              <form
-                onSubmit={handleSubmit((d) => m.mutate(d))}
-                className="space-y-5 p-6"
-              >
-                {/* Route */}
-                <div className="space-y-3">
-                  <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                    <MapPin className="h-3.5 w-3.5" style={{ color: "#ef0004" }} />
-                    Route
+              {/* LEFT — Form */}
+              <div>
+                <div className="mb-6">
+                  <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#ef0004", fontFamily: "'Syne', sans-serif" }}>
+                    Shipment Details
+                  </span>
+                  <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(22px, 2.5vw, 30px)", fontWeight: 800, color: "#0f0f0f", letterSpacing: "-0.5px", marginTop: "6px" }}>
+                    Tell us about your delivery
+                  </h2>
+                  <p style={{ color: "#666", fontSize: "14px", marginTop: "6px" }}>
+                    Type any address or pick from suggestions. All fields help us calculate accurately.
                   </p>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <Field
-                      label="Pickup Area"
-                      error={errors.pickupArea?.message}
-                    >
-                      <AreaSelect
-                        value={watch("pickupArea")}
-                        onChange={(v) =>
-                          setValue("pickupArea", v, { shouldValidate: true })
-                        }
-                      />
-                    </Field>
-                    <Field
-                      label="Destination Area"
-                      error={errors.destArea?.message}
-                    >
-                      <AreaSelect
-                        value={watch("destArea")}
-                        onChange={(v) =>
-                          setValue("destArea", v, { shouldValidate: true })
-                        }
-                      />
-                    </Field>
-                  </div>
                 </div>
 
-                {/* Cargo */}
-                <div className="space-y-3">
-                  <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                    <Package className="h-3.5 w-3.5" style={{ color: "#ef0004" }} />
-                    Cargo & Vehicle
-                  </p>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <Field label="Cargo Type">
-                      <Select
-                        value={watch("cargo")}
-                        onValueChange={(v) => setValue("cargo", v as any)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Object.entries(CARGO_LABELS).map(([k, l]) => (
-                            <SelectItem key={k} value={k}>
-                              {l}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </Field>
-                    <Field label="Vehicle">
-                      <Select
-                        value={watch("vehicle")}
-                        onValueChange={(v) => setValue("vehicle", v as any)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Object.entries(VEHICLE_LABELS).map(([k, l]) => (
-                            <SelectItem key={k} value={k}>
-                              {l}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </Field>
+                <Card className="overflow-hidden p-0 shadow-sm">
+                  {/* Bike notice */}
+                  <div
+                    className="flex items-center gap-3 px-5 py-3 border-b"
+                    style={{ background: "#fafafa" }}
+                  >
+                    <div
+                      className="flex items-center justify-center rounded-lg"
+                      style={{ width: "36px", height: "36px", background: "#0f0f0f", flexShrink: 0 }}
+                    >
+                      <Bike size={18} color="#fff" />
+                    </div>
+                    <div>
+                      <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "13px", color: "#0f0f0f" }}>
+                        Box Bike Delivery
+                      </p>
+                      <p style={{ fontSize: "11px", color: "#888" }}>
+                        We deliver using secure box bikes across all Lagos areas
+                      </p>
+                    </div>
                   </div>
-                </div>
 
-                {/* Speed & weight */}
-                <div className="space-y-3">
-                  <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                    <Zap className="h-3.5 w-3.5" style={{ color: "#ef0004" }} />
-                    Speed & Weight
-                  </p>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <Field label="Urgency">
+                  <div className="space-y-6 p-6">
+
+                    {/* Route */}
+                    <div className="space-y-3">
+                      <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                        <MapPin className="h-3.5 w-3.5" style={{ color: "#ef0004" }} />
+                        Route
+                      </p>
+                      <div className="grid gap-3 sm:grid-cols-2">
+                        <div className="space-y-1.5">
+                          <Label className="text-sm font-medium">Pickup Location</Label>
+                          <Combobox
+                            value={pickup}
+                            onChange={setPickup}
+                            options={LAGOS_AREAS}
+                            placeholder="Type or pick area…"
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label className="text-sm font-medium">Delivery Location</Label>
+                          <Combobox
+                            value={dest}
+                            onChange={setDest}
+                            options={LAGOS_AREAS}
+                            placeholder="Type or pick area…"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Item */}
+                    <div className="space-y-3">
+                      <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                        <Package className="h-3.5 w-3.5" style={{ color: "#ef0004" }} />
+                        Item Details
+                      </p>
+                      <div className="space-y-1.5">
+                        <Label className="text-sm font-medium">Item Category</Label>
+                        <Combobox
+                          value={cargo}
+                          onChange={setCargo}
+                          options={CARGO_CATEGORIES}
+                          placeholder="Type or pick category…"
+                        />
+                        {CUSTOM_QUOTE_TRIGGERS.has(cargo) && (
+                          <p className="flex items-center gap-1.5 text-xs text-amber-600 mt-1">
+                            <AlertTriangle size={12} />
+                            This item type requires a custom quote
+                          </p>
+                        )}
+                        {cargo === "Fragile Items" && (
+                          <p className="flex items-center gap-1.5 text-xs text-amber-600 mt-1">
+                            <AlertTriangle size={12} />
+                            Fragile items require special handling — custom quote needed
+                          </p>
+                        )}
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label className="text-sm font-medium">Item Description</Label>
+                        <Input
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                          placeholder="e.g. iPhone 15, 2 cartons of books, birthday cake…"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label className="text-sm font-medium">Estimated Weight (kg)</Label>
+                        <Input
+                          type="number"
+                          min={0.1}
+                          step={0.5}
+                          value={weight}
+                          onChange={(e) => setWeight(parseFloat(e.target.value) || 0)}
+                          placeholder="e.g. 2"
+                        />
+                        {weight > 50 && (
+                          <p className="flex items-center gap-1.5 text-xs text-amber-600 mt-1">
+                            <AlertTriangle size={12} />
+                            Items over 50 kg require a custom quote
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Delivery type */}
+                    <div className="space-y-3">
+                      <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                        <Zap className="h-3.5 w-3.5" style={{ color: "#ef0004" }} />
+                        Delivery Type
+                      </p>
                       <div className="grid grid-cols-2 gap-2">
-                        {Object.entries(URGENCY_LABELS).map(([k, l]) => (
+                        {([
+                          { key: "standard", label: "Standard", sub: "Next day" },
+                          { key: "same_day", label: "Same Day", sub: "Before 6 PM" },
+                          { key: "express", label: "Express", sub: "2–3 hrs" },
+                          { key: "scheduled", label: "Scheduled", sub: "Pick time" },
+                        ] as const).map(({ key, label, sub }) => (
                           <button
-                            key={k}
+                            key={key}
                             type="button"
-                            onClick={() => setValue("urgency", k as any)}
-                            className={`rounded-lg border px-3 py-2 text-xs font-medium transition-all ${
-                              watch("urgency") === k
+                            onClick={() => setUrgency(key)}
+                            className={`rounded-xl border px-3 py-2.5 text-left text-sm transition-all ${
+                              urgency === key
                                 ? "border-[#ef0004] bg-red-50 text-[#ef0004]"
                                 : "hover:border-slate-300 hover:bg-slate-50"
                             }`}
                           >
-                            {l}
+                            <p className="font-semibold">{label}</p>
+                            <p className="text-xs opacity-70">{sub}</p>
                           </button>
                         ))}
                       </div>
-                    </Field>
-                    <Field label="Weight (kg)">
-                      <Input
-                        type="number"
-                        step="0.1"
-                        {...register("weight")}
-                      />
-                    </Field>
-                  </div>
-                </div>
 
-                {/* Insurance */}
-                <div
-                  className={`rounded-xl border p-4 transition-colors ${insurance ? "border-[#ef0004]/30 bg-red-50" : "bg-surface"}`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-semibold">Add Insurance</p>
-                      <p className="text-xs text-muted-foreground">
-                        1.5% of declared value · up to ₦500k cover
-                      </p>
+                      {/* Schedule date/time picker */}
+                      <AnimatePresence>
+                        {urgency === "scheduled" && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="overflow-hidden"
+                          >
+                            <div
+                              className="rounded-xl border p-4 space-y-3"
+                              style={{ background: "rgba(239,0,4,0.03)", borderColor: "rgba(239,0,4,0.2)" }}
+                            >
+                              <p className="flex items-center gap-1.5 text-xs font-semibold text-[#ef0004]">
+                                <Calendar size={12} />
+                                Choose your schedule
+                              </p>
+                              <div className="grid gap-3 sm:grid-cols-2">
+                                <div className="space-y-1.5">
+                                  <Label className="text-xs font-medium text-muted-foreground">Date</Label>
+                                  <Input
+                                    type="date"
+                                    value={scheduleDate}
+                                    onChange={(e) => setScheduleDate(e.target.value)}
+                                    min={new Date().toISOString().split("T")[0]}
+                                  />
+                                </div>
+                                <div className="space-y-1.5">
+                                  <Label className="text-xs font-medium text-muted-foreground">Time</Label>
+                                  <Input
+                                    type="time"
+                                    value={scheduleTime}
+                                    onChange={(e) => setScheduleTime(e.target.value)}
+                                    min="08:00"
+                                    max="18:00"
+                                  />
+                                </div>
+                              </div>
+                              <p className="text-xs text-muted-foreground">
+                                Scheduling available Mon–Sat, 8 AM – 6 PM
+                              </p>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
-                    <Switch
-                      checked={insurance}
-                      onCheckedChange={(v) => setValue("insurance", v)}
-                      style={
-                        insurance
-                          ? ({ "--switch-bg": "#ef0004" } as any)
-                          : undefined
-                      }
-                    />
-                  </div>
-                  <AnimatePresence>
-                    {insurance && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="mt-3 overflow-hidden"
-                      >
-                        <Field label="Declared Value (₦)">
-                          <Input
-                            type="number"
-                            {...register("declaredValue")}
-                            placeholder="50000"
-                          />
-                        </Field>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
 
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="w-full gap-2 text-white"
-                  style={{ backgroundColor: "#ef0004" }}
-                  disabled={m.isPending}
-                >
-                  {m.isPending ? (
-                    "Calculating…"
-                  ) : (
-                    <>
-                      Calculate Price{" "}
-                      <ArrowRight className="h-4 w-4" />
-                    </>
-                  )}
-                </Button>
-              </form>
-            </Card>
-          </div>
-
-          {/* ── Results panel ── */}
-          <div>
-            {m.isPending && <SkeletonResult />}
-            {m.data && (
-              <QuoteResultPanel
-                result={m.data}
-                onBook={(tier) => {
-                  setDraft({
-                    pricing: tier.pricing,
-                    vehicle: m.data?.input.vehicle,
-                    urgency: m.data?.input.urgency,
-                    step: 1,
-                  });
-                  navigate({ to: "/book" });
-                }}
-              />
-            )}
-            {!m.data && !m.isPending && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex h-full min-h-[500px] flex-col items-center justify-center gap-4 rounded-2xl border border-dashed bg-slate-50 p-10 text-center"
-              >
-                <div
-                  className="grid h-16 w-16 place-items-center rounded-2xl"
-                  style={{ backgroundColor: "rgba(239,0,4,0.1)" }}
-                >
-                  <Calculator
-                    className="h-8 w-8"
-                    style={{ color: "#ef0004" }}
-                  />
-                </div>
-                <div>
-                  <h3 className="font-display text-lg font-semibold">
-                    Your pricing tiers appear here
-                  </h3>
-                  <p className="mt-1.5 max-w-xs text-sm text-muted-foreground">
-                    Fill the form and we'll instantly calculate four options
-                    across speed and price.
-                  </p>
-                </div>
-                <div className="mt-2 grid w-full max-w-xs grid-cols-2 gap-2">
-                  {["Saver", "Standard", "Express", "Priority"].map((t, i) => (
+                    {/* Insurance */}
                     <div
-                      key={t}
-                      className="rounded-xl border bg-white px-4 py-3 text-left opacity-40"
+                      className={`rounded-xl border p-4 transition-colors ${insured ? "border-[#ef0004]/30 bg-red-50" : "bg-surface"}`}
                     >
-                      <p className="text-xs font-semibold text-muted-foreground">
-                        {t}
-                      </p>
-                      <p className="mt-1 font-display text-lg font-bold text-slate-300">
-                        ₦ ——
-                      </p>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-semibold">Add Insurance</p>
+                          <p className="text-xs text-muted-foreground">
+                            1.5% of declared value · up to ₦500k cover
+                          </p>
+                        </div>
+                        <Switch
+                          checked={insured}
+                          onCheckedChange={(v) => setInsured(v)}
+                        />
+                      </div>
+                      <AnimatePresence>
+                        {insured && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="mt-3 overflow-hidden"
+                          >
+                            <div className="space-y-1.5">
+                              <Label className="text-sm font-medium">Declared Value (₦)</Label>
+                              <Input
+                                type="number"
+                                value={declaredValue || ""}
+                                onChange={(e) => setDeclaredValue(parseFloat(e.target.value) || 0)}
+                                placeholder="e.g. 50000"
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </div>
-        </div>
-      </main>
 
+                    {/* Additional details */}
+                    <div className="space-y-1.5">
+                      <Label className="text-sm font-medium">Additional Details (optional)</Label>
+                      <Textarea
+                        rows={3}
+                        value={additionalDetails}
+                        onChange={(e) => setAdditionalDetails(e.target.value)}
+                        placeholder="Any special instructions, access codes, fragile handling notes…"
+                      />
+                    </div>
+
+                    <Button
+                      type="button"
+                      size="lg"
+                      className="w-full gap-2 text-white"
+                      style={{ backgroundColor: "#ef0004" }}
+                      onClick={handleCalculate}
+                    >
+                      <Calculator className="h-4 w-4" />
+                      Calculate My Price
+                    </Button>
+                  </div>
+                </Card>
+
+                {/* Custom quote CTA — for customers who can't find their spec */}
+                <div
+                  className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl px-5 py-4"
+                  style={{ background: "#0f0f0f" }}
+                >
+                  <div>
+                    <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "14px", color: "#fff" }}>
+                      Can't find your specification?
+                    </p>
+                    <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.55)", marginTop: "2px" }}>
+                      Unusual size, multiple stops, or custom logistics? We'll handle it.
+                    </p>
+                  </div>
+                  <a
+                    href={buildWhatsAppURL()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition-all hover:opacity-90 whitespace-nowrap"
+                    style={{ background: "#25D366", color: "#fff", fontFamily: "'Syne', sans-serif" }}
+                  >
+                    <MessageCircle size={14} />
+                    Request Custom Quote
+                  </a>
+                </div>
+              </div>
+
+              {/* RIGHT — Result panel */}
+              <div id="quote-result">
+                <AnimatePresence mode="wait">
+                  {!calculated ? (
+                    <motion.div
+                      key="empty"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="flex h-full min-h-[500px] flex-col items-center justify-center gap-4 rounded-2xl border border-dashed bg-slate-50 p-10 text-center"
+                    >
+                      <div
+                        className="grid h-16 w-16 place-items-center rounded-2xl"
+                        style={{ backgroundColor: "rgba(239,0,4,0.1)" }}
+                      >
+                        <Calculator className="h-8 w-8" style={{ color: "#ef0004" }} />
+                      </div>
+                      <div>
+                        <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "18px" }}>
+                          Your price appears here
+                        </h3>
+                        <p className="mt-1.5 max-w-xs text-sm text-muted-foreground">
+                          Fill in your shipment details and click "Calculate My Price" for an instant result.
+                        </p>
+                      </div>
+                      {/* Placeholder tier cards */}
+                      <div className="mt-2 grid w-full max-w-sm grid-cols-2 gap-2">
+                        {["Standard", "Express", "Same Day", "Scheduled"].map((t) => (
+                          <div key={t} className="rounded-xl border bg-white px-4 py-3 text-left opacity-40">
+                            <p className="text-xs font-semibold text-muted-foreground">{t}</p>
+                            <p className="mt-1 font-bold text-lg text-slate-300">₦ ——</p>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  ) : result?.canAutoPrice ? (
+                    <AutoPriceResult
+                      result={result}
+                      pickup={pickup}
+                      dest={dest}
+                      urgency={urgency}
+                      insured={insured}
+                      onBook={handleBook}
+                      onWhatsApp={buildWhatsAppURL()}
+                    />
+                  ) : (
+                    <CustomQuoteResult
+                      whatsAppURL={buildWhatsAppURL()}
+                      cargo={cargo}
+                      weight={weight}
+                    />
+                  )}
+                </AnimatePresence>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ── HOW IT WORKS ── */}
+        <HowItWorks />
+
+        {/* ── FINAL CTA ── */}
+        <FinalCTA whatsAppURL={buildWhatsAppURL()} />
+      </main>
       <MarketingFooter />
     </div>
   );
 }
 
-/* ── Quote result panel ── */
-function QuoteResultPanel({
+/* ─────────────────────────────────────────
+   AUTO PRICE RESULT
+───────────────────────────────────────── */
+function AutoPriceResult({
   result,
+  pickup,
+  dest,
+  urgency,
+  insured,
   onBook,
+  onWhatsApp,
 }: {
   result: QuoteResult;
-  onBook: (t: QuoteResult["tiers"][number]) => void;
+  pickup: string;
+  dest: string;
+  urgency: string;
+  insured: boolean;
+  onBook: () => void;
+  onWhatsApp: string;
 }) {
   return (
     <motion.div
+      key="auto"
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
       className="space-y-5"
     >
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h2 className="font-display text-xl font-bold">
-            {result.tiers[0].pricing.distanceKm} km ·{" "}
-            <span style={{ color: "#ef0004" }}>4 pricing tiers</span>
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            Pick what fits your budget and urgency.
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => toast.success("Quote saved.")}
-          >
-            <Bookmark className="mr-1.5 h-3.5 w-3.5" /> Save
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => toast.success("WhatsApp link copied.")}
-          >
-            <MessageCircle className="mr-1.5 h-3.5 w-3.5" /> Share
-          </Button>
-        </div>
-      </div>
-
-      {/* Tier cards */}
-      <div className="grid gap-3 sm:grid-cols-2">
-        {result.tiers.map((t) => (
-          <Card
-            key={t.id}
-            className={`relative flex flex-col p-5 transition-shadow ${
-              t.recommended
-                ? "shadow-md"
-                : "hover:shadow-sm"
-            }`}
-            style={
-              t.recommended
-                ? { borderColor: "#ef0004", boxShadow: "0 0 0 2px rgba(239,0,4,0.15)" }
-                : undefined
-            }
-          >
-            {t.recommended && (
-              <Badge
-                className="absolute -top-2.5 right-4 rounded-full text-white"
-                style={{ backgroundColor: "#ef0004" }}
-              >
-                Recommended
-              </Badge>
-            )}
-            <div className="flex items-start justify-between">
-              <p className="font-display text-base font-bold">{t.name}</p>
-              <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                <Clock className="h-3 w-3" /> {t.pricing.etaMinutes} min
-              </div>
-            </div>
+      {/* Summary header */}
+      <div
+        className="rounded-2xl p-6"
+        style={{ background: "linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%)" }}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.5)" }}>
+              Estimated Delivery Cost
+            </p>
             <p
-              className="mt-2 font-display text-3xl font-bold"
-              style={t.recommended ? { color: "#ef0004" } : undefined}
+              className="font-bold leading-none mt-2"
+              style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(40px, 5vw, 60px)", color: "#ef0004" }}
             >
-              {NGN(t.pricing.total)}
+              {NGN(result.total)}
             </p>
-            <p className="text-xs text-muted-foreground">
-              {t.pricing.distanceKm} km
-            </p>
-            <ul className="mt-4 space-y-1.5 text-sm">
-              {t.perks.map((p) => (
-                <li key={p} className="flex items-center gap-2">
-                  <Check
-                    className="h-3.5 w-3.5 flex-shrink-0"
-                    style={{ color: t.recommended ? "#ef0004" : "#22c55e" }}
-                  />
-                  {p}
-                </li>
-              ))}
-            </ul>
-            <Button
-              className="mt-5 w-full gap-2 text-white"
-              style={
-                t.recommended
-                  ? { backgroundColor: "#ef0004" }
-                  : undefined
-              }
-              variant={t.recommended ? "default" : "outline"}
-              onClick={() => onBook(t)}
-            >
-              Book this <ArrowRight className="h-3.5 w-3.5" />
-            </Button>
-          </Card>
-        ))}
+            <div className="flex items-center gap-2 mt-3">
+              <Clock size={13} color="rgba(255,255,255,0.5)" />
+              <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "13px" }}>
+                {result.eta}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 mt-1.5">
+              <MapPin size={13} color="rgba(255,255,255,0.5)" />
+              <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "13px" }}>
+                {pickup} → {dest}
+              </span>
+            </div>
+          </div>
+          <div
+            className="flex items-center justify-center rounded-2xl"
+            style={{ width: "56px", height: "56px", background: "rgba(239,0,4,0.15)", flexShrink: 0 }}
+          >
+            <CheckCircle2 size={28} style={{ color: "#ef0004" }} />
+          </div>
+        </div>
       </div>
 
-      {/* Breakdown */}
+      {/* Breakdown card */}
       <Card className="p-5 shadow-sm">
-        <div className="mb-4 flex items-center gap-2">
-          <Truck className="h-4 w-4" style={{ color: "#ef0004" }} />
-          <p className="font-display text-sm font-semibold">
-            Price Breakdown · Standard tier
-          </p>
+        <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
+          Price Breakdown
+        </p>
+        <div className="space-y-2.5">
+          {[
+            { label: "Base fare", value: result.base },
+            { label: "Weight surcharge", value: result.weightSurcharge },
+            { label: "Urgency fee", value: result.urgencyFee },
+            ...(insured ? [{ label: "Insurance", value: result.insurance }] : []),
+            { label: "VAT (7.5%)", value: Math.round((result.base + result.weightSurcharge + result.urgencyFee) * 0.075) },
+          ].map(({ label, value }) => (
+            <div key={label} className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">{label}</span>
+              <span className={value === 0 ? "text-muted-foreground" : "font-semibold"}>
+                {value === 0 ? "—" : NGN(value)}
+              </span>
+            </div>
+          ))}
+          <div className="border-t border-border pt-2.5 flex items-center justify-between">
+            <span className="font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Total</span>
+            <span className="font-bold text-lg" style={{ color: "#ef0004", fontFamily: "'Syne', sans-serif" }}>
+              {NGN(result.total)}
+            </span>
+          </div>
         </div>
-        <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:grid-cols-4">
-          {Object.entries({
-            Base: result.tiers[1].pricing.base,
-            Distance: result.tiers[1].pricing.distance,
-            Weight: result.tiers[1].pricing.weight,
-            Vehicle: result.tiers[1].pricing.vehicle,
-            Urgency: result.tiers[1].pricing.urgency,
-            Insurance: result.tiers[1].pricing.insurance,
-            Fuel: result.tiers[1].pricing.fuel,
-            VAT: result.tiers[1].pricing.vat,
-          }).map(([k, v]) => (
-            <div key={k} className="flex justify-between gap-2 sm:flex-col sm:gap-0">
-              <span className="text-muted-foreground">{k}</span>
-              <span className="font-semibold">{NGN(v)}</span>
+      </Card>
+
+      {/* What's included */}
+      <Card className="p-5 shadow-sm">
+        <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">
+          What's Included
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {[
+            "Professional box-bike rider",
+            "Real-time tracking",
+            "WhatsApp delivery updates",
+            "Proof of delivery",
+            ...(insured ? ["Package insurance"] : []),
+          ].map((perk) => (
+            <div key={perk} className="flex items-center gap-2 text-sm">
+              <Check size={13} style={{ color: "#22c55e", flexShrink: 0 }} />
+              {perk}
             </div>
           ))}
         </div>
       </Card>
 
-      <p className="text-xs text-muted-foreground">
-        Quote valid until{" "}
-        {new Date(result.validUntil).toLocaleTimeString()} ·{" "}
-        <Link
-          to="/track"
-          className="font-medium hover:underline"
-          style={{ color: "#ef0004" }}
+      {/* CTA buttons */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <Button
+          size="lg"
+          className="flex-1 gap-2 text-white font-bold"
+          style={{ backgroundColor: "#ef0004" }}
+          onClick={onBook}
         >
-          Track an existing shipment
-        </Link>
+          Book This Delivery <ArrowRight className="h-4 w-4" />
+        </Button>
+        <a
+          href={onWhatsApp}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-border px-5 py-2.5 text-sm font-semibold transition-all hover:bg-slate-50"
+        >
+          <MessageCircle size={16} style={{ color: "#25D366" }} />
+          Confirm via WhatsApp
+        </a>
+      </div>
+
+      <p className="text-xs text-muted-foreground text-center">
+        Price valid for 30 minutes · Final fare confirmed at booking
       </p>
     </motion.div>
   );
 }
 
-/* ── Skeleton ── */
-function SkeletonResult() {
+/* ─────────────────────────────────────────
+   CUSTOM QUOTE RESULT
+───────────────────────────────────────── */
+function CustomQuoteResult({
+  whatsAppURL,
+  cargo,
+  weight,
+}: {
+  whatsAppURL: string;
+  cargo: string;
+  weight: number;
+}) {
   return (
-    <div className="space-y-3">
-      <div className="h-8 w-48 animate-pulse rounded-lg bg-muted" />
-      <div className="grid gap-3 sm:grid-cols-2">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="h-52 animate-pulse rounded-xl bg-muted" />
-        ))}
+    <motion.div
+      key="custom"
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      className="space-y-5"
+    >
+      {/* Custom quote alert */}
+      <div
+        className="rounded-2xl p-6 flex flex-col gap-4"
+        style={{ background: "linear-gradient(135deg, #78350f 0%, #92400e 100%)" }}
+      >
+        <div className="flex items-center gap-3">
+          <div
+            className="flex items-center justify-center rounded-xl"
+            style={{ width: "48px", height: "48px", background: "rgba(245,158,11,0.2)", flexShrink: 0 }}
+          >
+            <AlertTriangle size={24} color="#f59e0b" />
+          </div>
+          <div>
+            <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "18px", color: "#fff" }}>
+              Custom Quote Required
+            </p>
+            <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "13px", marginTop: "2px" }}>
+              We can't auto-price this delivery — but we'll sort it for you.
+            </p>
+          </div>
+        </div>
+        <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "13px", lineHeight: 1.6 }}>
+          {cargo === "Furniture" || cargo === "Bulky / Oversized"
+            ? "Furniture and bulky items require special handling, vehicle sizing, and custom routing."
+            : cargo === "Multiple Drop-offs"
+            ? "Multi-stop deliveries need manual scheduling and route planning."
+            : cargo === "Fragile Items"
+            ? "Fragile goods require special handling instructions and packing confirmation."
+            : weight > 50
+            ? `A ${weight} kg shipment exceeds our standard weight limit and needs manual assessment.`
+            : "Your request has special requirements that need manual review."}
+        </p>
       </div>
-      <div className="h-36 animate-pulse rounded-xl bg-muted" />
-    </div>
+
+      {/* What happens next */}
+      <Card className="p-5 shadow-sm">
+        <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
+          What Happens Next
+        </p>
+        <div className="space-y-3">
+          {[
+            { step: "01", text: "Click the button below to open WhatsApp" },
+            { step: "02", text: "Your details are pre-filled — just send the message" },
+            { step: "03", text: "Our team responds with a custom price within minutes" },
+            { step: "04", text: "Confirm and we dispatch your rider" },
+          ].map(({ step, text }) => (
+            <div key={step} className="flex items-start gap-3">
+              <span
+                className="flex-shrink-0 font-bold text-xs"
+                style={{ fontFamily: "'Syne', sans-serif", color: "#ef0004", width: "28px" }}
+              >
+                {step}
+              </span>
+              <p className="text-sm text-muted-foreground">{text}</p>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      {/* WhatsApp CTA */}
+      <a
+        href={whatsAppURL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex w-full items-center justify-center gap-3 rounded-xl px-6 py-4 text-base font-bold text-white transition-all hover:opacity-90"
+        style={{ background: "#25D366" }}
+      >
+        <MessageCircle size={20} />
+        Request Custom Quote on WhatsApp
+        <ArrowRight size={16} />
+      </a>
+
+      <p className="text-xs text-muted-foreground text-center">
+        Your form details will be pre-filled in the WhatsApp message · Typical response: under 5 minutes
+      </p>
+    </motion.div>
   );
 }
 
-/* ── Helpers ── */
-function Field({
-  label,
-  error,
-  children,
-}: {
-  label: string;
-  error?: string;
-  children: React.ReactNode;
-}) {
+/* ─────────────────────────────────────────
+   HOW IT WORKS
+───────────────────────────────────────── */
+function HowItWorks() {
   return (
-    <div className="space-y-1.5">
-      <Label className="text-sm font-medium">{label}</Label>
-      {children}
-      {error && <p className="text-xs text-destructive">{error}</p>}
-    </div>
+    <section style={{ background: "#f8f8f8", padding: "80px 0" }}>
+      <div className="mx-auto max-w-7xl px-5 lg:px-8">
+        <div className="text-center mb-12">
+          <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#ef0004", fontFamily: "'Syne', sans-serif" }}>
+            How It Works
+          </span>
+          <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(26px, 3vw, 38px)", fontWeight: 800, color: "#0f0f0f", letterSpacing: "-0.5px", marginTop: "8px" }}>
+            From Quote to Delivery
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {[
+            { step: "01.", icon: "📍", title: "Enter Details", desc: "Type your pickup and delivery locations, item details, and preferred speed." },
+            { step: "02.", icon: "⚡", title: "Get Instant Price", desc: "Our system calculates your exact fare in real time — no waiting, no calls." },
+            { step: "03.", icon: "✅", title: "Book Delivery", desc: "Hit 'Book This Delivery' to confirm. Special requests go straight to WhatsApp." },
+            { step: "04.", icon: "🛵", title: "Rider Dispatched", desc: "Your box-bike rider is dispatched and you track every km in real time." },
+          ].map((v) => (
+            <div
+              key={v.step}
+              className="rounded-2xl p-6 flex flex-col gap-4"
+              style={{ background: "#fff", border: "1px solid #eee" }}
+            >
+              <div className="flex items-center gap-3">
+                <span style={{ fontSize: "24px" }}>{v.icon}</span>
+                <span style={{ fontFamily: "'Syne', sans-serif", fontSize: "13px", fontWeight: 700, color: "#ef0004" }}>{v.step}</span>
+              </div>
+              <div>
+                <p style={{ fontFamily: "'Syne', sans-serif", fontSize: "16px", fontWeight: 700, color: "#0f0f0f", marginBottom: "6px" }}>{v.title}</p>
+                <p style={{ fontSize: "13px", color: "#666", lineHeight: 1.65 }}>{v.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
-function AreaSelect({
-  value,
-  onChange,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-}) {
+/* ─────────────────────────────────────────
+   FINAL CTA — matches About page style
+───────────────────────────────────────── */
+function FinalCTA({ whatsAppURL }: { whatsAppURL: string }) {
   return (
-    <Select value={value} onValueChange={onChange}>
-      <SelectTrigger>
-        <SelectValue placeholder="Pick area" />
-      </SelectTrigger>
-      <SelectContent className="max-h-72">
-        {LAGOS_AREAS.map((a) => (
-          <SelectItem key={a} value={a}>
-            {a}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <section style={{ background: "#f8f3f3" }}>
+      <div className="mx-auto max-w-7xl px-5 pb-24 pt-8 lg:px-8">
+        <div
+          className="relative overflow-hidden rounded-3xl p-12 sm:p-16"
+          style={{ minHeight: "330px" }}
+        >
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: "url('/media/huge.jpg')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+          <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.75)" }} />
+          <div className="relative flex flex-col items-center text-center gap-8" style={{ zIndex: 2 }}>
+            <div>
+              <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 800, color: "#fff", letterSpacing: "-1px", lineHeight: 1.1 }}>
+                Need Something Special?
+              </h2>
+              <p className="mt-3 max-w-lg mx-auto text-base" style={{ color: "rgba(255,255,255,0.8)" }}>
+                Furniture, multiple stops, fragile goods, or bulk orders? Our team handles every special request — just drop us a message.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <a
+                href={whatsAppURL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-bold transition-all hover:opacity-90"
+                style={{ background: "#25D366", color: "#fff", fontFamily: "'Syne', sans-serif" }}
+              >
+                <MessageCircle size={16} />
+                Request Custom Quote
+                <span
+                  className="inline-flex items-center justify-center rounded-full"
+                  style={{ width: "22px", height: "22px", background: "rgba(0,0,0,0.2)" }}
+                >
+                  <ArrowUpRight size={12} color="#fff" />
+                </span>
+              </a>
+              <Link
+                to="/book"
+                className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-bold border border-white/40 text-white transition-all hover:bg-white/10"
+                style={{ fontFamily: "'Syne', sans-serif" }}
+              >
+                Book Delivery
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
