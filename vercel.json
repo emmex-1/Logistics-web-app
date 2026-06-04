@@ -1,4 +1,13 @@
 {
-  "buildCommand": "vite build",
-  "outputDirectory": ".vercel/output"
+  "buildCommand": "npm run build",
+  "outputDirectory": ".output/public",
+  "framework": null,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "s-maxage=0, stale-while-revalidate=60" }
+      ]
+    }
+  ]
 }
