@@ -8,6 +8,9 @@ mkdirSync(".vercel/output/static", { recursive: true });
 // Copy server bundle
 cpSync("dist/server", funcDir, { recursive: true });
 
+// Copy node_modules so external deps like h3-v2 are available
+cpSync("node_modules", `${funcDir}/node_modules`, { recursive: true });
+
 // Copy static client assets
 cpSync("dist/client", ".vercel/output/static", { recursive: true });
 
