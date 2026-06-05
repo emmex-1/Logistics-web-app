@@ -30,7 +30,7 @@ function Finance() {
               <XAxis dataKey="month" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
               <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid oklch(0.92 0.006 80)" }} />
-              <Line type="monotone" dataKey="revenue" stroke="oklch(0.68 0.196 42)" strokeWidth={2.5} dot={{ r: 4 }} />
+              <Line type="monotone" dataKey="revenue" stroke="oklch(0.58 0.245 27)" strokeWidth={2.5} dot={{ r: 4 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>

@@ -179,7 +179,7 @@ export function MarketingNav() {
             className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-95 whitespace-nowrap"
             style={{
               background:  "#ef0004",
-              boxShadow:   "0 0 20px rgba(255,77,0,0.4)",
+              boxShadow:   "0 0 20px rgba(239,0,4,0.4)",
             }}
           >
             Get Started
