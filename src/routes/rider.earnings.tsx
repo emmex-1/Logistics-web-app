@@ -23,7 +23,7 @@ export const Route = createFileRoute("/rider/earnings")({
               <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.006 80)" vertical={false} />
               <XAxis dataKey="day" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 11 }} axisLine={false} tickLine={false} /><Tooltip />
-              <Bar dataKey="amount" fill="oklch(0.68 0.196 42)" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="amount" fill="oklch(0.58 0.245 27)" radius={[6, 6, 0, 0]} />
             </BarChart></ResponsiveContainer>
           </div>
         </Card>

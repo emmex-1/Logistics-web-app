@@ -14,12 +14,12 @@ export function AnimatedRouteMap({ className = "" }: { className?: string }) {
       <svg viewBox="0 0 800 600" className="absolute inset-0 h-full w-full">
         <defs>
           <linearGradient id="route" x1="0" x2="1">
-            <stop offset="0%" stopColor="oklch(0.68 0.196 42)" />
-            <stop offset="100%" stopColor="oklch(0.76 0.18 50)" />
+            <stop offset="0%" stopColor="oklch(0.58 0.245 27)" />
+            <stop offset="100%" stopColor="oklch(0.66 0.23 30)" />
           </linearGradient>
           <radialGradient id="ping">
-            <stop offset="0%" stopColor="oklch(0.68 0.196 42 / 0.7)" />
-            <stop offset="100%" stopColor="oklch(0.68 0.196 42 / 0)" />
+            <stop offset="0%" stopColor="oklch(0.58 0.245 27 / 0.7)" />
+            <stop offset="100%" stopColor="oklch(0.58 0.245 27 / 0)" />
           </radialGradient>
         </defs>
 
@@ -53,7 +53,7 @@ export function AnimatedRouteMap({ className = "" }: { className?: string }) {
         ].map(([x, y, label], i) => (
           <g key={label as string}>
             <circle cx={x as number} cy={y as number} r="22" fill="url(#ping)" className="animate-pulse-glow" style={{ animationDelay: `${i * 0.3}s` }} />
-            <circle cx={x as number} cy={y as number} r="5" fill="oklch(0.68 0.196 42)" />
+            <circle cx={x as number} cy={y as number} r="5" fill="oklch(0.58 0.245 27)" />
             <text x={(x as number) + 12} y={(y as number) - 8} className="fill-foreground text-[12px] font-medium font-display">
               {label}
             </text>
@@ -67,7 +67,7 @@ export function AnimatedRouteMap({ className = "" }: { className?: string }) {
           </animateMotion>
           <g transform="translate(-10 -10)">
             <rect width="20" height="14" rx="3" fill="oklch(0.18 0.02 50)" />
-            <rect x="2" y="2" width="10" height="10" rx="1.5" fill="oklch(0.68 0.196 42)" />
+            <rect x="2" y="2" width="10" height="10" rx="1.5" fill="oklch(0.58 0.245 27)" />
           </g>
         </g>
       </svg>

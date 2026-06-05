@@ -57,13 +57,13 @@ function Overview() {
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={series}>
                 <defs><linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="oklch(0.68 0.196 42)" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="oklch(0.68 0.196 42)" stopOpacity={0} />
+                  <stop offset="0%" stopColor="oklch(0.58 0.245 27)" stopOpacity={0.4} />
+                  <stop offset="100%" stopColor="oklch(0.58 0.245 27)" stopOpacity={0} />
                 </linearGradient></defs>
                 <XAxis dataKey="d" tick={{ fontSize: 11 }} stroke="oklch(0.6 0.02 60)" axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 11 }} stroke="oklch(0.6 0.02 60)" axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid oklch(0.92 0.006 80)" }} />
-                <Area type="monotone" dataKey="v" stroke="oklch(0.68 0.196 42)" strokeWidth={2} fill="url(#g1)" />
+                <Area type="monotone" dataKey="v" stroke="oklch(0.58 0.245 27)" strokeWidth={2} fill="url(#g1)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>

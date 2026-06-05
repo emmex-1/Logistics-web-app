@@ -44,7 +44,7 @@ function Summary() {
               <XAxis dataKey="h" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
               <Tooltip />
-              <Area type="monotone" dataKey="v" stroke="oklch(0.68 0.196 42)" fill="oklch(0.68 0.196 42 / 0.18)" />
+              <Area type="monotone" dataKey="v" stroke="oklch(0.58 0.245 27)" fill="oklch(0.58 0.245 27 / 0.18)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
