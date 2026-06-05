@@ -13,7 +13,7 @@ import { useState } from "react";
 import { MarketingNav } from "@/components/shared/marketing-nav";
 import { MarketingFooter } from "@/components/shared/marketing-footer";
 import { SERVICES } from "@/constants/services-catalog";
-import heroImage from "/media/bk.jpg";
+import heroImage from "/media/huge.jpg";
 
 export const Route = createFileRoute("/services/")({
   head: () => ({
@@ -29,12 +29,13 @@ export const Route = createFileRoute("/services/")({
 
 const SERVICE_IMAGES: Record<string, string> = {
   "same-day-delivery":  "https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=700&q=80",
-  "express-delivery":   "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80",
-  "dispatch-rider":     "https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=700&q=80",
-  "ecommerce-delivery": "https://images.unsplash.com/photo-1605745341112-85968b19335b?w=700&q=80",
-  "business-logistics": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=700&q=80",
-  "scheduled-pickups":  "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=700&q=80",
-  "document-parcel":    "https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=700&q=80",
+  "express-delivery":   "/media/huge.jpg",
+  "bulk-freight":     "/media/bulk.jpg",
+  "ecommerce-fulfilment": "/media/ecom.jpg",
+  "corporate-logistics": "/media/corp.jpg",
+  "warehouse-storage":  "/media/wh.jpg",
+  "package-pickup":    "/media/del.jpg",
+  "scheduled-delivery":    "/media/sc.jpg",
 };
 
 /* ═══════════════════════════════════════════
@@ -52,10 +53,10 @@ function HeroSection() {
         <div className="absolute inset-0 bg-black/80" />
         <div
           className="absolute inset-0 pointer-events-none opacity-[0.06]"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(45deg,rgba(255,255,255,0.5) 0px,rgba(255,255,255,0.5) 1px,transparent 1px,transparent 60px)",
-          }}
+          // style={{
+          //   backgroundImage:
+          //     "repeating-linear-gradient(45deg,rgba(255,255,255,0.5) 0px,rgba(255,255,255,0.5) 1px,transparent 1px,transparent 60px)",
+          // }}
         />
         <div className="relative z-10 flex flex-col justify-end min-h-[260px] sm:min-h-[360px] lg:min-h-[480px] px-6 sm:px-10 lg:px-16 pb-10 sm:pb-14 pt-20 sm:pt-28">
           <motion.div

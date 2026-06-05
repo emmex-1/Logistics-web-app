@@ -259,9 +259,14 @@ function ContactFormAndMap() {
                 <Label>Message</Label>
                 <Textarea required rows={5} placeholder="Tell us about your delivery needs or any questions you have..." />
               </div>
-              <Button type="submit" size="lg" className="w-full gap-2">
-                Send Message <ArrowRight className="h-4 w-4" />
-              </Button>
+<Button
+  type="submit"
+  size="lg"
+  className="w-full gap-2 text-white hover:opacity-90 transition-opacity"
+  style={{ background: "#ef0004", border: "none" }}
+>
+  Send Message <ArrowRight className="h-4 w-4" />
+</Button>
             </form>
           </Card>
         </div>
@@ -279,7 +284,7 @@ function ContactFormAndMap() {
             <div className="relative" style={{ height: "320px" }}>
               <iframe
                 title="Quick Reach Logistics Office Location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126818.49080013042!2d3.2766997!3d6.5483746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae68280c1%3A0xdc9e87a367c3d9cb!2sIkeja%2C%20Lagos!5e0!3m2!1sen!2sng!4v1700000000000!5m2!1sen!2sng"
+src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.7!2d3.5697!3d6.4698!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103bf59d4a4a4a4a%3A0x0!2sF3%2C192%20Abraham%20Adesanya%20Shopping%20Complex%2C%20Abraham%20Adesanya%2C%20Lagos!5e0!3m2!1sen!2sng!4v1700000000000!5m2!1sen!2sng"
                 className="h-full w-full border-0"
                 allowFullScreen
                 loading="lazy"
@@ -301,7 +306,7 @@ function ContactFormAndMap() {
                     QuickReach Logistics
                   </p>
                   <p style={{ fontSize: "11px", color: "#888", marginTop: "2px" }}>
-                    {BRAND.address ?? "Ikeja, Lagos, Nigeria"}
+                   F3, 192 Abraham Adesanya, Lagos
                   </p>
                 </div>
               </div>

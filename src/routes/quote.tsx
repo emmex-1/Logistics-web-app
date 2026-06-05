@@ -188,9 +188,10 @@ function HeroSection() {
     <section className="bg-white px-2 sm:px-3 pt-2 pb-0">
       <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden min-h-[260px] sm:min-h-[360px] lg:min-h-[480px]">
         <img
-          src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=1600&q=80"
+          src="/media/rceo.png"
           alt="QuickReach Logistics Delivery"
-          className="absolute inset-0 w-full h-full object-cover object-center"
+  className="absolute inset-0 w-full h-full object-cover"
+  style={{ objectPosition: "center 33%" }}
         />
         <div className="absolute inset-0 bg-black/80" />
         <div className="relative z-10 flex flex-col justify-end min-h-[260px] sm:min-h-[360px] lg:min-h-[480px] px-6 sm:px-10 lg:px-16 pb-10 sm:pb-14 pt-20 sm:pt-28">
@@ -230,7 +231,7 @@ function HeroSection() {
             className="text-white/70 max-w-md leading-relaxed mb-8"
             style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(13px, 1.6vw, 16px)" }}
           >
-            Instant Lagos delivery pricing in 30 seconds. Fill in your details and we'll calculate the cost — or route you straight to WhatsApp for custom requests.
+            Instant Lagos delivery pricing in 30 seconds. Fill in your details and we'll calculate the cost or route you straight to WhatsApp for custom requests.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 12 }}

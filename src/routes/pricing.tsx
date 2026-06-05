@@ -28,7 +28,7 @@ function HeroSection() {
 
         {/* Background image */}
         <img
-          src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1600&q=80"
+          src="/media/van.png"
           alt="QuickReach Logistics Pricing"
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
@@ -77,7 +77,7 @@ function HeroSection() {
             className="text-white/70 max-w-md leading-relaxed mb-8"
             style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(13px, 1.6vw, 16px)" }}
           >
-            From a single envelope to a full container. Final fare locks at booking — no surprises, ever.
+            From a single envelope to a full container. Final fare locks at booking no surprises, ever.
           </motion.p>
 
           <motion.div

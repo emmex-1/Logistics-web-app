@@ -65,33 +65,73 @@ export function MarketingNav() {
         }}
       >
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 shrink-0">
-          {/* Replace src with your actual logo image path, e.g. "/logo.png" or import it */}
-          <img
-            src="/media/qrl.jpg"
-            alt="QuickReach Logistics logo"
-            style={{
-              height:    "32px",
-              width:     "32px",
-              objectFit: "contain",
-              display:   "block",
-            }}
-          />
-          <span
-            style={{
-              fontFamily:    "'Syne', sans-serif",
-              fontSize:      "clamp(14px, 2.5vw, 17px)",
-              fontWeight:    800,
-              color:         "#fff",
-              letterSpacing: "-0.4px",
-              whiteSpace:    "nowrap",
-              lineHeight:    1,
-            }}
-          >
-            <span style={{ color: "#ef0004" }}>QuickReach</span>{" "}
-            <span style={{ color: "#fff" }}>Logistics</span>
-          </span>
-        </Link>
+{/* Logo */}
+<Link to="/" className="flex items-center gap-2.5 shrink-0">
+  {/* Logo image with visible ring + fallback initial */}
+  <div
+    style={{
+      position:     "relative",
+      height:       "38px",
+      width:        "35px",
+      borderRadius: "50%",
+      // border:       "1.5px solid #ef0004",
+      background:   "rgba(239,0,4,0.12)",
+      display:      "flex",
+      alignItems:   "center",
+      justifyContent: "center",
+      flexShrink:   0,
+      overflow:     "hidden",
+    }}
+  >
+    <img
+      src="/media/qol.jpg"
+      alt="QuickReach Logistics logo"
+      style={{
+        height:    "38px",
+        width:     "38px",
+        objectFit: "cover",
+        display:   "block",
+      }}
+      onError={(e) => {
+        // Hide broken image, show the fallback "Q" beneath it
+        (e.target as HTMLImageElement).style.display = "none";
+      }}
+    />
+    {/* Fallback letter shown when image fails or is transparent */}
+    <span
+      aria-hidden="true"
+      style={{
+        position:   "absolute",
+        inset:      0,
+        display:    "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontFamily: "'Syne', sans-serif",
+        fontSize:   "18px",
+        fontWeight: 800,
+        color:      "#ef0004",
+        zIndex:     -1, // sits behind the img; visible only when img hides
+      }}
+    >
+      Q
+    </span>
+  </div>
+
+  <span
+    style={{
+      fontFamily:    "'Syne', sans-serif",
+      fontSize:      "clamp(14px, 2.5vw, 17px)",
+      fontWeight:    800,
+      color:         "#fff",
+      letterSpacing: "-0.4px",
+      whiteSpace:    "nowrap",
+      lineHeight:    1,
+    }}
+  >
+    <span style={{ color: "#ef0004" }}>QuickReach</span>{" "}
+    <span style={{ color: "#fff" }}>Logistics</span>
+  </span>
+</Link>
 
         {/* ── Desktop centre nav ── */}
         <nav className="hidden items-center gap-0 md:flex">

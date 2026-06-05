@@ -106,7 +106,7 @@ function HeroSection() {
     <section className="bg-white px-2 sm:px-3 pt-2 pb-0">
       <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden min-h-[260px] sm:min-h-[360px] lg:min-h-[480px]">
         <img
-          src="https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=1600&q=80"
+          src="/media/rider3.jpg"
           alt="Book a delivery with QuickReach Logistics"
           className="absolute inset-0 w-full h-full object-cover object-center"
         />

@@ -537,7 +537,7 @@ function DeliveryRateBanner() {
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-0.5 text-[10px] font-bold text-white" style={{ background: "#780f10" }}>SAVE MORE</div>
               </div>
               <Link to="/quote" className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold text-white transition-all hover:opacity-90" style={{ background: "#780f10" }}>
-                Claim Offer <ArrowUpRight className="h-4 w-4" />
+                Book Now <ArrowUpRight className="h-4 w-4" />
               </Link>
             </div>
           </div>
@@ -640,7 +640,7 @@ function ServiceCoverageMap() {
           <div className="lg:sticky lg:top-24 flex flex-col gap-6">
             <div>
               <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-4" style={{ background: "rgba(239,0,4,0.08)", color: "#ef0004", border: "1px solid rgba(239,0,4,0.18)" }}>Coverage Map</span>
-              <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 700, letterSpacing: "-0.8px", color: "#0a0a0a", lineHeight: 1.1 }}>We deliver across<br />Lagos — everywhere.</h2>
+              <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 700, letterSpacing: "-0.8px", color: "#0a0a0a", lineHeight: 1.1 }}>We deliver across<br />Lagos everywhere.</h2>
               <p className="mt-4 text-sm leading-relaxed" style={{ color: "#666", maxWidth: "340px" }}>Covering all 20 Lagos LGAs — from Badagry to Epe, Ikorodu to Lagos Island. Hover any area to explore.</p>
             </div>
             <div className="grid grid-cols-2 gap-3">

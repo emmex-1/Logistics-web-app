@@ -155,16 +155,16 @@ function IntroSection() {
               logistics solutions across a broad range of industries.
             </p>
             <p style={{ color: "#555", fontSize: "15px", lineHeight: 1.8 }}>
-              We serve individuals, SMEs, corporations, and government agencies with the same dedication — combining
+              We serve individuals, SMEs, corporations, and government agencies with the same dedication combining
               professional rider teams with smart logistics technology tailored for Nigeria's unique urban environment.
             </p>
 
             {/* Checkpoints */}
             <div className="flex flex-col gap-3 mt-2">
               {[
-                "Ranked among Lagos's top-tier logistics providers",
-                "Professional team spanning all 20 LGAs",
-                "Trusted by Fortune 500 companies and government institutions",
+                "Trusted logistics provider delivering across all 20 LGAs in Lagos",
+                "Professional dispatch riders ensuring fast and reliable deliveries",
+                "Trusted by businesses, online stores, and individuals across Lagos",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -182,7 +182,7 @@ function IntroSection() {
                 className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-bold transition-all hover:opacity-90"
                 style={{ background: "#0f0f0f", color: "#fff" }}
               >
-                Read More
+                Our Services
                 <span
                   className="inline-flex items-center justify-center rounded-full"
                   style={{ width: "22px", height: "22px", background: "#ef0004" }}
@@ -419,10 +419,10 @@ function CoreValues() {
    WHY CHOOSE US
 ───────────────────────────────────────── */
 const WHY_US = [
-  { title: "Same-day Delivery", desc: "Order before 3PM and we'll deliver it today — guaranteed across all Lagos LGAs.", img: "https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=700&q=80" },
-  { title: "Professional Riders", desc: "Vetted, uniformed, and trained riders who handle your packages with care and respect.", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80" },
-  { title: "Real-time Tracking", desc: "Know exactly where your package is at every moment with live GPS updates.", img: "https://images.unsplash.com/photo-1605745341112-85968b19335b?w=700&q=80" },
-  { title: "Affordable Pricing", desc: "Transparent flat rates and no hidden fees. Quality logistics that doesn't break the bank.", img: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=700&q=80" },
+  { title: "Same-day Delivery", desc: "Order before 3PM and we'll deliver it today  guaranteed across all Lagos LGAs.", img: "/media/rider2.jpg" },
+  { title: "Professional Riders", desc: "Vetted, uniformed, and trained riders who handle your packages with care and respect.", img: "/media/rider.jpg" },
+  { title: "Real-time Tracking", desc: "Know exactly where your package is at every moment with live GPS updates.", img: "/media/track.jpg" },
+  { title: "Affordable Pricing", desc: "Transparent flat rates and no hidden fees. Quality logistics that doesn't break the bank.", img: "/media/cur.jpg" },
 ];
 
 function WhyChooseUs() {

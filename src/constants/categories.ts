@@ -26,7 +26,7 @@ export const DELIVERY_CATEGORIES: DeliveryCategory[] = [
     blurb: "Careful handling for boutique-ready arrivals.",
     bullets: ["Clothes", "Shoes", "Bags", "Accessories"],
     tint: "from-pink-400/30 to-fuchsia-400/20",
-    img: "https://images.unsplash.com/photo-1558171813-d44f3d2c6a8b?w=600&q=70",
+    img: "/media/fash.jpg",
   },
   {
     id: "beauty", name: "Beauty Products", icon: Sparkles,
