@@ -22,7 +22,7 @@ function LiveTracking() {
         <ul className="max-h-[520px] divide-y overflow-y-auto">
           {active.map((s) => (
             <li key={s.id} className="p-4 hover:bg-surface">
-              <Link to="/track/$id" params={{ id: s.id }} className="block">
+              <Link to="/track/$id" params={{ id: s.id }} search={{ id: undefined }} className="block">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-sm text-primary">{s.trackingCode}</span>
                   <Badge variant="secondary" className="rounded-full text-[10px]">{SHIPMENT_STATUS_LABELS[s.status]}</Badge>

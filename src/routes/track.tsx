@@ -198,7 +198,7 @@ function HeroSection({
                 <Link
                   key={s.id}
                   to="/track/$id"
-                  params={{ id: s.id }}
+                  params={{ id: s.id }} search={{ id: undefined }}
                   search={{ id: undefined }}
                   className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-mono font-medium transition-all hover:bg-white/15"
                   style={{

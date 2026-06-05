@@ -36,7 +36,7 @@ function RiderToday() {
         <ul className="divide-y">
           {(deliveries.data ?? []).map((s) => (
             <li key={s.id}>
-              <Link to="/track/$id" params={{ id: s.id }} className="flex items-center justify-between p-5 hover:bg-surface">
+              <Link to="/track/$id" params={{ id: s.id }} search={{ id: undefined }} className="flex items-center justify-between p-5 hover:bg-surface">
                 <div>
                   <div className="font-mono text-sm text-primary">{s.trackingCode}</div>
                   <div className="text-sm">{s.pickup.area} → {s.destination.area}</div>

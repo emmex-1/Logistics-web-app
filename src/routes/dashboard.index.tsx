@@ -101,7 +101,7 @@ function Overview() {
             <tbody>
               {list.slice(0, 6).map((s) => (
                 <tr key={s.id} className="border-t hover:bg-surface">
-                  <Td><Link to="/track/$id" params={{ id: s.id }} className="font-mono text-primary hover:underline">{s.trackingCode}</Link></Td>
+                  <Td><Link to="/track/$id" params={{ id: s.id }} search={{ id: undefined }} className="font-mono text-primary hover:underline">{s.trackingCode}</Link></Td>
                   <Td>{s.pickup.area} → {s.destination.area}</Td>
                   <Td><Badge variant="secondary" className="rounded-full">{SHIPMENT_STATUS_LABELS[s.status]}</Badge></Td>
                   <Td className="font-medium">{NGN(s.pricing.total)}</Td>
