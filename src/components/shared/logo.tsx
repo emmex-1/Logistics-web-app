@@ -5,7 +5,7 @@ export function Logo({ className, mark = false }: { className?: string; mark?: b
     <div className={cn("flex items-center gap-2", className)}>
       <div className="relative h-8 w-8 overflow-hidden rounded-lg shadow-glow">
         <img
-          src="/media/qrl.jpg"
+          src="/media/qol.jpg"
           alt="Quick Reach Logistics Logo"
           className="h-full w-full object-contain"
         />

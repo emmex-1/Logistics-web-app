@@ -7,16 +7,17 @@ export function MarketingFooter() {
   const columns = [
     {
       title: "Product",
-      items: [["Quote", "/quote"], ["Track", "/track"], ["Book", "/book"], ["Services", "/services"]] as [string, string][],
+      items: [["Quote", "/quote"], ["Track Delivery", "/track"], ["Book Delivery", "/book"], ["Services", "/services"]] as [string, string][],
     },
     {
       title: "Company",
-      items: [["About", "/about"], ["Contact", "/contact"], ["Careers", "/about"], ["Press", "/about"]] as [string, string][],
+      items: [["About", "/about"], ["Contact", "/contact"], ["Register", "/signup"], ["Login", "/login"]] as [string, string][],
     },
     {
       title: "For Business",
-      items: [["Customer dashboard", "/dashboard"], ["Rider portal", "/rider"], ["Admin", "/admin"], ["API docs", "/about"]] as [string, string][],
+      items: [["Customer dashboard", "/dashboard"], ["Rider dashboard", "/rider"], ["Admin dashboard", "/admin"], ["Receptionist dashboard", "/attendant"]] as [string, string][],
     },
+    
   ];
 
   return (
