@@ -45,7 +45,7 @@ function ShipmentsPage() {
               ))}
               {filtered.map((s) => (
                 <tr key={s.id} className="border-t hover:bg-surface">
-                  <Td><Link to="/track/$id" params={{ id: s.id }} className="font-mono text-primary hover:underline">{s.trackingCode}</Link></Td>
+                  <Td><Link to="/track/$id" params={{ id: s.id }} search={{ id: undefined }} className="font-mono text-primary hover:underline">{s.trackingCode}</Link></Td>
                   <Td>{s.pickup.area}</Td>
                   <Td>{s.destination.area}</Td>
                   <Td className="capitalize">{s.vehicle}</Td>

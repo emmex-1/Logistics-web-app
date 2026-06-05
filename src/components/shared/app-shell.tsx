@@ -2,7 +2,7 @@ import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { Logo } from "@/components/shared/logo";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Bell, LogOut, Menu, Search } from "lucide-react";
+import { Bell, Home, LogOut, Menu, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { useState } from "react";
@@ -83,6 +83,12 @@ export function AppShell({ items, title, children, accentLabel }: {
               </div>
             </div>
             <div className="flex items-center gap-2 shrink-0">
+              <Button asChild size="sm" variant="outline" className="hidden sm:inline-flex">
+                <Link to="/"><Home className="mr-1.5 h-4 w-4" />Home</Link>
+              </Button>
+              <Button asChild size="icon" variant="ghost" className="sm:hidden" aria-label="Home">
+                <Link to="/"><Home className="h-4 w-4" /></Link>
+              </Button>
               <Button size="icon" variant="ghost"><Bell className="h-4 w-4" /></Button>
               <div className="grid h-9 w-9 place-items-center rounded-full gradient-primary font-display text-xs font-semibold text-primary-foreground">TA</div>
             </div>

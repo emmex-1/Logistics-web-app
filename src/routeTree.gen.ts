@@ -33,6 +33,10 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as TrackIdRouteImport } from './routes/track.$id'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as RiderSettingsRouteImport } from './routes/rider.settings'
+import { Route as RiderPodRouteImport } from './routes/rider.pod'
+import { Route as RiderNotificationsRouteImport } from './routes/rider.notifications'
+import { Route as RiderJobsRouteImport } from './routes/rider.jobs'
+import { Route as RiderIssuesRouteImport } from './routes/rider.issues'
 import { Route as RiderHistoryRouteImport } from './routes/rider.history'
 import { Route as RiderEarningsRouteImport } from './routes/rider.earnings'
 import { Route as RiderDeliveriesRouteImport } from './routes/rider.deliveries'
@@ -185,6 +189,26 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
 const RiderSettingsRoute = RiderSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => RiderRoute,
+} as any)
+const RiderPodRoute = RiderPodRouteImport.update({
+  id: '/pod',
+  path: '/pod',
+  getParentRoute: () => RiderRoute,
+} as any)
+const RiderNotificationsRoute = RiderNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => RiderRoute,
+} as any)
+const RiderJobsRoute = RiderJobsRouteImport.update({
+  id: '/jobs',
+  path: '/jobs',
+  getParentRoute: () => RiderRoute,
+} as any)
+const RiderIssuesRoute = RiderIssuesRouteImport.update({
+  id: '/issues',
+  path: '/issues',
   getParentRoute: () => RiderRoute,
 } as any)
 const RiderHistoryRoute = RiderHistoryRouteImport.update({
@@ -403,6 +427,10 @@ export interface FileRoutesByFullPath {
   '/rider/deliveries': typeof RiderDeliveriesRoute
   '/rider/earnings': typeof RiderEarningsRoute
   '/rider/history': typeof RiderHistoryRoute
+  '/rider/issues': typeof RiderIssuesRoute
+  '/rider/jobs': typeof RiderJobsRoute
+  '/rider/notifications': typeof RiderNotificationsRoute
+  '/rider/pod': typeof RiderPodRoute
   '/rider/settings': typeof RiderSettingsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/track/$id': typeof TrackIdRoute
@@ -457,6 +485,10 @@ export interface FileRoutesByTo {
   '/rider/deliveries': typeof RiderDeliveriesRoute
   '/rider/earnings': typeof RiderEarningsRoute
   '/rider/history': typeof RiderHistoryRoute
+  '/rider/issues': typeof RiderIssuesRoute
+  '/rider/jobs': typeof RiderJobsRoute
+  '/rider/notifications': typeof RiderNotificationsRoute
+  '/rider/pod': typeof RiderPodRoute
   '/rider/settings': typeof RiderSettingsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/track/$id': typeof TrackIdRoute
@@ -517,6 +549,10 @@ export interface FileRoutesById {
   '/rider/deliveries': typeof RiderDeliveriesRoute
   '/rider/earnings': typeof RiderEarningsRoute
   '/rider/history': typeof RiderHistoryRoute
+  '/rider/issues': typeof RiderIssuesRoute
+  '/rider/jobs': typeof RiderJobsRoute
+  '/rider/notifications': typeof RiderNotificationsRoute
+  '/rider/pod': typeof RiderPodRoute
   '/rider/settings': typeof RiderSettingsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/track/$id': typeof TrackIdRoute
@@ -578,6 +614,10 @@ export interface FileRouteTypes {
     | '/rider/deliveries'
     | '/rider/earnings'
     | '/rider/history'
+    | '/rider/issues'
+    | '/rider/jobs'
+    | '/rider/notifications'
+    | '/rider/pod'
     | '/rider/settings'
     | '/services/$slug'
     | '/track/$id'
@@ -632,6 +672,10 @@ export interface FileRouteTypes {
     | '/rider/deliveries'
     | '/rider/earnings'
     | '/rider/history'
+    | '/rider/issues'
+    | '/rider/jobs'
+    | '/rider/notifications'
+    | '/rider/pod'
     | '/rider/settings'
     | '/services/$slug'
     | '/track/$id'
@@ -691,6 +735,10 @@ export interface FileRouteTypes {
     | '/rider/deliveries'
     | '/rider/earnings'
     | '/rider/history'
+    | '/rider/issues'
+    | '/rider/jobs'
+    | '/rider/notifications'
+    | '/rider/pod'
     | '/rider/settings'
     | '/services/$slug'
     | '/track/$id'
@@ -888,6 +936,34 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/rider/settings'
       preLoaderRoute: typeof RiderSettingsRouteImport
+      parentRoute: typeof RiderRoute
+    }
+    '/rider/pod': {
+      id: '/rider/pod'
+      path: '/pod'
+      fullPath: '/rider/pod'
+      preLoaderRoute: typeof RiderPodRouteImport
+      parentRoute: typeof RiderRoute
+    }
+    '/rider/notifications': {
+      id: '/rider/notifications'
+      path: '/notifications'
+      fullPath: '/rider/notifications'
+      preLoaderRoute: typeof RiderNotificationsRouteImport
+      parentRoute: typeof RiderRoute
+    }
+    '/rider/jobs': {
+      id: '/rider/jobs'
+      path: '/jobs'
+      fullPath: '/rider/jobs'
+      preLoaderRoute: typeof RiderJobsRouteImport
+      parentRoute: typeof RiderRoute
+    }
+    '/rider/issues': {
+      id: '/rider/issues'
+      path: '/issues'
+      fullPath: '/rider/issues'
+      preLoaderRoute: typeof RiderIssuesRouteImport
       parentRoute: typeof RiderRoute
     }
     '/rider/history': {
@@ -1222,6 +1298,10 @@ interface RiderRouteChildren {
   RiderDeliveriesRoute: typeof RiderDeliveriesRoute
   RiderEarningsRoute: typeof RiderEarningsRoute
   RiderHistoryRoute: typeof RiderHistoryRoute
+  RiderIssuesRoute: typeof RiderIssuesRoute
+  RiderJobsRoute: typeof RiderJobsRoute
+  RiderNotificationsRoute: typeof RiderNotificationsRoute
+  RiderPodRoute: typeof RiderPodRoute
   RiderSettingsRoute: typeof RiderSettingsRoute
   RiderIndexRoute: typeof RiderIndexRoute
 }
@@ -1230,6 +1310,10 @@ const RiderRouteChildren: RiderRouteChildren = {
   RiderDeliveriesRoute: RiderDeliveriesRoute,
   RiderEarningsRoute: RiderEarningsRoute,
   RiderHistoryRoute: RiderHistoryRoute,
+  RiderIssuesRoute: RiderIssuesRoute,
+  RiderJobsRoute: RiderJobsRoute,
+  RiderNotificationsRoute: RiderNotificationsRoute,
+  RiderPodRoute: RiderPodRoute,
   RiderSettingsRoute: RiderSettingsRoute,
   RiderIndexRoute: RiderIndexRoute,
 }

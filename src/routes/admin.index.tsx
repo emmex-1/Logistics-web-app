@@ -10,7 +10,7 @@ export const Route = createFileRoute("/admin/")({
   component: AdminOverview,
 });
 
-const COLORS = ["oklch(0.68 0.196 42)", "oklch(0.55 0.13 240)", "oklch(0.7 0.14 160)", "oklch(0.78 0.14 80)", "oklch(0.55 0.18 320)"];
+const COLORS = ["oklch(0.58 0.245 27)", "oklch(0.55 0.13 240)", "oklch(0.7 0.14 160)", "oklch(0.78 0.14 80)", "oklch(0.55 0.18 320)"];
 
 function AdminOverview() {
   const metrics = useQuery({ queryKey: ["admin.metrics"], queryFn: adminService.metrics });
@@ -33,7 +33,7 @@ function AdminOverview() {
               <div className="mt-3 h-10">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={m.spark.map((v, i) => ({ i, v }))}>
-                    <Area type="monotone" dataKey="v" stroke="oklch(0.68 0.196 42)" fill="oklch(0.68 0.196 42 / 0.18)" />
+                    <Area type="monotone" dataKey="v" stroke="oklch(0.58 0.245 27)" fill="oklch(0.58 0.245 27 / 0.18)" />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -52,7 +52,7 @@ function AdminOverview() {
                 <XAxis dataKey="month" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid oklch(0.92 0.006 80)" }} />
-                <Bar dataKey="revenue" fill="oklch(0.68 0.196 42)" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="revenue" fill="oklch(0.58 0.245 27)" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

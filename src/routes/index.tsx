@@ -154,7 +154,7 @@ We deliver anything across Lagos quickly and safely, from documents to packages 
               <Link
                 to="/quote"
                 className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95 whitespace-nowrap"
-                style={{ background: "#ef0004", boxShadow: "0 0 28px rgba(255,77,0,0.45)" }}
+                style={{ background: "#ef0004", boxShadow: "0 0 28px rgba(239,0,4,0.45)" }}
               >
                 Get a Quote <ArrowUpRight className="h-4 w-4" />
               </Link>
@@ -311,9 +311,9 @@ function ServicesOverview() {
             <span
               className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-5"
               style={{
-                background: "rgba(255,77,0,0.1)",
+                background: "rgba(239,0,4,0.1)",
                 color: "#ef0004",
-                border: "1px solid rgba(255,77,0,0.2)",
+                border: "1px solid rgba(239,0,4,0.2)",
               }}
             >
               Service Overview
@@ -450,7 +450,7 @@ function WhyChooseUs() {
       <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.9)", zIndex: 1 }} />
       <div className="relative mx-auto max-w-7xl px-5 py-24 pt-28 lg:px-8" style={{ zIndex: 2 }}>
         <div className="max-w-2xl mb-14 mx-auto text-center">
-          <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-4" style={{ background: "rgba(255,77,0,0.12)", color: "#ef0004", border: "1px solid rgba(255,77,0,0.2)" }}>Why QuickReach</span>
+          <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-4" style={{ background: "rgba(239,0,4,0.12)", color: "#ef0004", border: "1px solid rgba(239,0,4,0.2)" }}>Why QuickReach</span>
           <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 700, letterSpacing: "-0.8px", color: "#fff", lineHeight: 1.12 }}>A logistics service built for Lagos.</h2>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -485,7 +485,7 @@ function HowItWorks() {
     <section style={{ background: "#fff", color: "#0a0a0a" }}>
       <div className="mx-auto max-w-7xl px-5 py-24 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-20">
-          <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-4" style={{ background: "rgba(255,77,0,0.1)", color: "#FF4D00", border: "1px solid rgba(255,77,0,0.2)" }}>How it works</span>
+          <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-4" style={{ background: "rgba(239,0,4,0.1)", color: "#ef0004", border: "1px solid rgba(239,0,4,0.2)" }}>How it works</span>
           <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 700, letterSpacing: "-0.8px", lineHeight: 1.12 }}>From quote to delivered in four moves.</h2>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-0 gap-y-12">
@@ -493,9 +493,9 @@ function HowItWorks() {
             <motion.div key={s.n} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: i * 0.08 }} className="relative flex flex-col px-6">
               <div className="absolute -top-4 left-4 select-none pointer-events-none" style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(72px, 8vw, 112px)", fontWeight: 900, color: "rgba(0,0,0,0.06)", lineHeight: 1, letterSpacing: "-4px", zIndex: 0 }}>{s.n}</div>
               <div className="relative flex items-center gap-3 mb-6" style={{ zIndex: 1 }}>
-                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl" style={{ background: "rgba(255,77,0,0.1)", border: "1px solid rgba(255,77,0,0.2)", color: "#FF4D00" }}><s.icon className="h-5 w-5" /></div>
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl" style={{ background: "rgba(239,0,4,0.1)", border: "1px solid rgba(239,0,4,0.2)", color: "#ef0004" }}><s.icon className="h-5 w-5" /></div>
                 <span style={{ fontFamily: "'Syne', sans-serif", fontSize: "12px", fontWeight: 700, color: "rgba(0,0,0,0.25)", letterSpacing: "0.08em" }}>{s.n}</span>
-                {i < steps.length - 1 && <div className="hidden lg:block flex-1 h-px" style={{ background: "linear-gradient(to right, rgba(255,77,0,0.4), rgba(255,77,0,0.08))", marginLeft: "4px", position: "absolute", left: "100%", right: "-24px", top: "50%" }} />}
+                {i < steps.length - 1 && <div className="hidden lg:block flex-1 h-px" style={{ background: "linear-gradient(to right, rgba(239,0,4,0.4), rgba(239,0,4,0.08))", marginLeft: "4px", position: "absolute", left: "100%", right: "-24px", top: "50%" }} />}
               </div>
               <div style={{ zIndex: 1 }}>
                 <h3 className="text-xl font-bold mb-2" style={{ fontFamily: "'Syne', sans-serif", letterSpacing: "-0.3px" }}>{s.t}</h3>
@@ -518,7 +518,7 @@ function DeliveryRateBanner() {
           <div className="absolute -bottom-24 right-1/4 w-64 h-64 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(255,21,0,0.08) 0%, transparent 70%)" }} />
           <div className="relative px-6 py-10 sm:px-12 sm:py-14 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
             <div className="shrink-0 flex flex-col items-center gap-3">
-              <div className="grid h-20 w-20 place-items-center rounded-2xl" style={{ background: "rgba(255,0,0,0.15)", border: "1px solid rgba(255,77,0,0.3)" }}><span className="text-4xl">🚚</span></div>
+              <div className="grid h-20 w-20 place-items-center rounded-2xl" style={{ background: "rgba(255,0,0,0.15)", border: "1px solid rgba(239,0,4,0.3)" }}><span className="text-4xl">🚚</span></div>
               <span className="rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider" style={{ background: "#000000", color: "#fff" }}>Exclusive Offer</span>
             </div>
             <div className="flex-1 text-center lg:text-left">
@@ -555,7 +555,7 @@ function DeliveryCategories() {
         <div className="grid items-start gap-10 lg:gap-16 lg:grid-cols-[1fr_1.4fr]">
           <div className="lg:sticky lg:top-24 flex flex-col gap-6">
             <div>
-              <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-5" style={{ background: "rgba(255,77,0,0.1)", color: "#FF4D00", border: "1px solid rgba(255,77,0,0.2)" }}>What We Deliver</span>
+              <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-5" style={{ background: "rgba(239,0,4,0.1)", color: "#ef0004", border: "1px solid rgba(239,0,4,0.2)" }}>What We Deliver</span>
               <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(26px, 5vw, 44px)", fontWeight: 700, lineHeight: 1.12, letterSpacing: "-0.8px" }}>Every category.<br />Every corner of Lagos.</h2>
               <p className="mt-5" style={{ color: "#666", fontSize: "15px", lineHeight: 1.7 }}>From a single document to bulk electronics — QuickReach handles over 20 delivery categories across all Lagos LGAs with the same care and speed.</p>
             </div>
@@ -789,7 +789,7 @@ function Testimonials() {
     <section style={{ background: "#0a0a0a" }}>
       <div className="mx-auto max-w-7xl px-5 py-24 lg:px-8">
         <div className="text-center mb-12">
-          <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-4" style={{ background: "rgba(255,77,0,0.12)", color: "#ef0004", border: "1px solid rgba(255,77,0,0.2)" }}>Loved by ops teams</span>
+          <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-4" style={{ background: "rgba(239,0,4,0.12)", color: "#ef0004", border: "1px solid rgba(239,0,4,0.2)" }}>Loved by ops teams</span>
           <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 700, letterSpacing: "-0.8px", color: "#fff" }}>The fastest way to deliver in Lagos.</h2>
         </div>
 
@@ -864,7 +864,7 @@ function FAQ() {
       <div className="mx-auto max-w-7xl px-5 py-24 lg:px-8">
         <div className="grid items-start gap-12 lg:grid-cols-[1.1fr_1fr]">
           <div>
-            <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-4" style={{ background: "rgba(255,77,0,0.1)", color: "#ef0004", border: "1px solid rgba(255,77,0,0.2)" }}>FAQ</span>
+            <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-4" style={{ background: "rgba(239,0,4,0.1)", color: "#ef0004", border: "1px solid rgba(239,0,4,0.2)" }}>FAQ</span>
             <h2 className="mb-2" style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(28px, 3.5vw, 38px)", fontWeight: 700, letterSpacing: "-0.8px", lineHeight: 1.12 }}>Questions &amp; Answers</h2>
             <p className="mb-8 text-sm leading-relaxed" style={{ color: "#777" }}>Still curious? Our team is one message away.</p>
             <Accordion type="single" collapsible className="w-full">
@@ -883,7 +883,7 @@ function FAQ() {
               <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.3) 100%)" }} />
             </div>
             <div className="absolute bottom-6 left-6 right-6 rounded-2xl px-5 py-4 flex items-center gap-4" style={{ background: "rgba(10,10,10,0.85)", backdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.1)" }}>
-              <div className="grid h-10 w-10 place-items-center rounded-xl shrink-0" style={{ background: "rgba(255,77,0,0.15)", border: "1px solid rgba(255,77,0,0.3)" }}><Shield className="h-5 w-5" style={{ color: "#ef0004" }} /></div>
+              <div className="grid h-10 w-10 place-items-center rounded-xl shrink-0" style={{ background: "rgba(239,0,4,0.15)", border: "1px solid rgba(239,0,4,0.3)" }}><Shield className="h-5 w-5" style={{ color: "#ef0004" }} /></div>
               <div>
                 <div style={{ fontFamily: "'Syne', sans-serif", fontSize: "18px", fontWeight: 700, color: "#fff" }}>98% On-time Rate</div>
                 <div className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>Across all Lagos LGAs</div>

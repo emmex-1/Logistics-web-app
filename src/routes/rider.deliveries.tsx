@@ -14,7 +14,7 @@ export const Route = createFileRoute("/rider/deliveries")({
         <h1 className="font-display text-2xl font-semibold">Deliveries</h1>
         <div className="grid gap-3">
           {data.map((s) => (
-            <Link key={s.id} to="/track/$id" params={{ id: s.id }}>
+            <Link key={s.id} to="/track/$id" params={{ id: s.id }} search={{ id: undefined }}>
               <Card className="flex items-center justify-between p-5 hover:bg-surface">
                 <div>
                   <div className="font-mono text-sm text-primary">{s.trackingCode}</div>

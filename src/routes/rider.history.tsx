@@ -34,7 +34,7 @@ function History() {
             <tbody>
               {completed.map((s) => (
                 <tr key={s.id} className="border-t hover:bg-surface">
-                  <td className="px-6 py-4"><Link to="/track/$id" params={{ id: s.id }} className="font-mono text-primary hover:underline">{s.trackingCode}</Link></td>
+                  <td className="px-6 py-4"><Link to="/track/$id" params={{ id: s.id }} search={{ id: undefined }} className="font-mono text-primary hover:underline">{s.trackingCode}</Link></td>
                   <td className="px-6 py-4">{s.pickup.area} → {s.destination.area}</td>
                   <td className="px-6 py-4"><Badge variant="secondary" className="rounded-full">{SHIPMENT_STATUS_LABELS[s.status]}</Badge></td>
                   <td className="px-6 py-4 font-medium">{NGN(Math.round(s.pricing.total * 0.7))}</td>
