@@ -94,7 +94,7 @@ export function MarketingNav() {
         </Link>
 
         {/* ── Desktop centre nav ── */}
-        <nav className="hidden items-center gap-0 md:flex">
+        <nav className="hidden items-center gap-0 lg:flex">
 
           <NavLink to="/" active={path === "/"}>Home</NavLink>
           <NavLink to="/about" active={path === "/about"}>About</NavLink>
@@ -167,7 +167,7 @@ export function MarketingNav() {
         </nav>
 
         {/* ── Desktop right CTAs ── */}
-        <div className="hidden items-center gap-2 md:flex shrink-0">
+        <div className="hidden items-center gap-2 lg:flex shrink-0">
           <Link
             to="/login"
             className="rounded-full px-4 py-1.5 text-sm font-medium text-white/70 hover:text-white transition-colors whitespace-nowrap"
@@ -190,7 +190,7 @@ export function MarketingNav() {
         {/* ── Mobile hamburger ── */}
         <button
           onClick={() => setOpen((v) => !v)}
-          className="grid h-9 w-9 place-items-center rounded-full text-white md:hidden shrink-0"
+          className="grid h-9 w-9 place-items-center rounded-full text-white lg:hidden shrink-0"
           style={{
             background: "rgba(255,255,255,0.1)",
             border:     "1px solid rgba(255,255,255,0.12)",
@@ -204,7 +204,7 @@ export function MarketingNav() {
       {/* ── Mobile drawer ── */}
       <div
         className={cn(
-          "mx-auto mt-2 max-w-6xl overflow-hidden rounded-3xl md:hidden transition-all duration-300 ease-in-out",
+          "mx-auto mt-2 max-w-6xl overflow-hidden rounded-3xl lg:hidden transition-all duration-300 ease-in-out",
           open ? "max-h-[90vh] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
         )}
         style={{
