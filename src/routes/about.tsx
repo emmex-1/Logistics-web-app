@@ -513,7 +513,7 @@ function Validation() {
               margin: "12px auto 0",
             }}
           >
-            QuickReach Logistics is a fully registered and legally compliant company in Nigeria — offering full transparency,
+            QuickReach Logistics is a fully registered and legally compliant company in Nigeria offering full transparency,
             accountability, and trust in every delivery and business dealing.
           </p>
         </div>
@@ -594,7 +594,7 @@ function Validation() {
             {/* Verification items */}
             <div className="flex flex-col gap-4 mt-2">
               {[
-                { label: "Business Name Reg. No.", value: "7214893" },
+                { label: "Business Name Reg. No.", value: "7114060" },
                 { label: "Registered Name", value: "QUICK REACH LOGISTICS LIMITED" },
                 { label: "Regulatory Body", value: "Corporate Affairs Commission (CAC)" },
               ].map((item) => (
@@ -622,25 +622,25 @@ function Validation() {
 ───────────────────────────────────────── */
 const TEAM = [
   {
-    name: "Adebayo Okonkwo",
+    name: "Abigail Ogbonna",
     role: "Founder & CEO",
     img: "/media/rceo.png",
     bio: "Visionary behind QuickReach Logistics. Built Lagos's most reliable last-mile delivery network from the ground up.",
   },
   {
-    name: "Chidinma Eze",
+    name: "Abigail Ogbonna",
     role: "Head of Operations",
     img: "/media/rceo.png",
-    bio: "Manages 300+ riders and ensures every delivery runs like clockwork across all 20 LGAs.",
+    bio: "Manages 50+ riders and ensures every delivery runs like clockwork across all 20 LGAs.",
   },
   {
-    name: "Tunde Adeyemi",
+    name: "Abigail Ogbonna",
     role: "Tech Lead",
     img: "/media/rceo.png",
     bio: "Builds the tracking systems and customer-facing tools that power our real-time logistics platform.",
   },
   {
-    name: "Fatima Bello",
+    name: "Abigail Ogbonna",
     role: "Customer Success Lead",
     img: "/media/rceo.png",
     bio: "Ensures every client feels valued. Resolves issues fast and keeps satisfaction scores sky-high.",
