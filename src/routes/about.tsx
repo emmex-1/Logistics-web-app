@@ -210,7 +210,7 @@ function IntroSection() {
               style={{ aspectRatio: "4/5", zIndex: 1, boxShadow: "0 24px 64px rgba(0,0,0,0.15)" }}
             >
               <img
-                src="/media/rceo.png"
+                src="/media/ae.png"
                 alt="QuickReach Logistics operations"
                 className="w-full h-full object-cover"
               />
@@ -234,7 +234,7 @@ function IntroSection() {
                 🛵
               </div>
               <div>
-                <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "16px", color: "#0f0f0f", lineHeight: 1 }}>3+ Years</p>
+                <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "16px", color: "#0f0f0f", lineHeight: 1 }}>5+ Years</p>
                 <p style={{ fontSize: "11px", color: "#888", marginTop: "2px" }}>Logistics Excellence</p>
               </div>
             </div>
@@ -624,13 +624,13 @@ const TEAM = [
   {
     name: "Abigail Ogbonna",
     role: "Founder & CEO",
-    img: "/media/rceo.png",
+    img: "/media/ae.png",
     bio: "Visionary behind QuickReach Logistics. Built Lagos's most reliable last-mile delivery network from the ground up.",
   },
   {
     name: "Abigail Ogbonna",
     role: "Head of Operations",
-    img: "/media/rceo.png",
+    img: "/media/ae.png",
     bio: "Manages 50+ riders and ensures every delivery runs like clockwork across all 20 LGAs.",
   },
   {
@@ -642,7 +642,7 @@ const TEAM = [
   {
     name: "Abigail Ogbonna",
     role: "Customer Success Lead",
-    img: "/media/rceo.png",
+    img: "/media/ae.png",
     bio: "Ensures every client feels valued. Resolves issues fast and keeps satisfaction scores sky-high.",
   },
 ];
@@ -690,7 +690,7 @@ function MeetTeam() {
                     }
                   }}
                 />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.88) 38%, rgba(0,0,0,0.35) 70%, transparent 100%)" }} />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.50) 38%, rgba(0,0,0,0.1) 70%, transparent 100%)" }} />
                 <div className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full border border-white/20 bg-black/40 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
                   <ArrowUpRight className="h-4 w-4 text-white" />
                 </div>
